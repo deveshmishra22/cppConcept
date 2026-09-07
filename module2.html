@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 2: Inheritance &amp; Polymorphism - Enterprise C++ Handbook</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-left">
+    <button class="sidebar-toggle" type="button" aria-label="Toggle course navigation" aria-expanded="true">☰</button>
+    <a href="index.html" class="brand"><span class="brand-mark">C++</span><span class="brand-text">Enterprise C++ Handbook<small>Personal notes by Raushan Ranjan</small></span></a>
+  </div>
+  <div class="topbar-center"><label class="search-bar"><span class="search-icon">⌕</span><input class="search-input" type="search" placeholder="Search the handbook" aria-label="Search the handbook"><kbd class="search-kbd">⌘ K</kbd></label></div>
+  <div class="topbar-right"><a href="index.html">All modules</a><a href="index.html#day2">Curriculum</a><a class="btn-notes" href="index.html#day2">Polymorphism</a></div>
+</div>
+
+<div class="app-layout">
+<aside class="sidebar-left">
+  <div class="sidebar-content">
+    <div class="sidebar-section-title">Course map</div>
+    <nav class="nav-tree" aria-label="Course navigation">
+      <div class="nav-day">
+        <a class="nav-day-toggle" href="index.html#day1" aria-expanded="false"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 1</span><span class="nav-day-subtitle">Foundations</span><span class="nav-day-chevron">›</span></a>
+        <div class="nav-day-body">
+          <div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module0.html">Foundation Enhancer</a></li><li class="nav-topic"><a href="module1.html">C++ Basics</a></li></ul></div>
+        </div>
+      </div>
+      <div class="nav-day" data-open="true">
+        <a class="nav-day-toggle" href="index.html#day2"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 2</span><span class="nav-day-subtitle">Polymorphism</span><span class="nav-day-chevron">›</span></a>
+        <div class="nav-day-body">
+          <div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module2.html">Inheritance &amp; Polymorphism</a></li><li class="nav-topic"><a href="module3.html">Compile-time Polymorphism</a></li></ul></div>
+          <div class="nav-module"><div class="nav-module-label">Topics</div><div class="nav-tabs">
+            <button class="nav-tab active" data-tab="t1">01 Inheritance</button>
+            <button class="nav-tab" data-tab="t2">02 Virtual functions</button>
+            <button class="nav-tab" data-tab="t3">03 Abstract classes</button>
+            <button class="nav-tab" data-tab="t4">04 Destructors &amp; vtables</button>
+          </div></div>
+        </div>
+      </div>
+      <div class="nav-day"><a class="nav-day-toggle" href="index.html#day3"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 3</span><span class="nav-day-subtitle">Robustness</span><span class="nav-day-chevron">›</span></a></div>
+      <div class="nav-day"><a class="nav-day-toggle" href="index.html#day4"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 4</span><span class="nav-day-subtitle">Modern C++</span><span class="nav-day-chevron">›</span></a></div>
+      <div class="nav-day"><a class="nav-day-toggle" href="index.html#day5"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 5</span><span class="nav-day-subtitle">Networking</span><span class="nav-day-chevron">›</span></a></div>
+    </nav>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section-title">Resources</div>
+    <ul class="sidebar-resources"><li><a href="https://github.com/raushan1107/Advanced-cpp-sample-codes" target="_blank" rel="noopener">↗ Source code</a></li><li><a href="index.html#day2">▣ Course overview</a></li></ul>
+  </div>
+</aside>
+
+<main class="main-content">
+<div class="module-header">
+  <div class="breadcrumb"><a href="index.html">Polymorphism</a> / Module 2</div>
+  <h1>Inheritance &amp; Polymorphism</h1>
+  <p class="sub">Extend the banking-system thinking from Module 1 into families of related types. We will start with code reuse, then see why virtual functions are needed when one interface must work with many concrete objects.</p>
+  <div class="module-meta"><span><b>Day:</b> 2 of 6</span><span><b>Topics:</b> 4</span><span><b>Case study:</b> Shape hierarchy</span><span><b>Repo folder:</b> <code>08-ClassesandObjects/</code></span></div>
+</div>
+
+<div class="tabs-wrap">
+  <div class="tabbar"><button data-tab="t1" class="active">01 Inheritance</button><button data-tab="t2">02 Virtual functions</button><button data-tab="t3">03 Abstract classes</button><button data-tab="t4">04 Destructors &amp; vtables</button></div>
+
+  <div class="tabpanel active" id="t1">
+    <p class="topic-intro">Inheritance expresses an intentional relationship: a derived type is a more specific form of a base type.</p>
+    <div class="block"><div class="block-label"><span class="tag why">WHY</span><h4>Why share a common interface?</h4></div><div class="content"><p>Suppose a graphics system needs circles, rectangles, and triangles. They all have a position and a way to describe themselves, but each shape stores different details. Inheritance lets shared behavior live in one base type while derived classes add their own behavior.</p><p>Public inheritance should communicate an honest “is-a” relationship. It is not just a shortcut for copying code.</p></div></div>
+    <div class="block"><div class="block-label"><span class="tag what">WHAT</span><h4>Base and derived syntax</h4></div><div class="content"><p>The colon introduces the base class: <code>class Circle : public Shape</code>. Public inheritance keeps the base public interface public on the derived object. A derived constructor calls the base constructor before its own body runs.</p></div><div class="code-card"><div class="code-head"><span class="filename">inheritancecls.cpp</span><button class="copy-btn">Copy</button></div><pre><code>#include &lt;iostream&gt;
+
+class Shape {
+public:
+    void describe() const { std::cout &lt;&lt; "A drawable shape\n"; }
+};
+
+class Circle : public Shape {
+public:
+    void drawCircle() const { std::cout &lt;&lt; "Drawing a circle\n"; }
+};
+
+int main() {
+    Circle circle;
+    circle.describe();
+    circle.drawCircle();
+}</code></pre></div></div>
+    <div class="quickguide"><p class="qg-title">Run the repository example</p><ol><li>Open <code>08-ClassesandObjects/inheritancecls.cpp</code>.</li><li>Compile with <code>g++ -std=c++17 inheritancecls.cpp -o inheritance_demo</code>.</li><li>Run <code>inheritance_demo.exe</code> on Windows or <code>./inheritance_demo</code> on Linux/macOS.</li></ol></div>
+  </div>
+
+  <div class="tabpanel" id="t2">
+    <p class="topic-intro">Inheritance alone reuses members. Polymorphism lets one base interface select the correct derived behavior at runtime.</p>
+    <div class="block"><div class="block-label"><span class="tag why">WHY</span><h4>Why a non-virtual function is not enough</h4></div><div class="content"><p>If a <code>Shape*</code> points to a <code>Circle</code>, the compiler otherwise chooses the function based on the pointer's declared type. That is static binding. A <code>virtual</code> function asks C++ to choose the override based on the object that is actually there. This is dynamic binding.</p></div></div>
+    <div class="block"><div class="block-label"><span class="tag how">HOW</span><h4>Call through a base reference</h4></div><div class="code-card"><div class="code-head"><span class="filename">polymorphismcls.cpp</span><button class="copy-btn">Copy</button></div><pre><code>#include &lt;iostream&gt;
+
+class Shape {
+public:
+    virtual void draw() const { std::cout &lt;&lt; "Generic shape\n"; }
+    virtual ~Shape() = default;
+};
+
+class Circle : public Shape {
+public:
+    void draw() const override { std::cout &lt;&lt; "Circle\n"; }
+};
+
+int main() {
+    Circle circle;
+    Shape&amp; shape = circle;
+    shape.draw();
+}</code></pre></div><div class="content"><p><code>override</code> asks the compiler to check that the derived function really overrides a virtual base function. Use it whenever you intend overriding.</p></div></div>
+  </div>
+
+  <div class="tabpanel" id="t3">
+    <p class="topic-intro">An abstract base class defines a contract but cannot be created directly.</p>
+    <div class="block"><div class="block-label"><span class="tag what">WHAT</span><h4>Pure virtual functions</h4></div><div class="content"><p>Writing <code>virtual double area() const = 0;</code> makes the function pure virtual. Any concrete derived class must implement it before objects can be created. The base class becomes an interface-like contract for the rest of the program.</p></div><div class="code-card"><div class="code-head"><span class="filename">purevirtual-interfaces.cpp</span><button class="copy-btn">Copy</button></div><pre><code>class Shape {
+public:
+    virtual double area() const = 0;
+    virtual ~Shape() = default;
+};
+
+class Rectangle : public Shape {
+    double width;
+    double height;
+public:
+    Rectangle(double w, double h) : width(w), height(h) {}
+    double area() const override { return width * height; }
+};</code></pre></div></div>
+    <div class="callout"><strong>Design check:</strong> if a caller only needs to ask a shape for its area, it should depend on the Shape interface rather than know every future shape class.</div>
+  </div>
+
+  <div class="tabpanel" id="t4">
+    <p class="topic-intro">A polymorphic base class needs a virtual destructor when objects may be destroyed through a base pointer.</p>
+    <div class="block"><div class="block-label"><span class="tag why">WHY</span><h4>Why virtual destruction matters</h4></div><div class="content"><p><code>Shape* shape = new Circle;</code> stores a derived object behind a base pointer. With a virtual destructor, <code>delete shape</code> runs the derived cleanup first and then the base cleanup. Without it, deleting through the base pointer is unsafe.</p><p>A vtable is an implementation technique commonly used to support virtual dispatch. Treat it as a useful mental model, not as a promise about one compiler's exact memory layout.</p></div></div>
+    <div class="quickguide"><p class="qg-title">Repository examples</p><ol><li>Run <code>virtualdestructor.cpp</code> and observe destructor order.</li><li>Read <code>vtablemechanism.cpp</code> after the behavior is clear.</li><li>Compare the pure interface in <code>purevirtual-interfaces.cpp</code>.</li></ol></div>
+  </div>
+
+  <section class="try-now" id="try-now">
+    <div class="try-now-header"><div><div class="section-kicker">Learn by doing</div><h2>Try now: design a shape report</h2><p>Build the hierarchy in small steps, then combine inheritance, virtual dispatch, an abstract interface, and safe destruction in one use case.</p></div><span class="try-badge">20 minutes</span></div>
+    <div class="build-ladder">
+      <div class="build-step"><div class="build-step-title"><span>Step 1</span><strong>Create a base and one derived shape</strong></div><p>Start with a virtual display function.</p><div class="code-card"><div class="code-head"><span class="filename">step1_shape.cpp</span><button class="copy-btn">Copy</button></div><pre><code>#include &lt;iostream&gt;
+class Shape { public: virtual void show() const { std::cout &lt;&lt; "Shape\n"; } };
+class Circle : public Shape { public: void show() const override { std::cout &lt;&lt; "Circle\n"; } };
+int main() { Circle circle; circle.show(); }</code></pre></div><p class="run-line"><b>Run:</b> <code>g++ -std=c++17 step1_shape.cpp -o step1</code>, then <code>step1.exe</code> or <code>./step1</code>.</p><p class="mini-output"><b>See:</b> <code>Circle</code></p></div>
+      <div class="build-step"><div class="build-step-title"><span>Step 2</span><strong>Call derived behavior through the base</strong></div><p>Change the call site to use a Shape reference.</p><div class="code-card"><div class="code-head"><span class="filename">step2_dispatch.cpp</span><button class="copy-btn">Copy</button></div><pre><code>#include &lt;iostream&gt;
+class Shape { public: virtual void show() const { std::cout &lt;&lt; "Shape\n"; } };
+class Circle : public Shape { public: void show() const override { std::cout &lt;&lt; "Circle\n"; } };
+class Rectangle : public Shape { public: void show() const override { std::cout &lt;&lt; "Rectangle\n"; } };
+void printShape(const Shape&amp; shape) { shape.show(); }
+int main() { Circle circle; Rectangle rectangle; printShape(circle); printShape(rectangle); }</code></pre></div><p class="run-line"><b>Run:</b> <code>g++ -std=c++17 step2_dispatch.cpp -o step2</code>, then <code>step2.exe</code> or <code>./step2</code>.</p><p class="mini-output"><b>See:</b> <code>Circle</code> then <code>Rectangle</code></p></div>
+      <div class="build-step"><div class="build-step-title"><span>Step 3</span><strong>Make the contract abstract</strong></div><p>Replace the generic implementation with a pure virtual function.</p><div class="code-card"><div class="code-head"><span class="filename">step3_area.cpp</span><button class="copy-btn">Copy</button></div><pre><code>#include &lt;iostream&gt;
+class Shape { public: virtual double area() const = 0; virtual ~Shape() = default; };
+class Rectangle : public Shape { double width, height; public: Rectangle(double w, double h) : width(w), height(h) {} double area() const override { return width * height; } };
+int main() { Rectangle rectangle(3, 4); std::cout &lt;&lt; rectangle.area() &lt;&lt; std::endl; }</code></pre></div><p class="run-line"><b>Run:</b> <code>g++ -std=c++17 step3_area.cpp -o step3</code>, then <code>step3.exe</code> or <code>./step3</code>.</p><p class="mini-output"><b>See:</b> <code>12</code></p></div>
+    </div>
+    <div class="build-divider"><span>Now combine the pieces into the complete use case</span></div>
+    <div class="try-step"><span>01</span><div><strong>Shape hierarchy report</strong><p>The complete program keeps the interface small: every shape can report its name and area, while each derived class owns its formula.</p></div></div>
+    <div class="code-card"><div class="code-head"><span class="filename">program.cpp - complete use case</span><button class="copy-btn">Copy</button></div><pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+class Shape {
+public:
+    virtual std::string name() const = 0;
+    virtual double area() const = 0;
+    virtual ~Shape() = default;
+};
+
+class Circle : public Shape {
+    double radius;
+public:
+    explicit Circle(double r) : radius(r) {}
+    std::string name() const override { return "Circle"; }
+    double area() const override { return 3.14159 * radius * radius; }
+};
+
+class Rectangle : public Shape {
+    double width, height;
+public:
+    Rectangle(double w, double h) : width(w), height(h) {}
+    std::string name() const override { return "Rectangle"; }
+    double area() const override { return width * height; }
+};
+
+void printReport(const Shape&amp; shape) {
+    std::cout &lt;&lt; shape.name() &lt;&lt; " area: " &lt;&lt; shape.area() &lt;&lt; std::endl;
+}
+
+int main() {
+    Circle circle(2);
+    Rectangle rectangle(3, 4);
+    printReport(circle);
+    printReport(rectangle);
+}</code></pre></div>
+    <div class="output-box"><span class="lbl">Expected output</span>Circle area: 12.5664
+Rectangle area: 12</div>
+    <div class="quickguide"><p class="qg-title">Run it in VS Code</p><ol><li>Create a folder named <code>module2-try-now</code> and open it in VS Code.</li><li>Save the final code as <code>program.cpp</code>.</li><li>Compile with <code>g++ -std=c++17 program.cpp -o program</code>.</li><li>Run <code>program.exe</code> on Windows or <code>./program</code> on Linux/macOS.</li></ol></div>
+    <div class="task-card"><div class="task-label">Homework / assessment</div><h3>Extend the shape report</h3><p>Add a Triangle class and report the total area of all three shapes.</p><p class="hint-title">Hints, not the answer</p><ul class="hint-list"><li>Implement the same two virtual functions as the other shapes.</li><li>Keep the calculation inside Triangle.</li><li>Reuse printReport rather than adding a new print function for each shape.</li></ul></div>
+    <div class="submission-card"><strong>Submit for evaluation</strong><p>Send your finished <code>program.cpp</code> to the trainer's cohort email.</p><div><b>Subject:</b> <code>Module 2 Task - Your Name - program.cpp</code></div><div><b>Body:</b> <code>Your Name | Module 2 | compiler used | result you observed</code></div><p>Attach the exact file you compiled and mention how you tested Triangle.</p></div>
+  </section>
+</div>
+</main>
+</div>
+<footer>Module 2 of 11 · Enterprise C++ Training Programme · Personal notes by <strong>Raushan Ranjan</strong></footer>
+<script>
+function initSidebar(){const toggle=document.querySelector('.sidebar-toggle'),sidebar=document.querySelector('.sidebar-left');if(!toggle||!sidebar)return;const desktop=window.matchMedia('(min-width: 861px)');toggle.addEventListener('click',()=>{if(desktop.matches){const collapsed=document.body.classList.toggle('sidebar-collapsed');toggle.setAttribute('aria-expanded',String(!collapsed));}else sidebar.classList.toggle('open');});sidebar.querySelectorAll('a:not(.nav-day-toggle)').forEach(link=>link.addEventListener('click',()=>sidebar.classList.remove('open')));}
+function initNavGroups(){document.querySelectorAll('.nav-day').forEach(day=>{const toggle=day.querySelector(':scope > .nav-day-toggle'),body=day.querySelector(':scope > .nav-day-body');if(!toggle||!body)return;toggle.setAttribute('aria-expanded',String(day.dataset.open==='true'));toggle.addEventListener('click',event=>{event.preventDefault();const open=day.dataset.open==='true';day.dataset.open=String(!open);toggle.setAttribute('aria-expanded',String(!open));});});}
+function initNavModules(){document.querySelectorAll('.nav-module').forEach(module=>{const label=module.querySelector(':scope > .nav-module-label'),content=module.querySelector(':scope > .nav-topics, :scope > .nav-tabs');if(!label||!content)return;module.dataset.open=module.dataset.open||'true';label.setAttribute('role','button');label.setAttribute('tabindex','0');label.setAttribute('aria-expanded',String(module.dataset.open==='true'));const toggle=()=>{const open=module.dataset.open==='true';module.dataset.open=String(!open);label.setAttribute('aria-expanded',String(!open));};label.addEventListener('click',toggle);label.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle();}});});}
+function initTabs(){const bar=document.querySelector('.tabbar');if(!bar)return;const buttons=[...document.querySelectorAll('.tabbar button,.nav-tab')],panels=[...document.querySelectorAll('.tabpanel')];function activate(id,updateHash){buttons.forEach(b=>b.classList.toggle('active',b.dataset.tab===id));panels.forEach(p=>p.classList.toggle('active',p.id===id));if(updateHash)history.replaceState(null,'','#'+id);}buttons.forEach(b=>b.addEventListener('click',()=>activate(b.dataset.tab,true)));const requested=location.hash.slice(1);activate(buttons.some(b=>b.dataset.tab===requested)?requested:(buttons.find(b=>b.classList.contains('active'))||buttons[0]).dataset.tab,false);}
+function initCopyButtons(){document.querySelectorAll('.copy-btn').forEach(btn=>btn.addEventListener('click',async()=>{const code=btn.closest('.code-card').querySelector('code').innerText;try{await navigator.clipboard.writeText(code);}catch(e){const ta=document.createElement('textarea');ta.value=code;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();}btn.textContent='Copied';setTimeout(()=>btn.textContent='Copy',1200);}));}
+document.addEventListener('DOMContentLoaded',()=>{initSidebar();initNavGroups();initNavModules();initTabs();initCopyButtons();});
+</script>
+</body>
+</html>

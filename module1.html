@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 1: C++ Basics — Enterprise C++ Handbook</title>
+<style>
+/* ============================================================
+   Enterprise C++ Handbook — shared design system
+   Theme: "Blueprint" — schematic navy + phosphor amber,
+   evoking memory diagrams / compiled output / terminal traces.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
+
+:root{
+  --bg:        #0b1420;
+  --bg-grid:   #101d2e;
+  --surface:   #121d2e;
+  --surface-2: #16233a;
+  --border:    #23374f;
+  --border-soft: #1b2b40;
+  --text:      #e8edf4;
+  --text-dim:  #93a5bd;
+  --text-faint:#5d7290;
+  --amber:     #ffb454;
+  --amber-dim: #7a5a2c;
+  --cyan:      #5ecbff;
+  --green:     #6bcf8f;
+  --red:       #ff8080;
+  --radius:    10px;
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --head: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --body: 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:
+    linear-gradient(var(--bg-grid) 1px, transparent 1px) 0 0/100% 28px,
+    linear-gradient(90deg, var(--bg-grid) 1px, transparent 1px) 0 0/28px 100%,
+    var(--bg);
+  color:var(--text);
+  font-family:var(--body);
+  line-height:1.6;
+  font-size:16px;
+}
+
+a{color:inherit;}
+
+/* ---------- Top bar ---------- */
+.topbar{
+  position:sticky; top:0; z-index:40;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 28px;
+  background:rgba(11,20,32,0.92);
+  backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--border-soft);
+}
+.brand{
+  display:flex; align-items:center; gap:10px;
+  font-family:var(--head); font-weight:700; font-size:17px; letter-spacing:0.2px;
+  text-decoration:none; color:var(--text);
+}
+.brand .mark{
+  width:30px;height:30px;border-radius:7px;
+  background:linear-gradient(135deg,var(--amber),#c97a1f);
+  display:flex;align-items:center;justify-content:center;
+  color:#1a1204; font-family:var(--mono); font-weight:700; font-size:14px;
+}
+.brand small{
+  display:block; font-family:var(--body); font-weight:400; font-size:11.5px; color:var(--text-faint);
+}
+.topbar nav{display:flex; gap:22px; align-items:center; font-size:14px;}
+.topbar nav a{color:var(--text-dim); text-decoration:none; margin-left:22px;}
+.topbar nav a:first-child{margin-left:0;}
+.topbar nav a:hover{color:var(--amber);}
+.topbar .repo-link{
+  font-family:var(--mono); font-size:12.5px; color:var(--cyan);
+  border:1px solid var(--border); padding:6px 12px; border-radius:7px;
+  text-decoration:none;
+}
+.topbar .repo-link:hover{border-color:var(--cyan);}
+
+/* ---------- Hero ---------- */
+.hero{
+  padding:64px 28px 40px; max-width:1120px; margin:0 auto;
+}
+.hero .eyebrow{
+  font-family:var(--mono); color:var(--amber); font-size:13px; margin-bottom:14px;
+}
+.hero h1{
+  font-family:var(--head); font-size:clamp(32px,5vw,52px); line-height:1.08;
+  margin:0 0 18px; max-width:16ch; font-weight:700;
+}
+.hero p.lede{
+  color:var(--text-dim); font-size:17px; max-width:62ch; margin:0 0 28px;
+}
+.hero .stats{display:flex; gap:36px; flex-wrap:wrap; margin-top:8px;}
+.hero .stat b{display:block; font-family:var(--head); font-size:26px; color:var(--amber);}
+.hero .stat span{font-size:13px; color:var(--text-faint);}
+
+/* ---------- Day sections on landing page ---------- */
+.day-section{max-width:1120px; margin:0 auto; padding:8px 28px 54px;}
+.day-heading{
+  display:flex; align-items:baseline; gap:14px; margin:46px 0 18px;
+  border-top:1px solid var(--border-soft); padding-top:28px;
+}
+.day-heading:first-child{border-top:none; padding-top:0;}
+.day-heading .day-tag{
+  font-family:var(--mono); color:var(--bg); background:var(--amber);
+  font-size:13px; padding:4px 10px; border-radius:6px; font-weight:700; white-space:nowrap;
+}
+.day-heading h2{font-family:var(--head); font-size:20px; margin:0; font-weight:600;}
+.day-heading .day-status{font-size:12.5px; color:var(--text-faint); margin-left:auto; font-family:var(--mono);}
+
+.card-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px;}
+.card{
+  background:var(--surface); border:1px solid var(--border-soft); border-radius:var(--radius);
+  padding:20px; display:flex; flex-direction:column; gap:12px; position:relative;
+}
+.card.locked{opacity:0.55;}
+.card .module-tag{font-family:var(--mono); font-size:11.5px; color:var(--cyan);}
+.card h3{font-family:var(--head); font-size:17px; margin:0; font-weight:600;}
+.card p{font-size:13.5px; color:var(--text-dim); margin:0; flex-grow:1;}
+.card .topic-list{list-style:none; padding:0; margin:0; font-size:12.5px; color:var(--text-faint);}
+.card .topic-list li{padding:2px 0; padding-left:14px; position:relative;}
+.card .topic-list li::before{content:"›"; position:absolute; left:0; color:var(--amber);}
+.card-footer{display:flex; align-items:center; justify-content:space-between; margin-top:6px;}
+.btn{
+  font-family:var(--mono); font-size:13px; font-weight:600; text-decoration:none;
+  padding:9px 16px; border-radius:7px; border:1px solid transparent; cursor:pointer;
+  display:inline-flex; align-items:center; gap:7px;
+}
+.btn-primary{background:var(--amber); color:#1a1204;}
+.btn-primary:hover{background:#ffc372;}
+.btn-ghost{background:transparent; border-color:var(--border); color:var(--text-dim);}
+.btn-ghost:hover{border-color:var(--text-dim); color:var(--text);}
+.btn[disabled]{opacity:0.4; cursor:not-allowed;}
+
+.stars{display:flex; gap:3px; cursor:pointer;}
+.stars .star{font-size:16px; color:var(--border); transition:color .15s;}
+.stars .star.filled{color:var(--amber);}
+.rating-note{font-size:11px; color:var(--text-faint); margin-top:2px;}
+
+/* ---------- Module page ---------- */
+.module-header{max-width:1120px; margin:0 auto; padding:36px 28px 0;}
+.breadcrumb{font-family:var(--mono); font-size:12.5px; color:var(--text-faint); margin-bottom:14px;}
+.breadcrumb a{color:var(--cyan); text-decoration:none;}
+.module-header h1{font-family:var(--head); font-size:clamp(26px,4vw,38px); margin:0 0 10px;}
+.module-header .sub{color:var(--text-dim); max-width:70ch; font-size:15.5px; margin-bottom:20px;}
+.module-meta{display:flex; gap:22px; flex-wrap:wrap; margin-bottom:26px; font-size:13px; color:var(--text-faint); font-family:var(--mono);}
+.module-meta b{color:var(--text-dim); font-weight:600;}
+
+/* ---------- Tabs ---------- */
+.tabs-wrap{max-width:1120px; margin:0 auto; padding:0 28px 80px;}
+.tabbar{
+  display:flex; gap:4px; overflow-x:auto; border-bottom:1px solid var(--border-soft);
+  margin-bottom:32px; position:sticky; top:63px; background:var(--bg); z-index:30;
+  padding-top:6px;
+}
+.tabbar button{
+  font-family:var(--body); font-weight:600; font-size:14px; color:var(--text-faint);
+  background:none; border:none; padding:12px 18px; cursor:pointer; white-space:nowrap;
+  border-bottom:2px solid transparent; position:relative; top:1px;
+}
+.tabbar button .num{font-family:var(--mono); color:var(--text-faint); margin-right:8px; font-size:12px;}
+.tabbar button.active{color:var(--text); border-bottom-color:var(--amber);}
+.tabbar button.active .num{color:var(--amber);}
+.tabbar button:hover{color:var(--text);}
+
+.tabpanel{display:none;}
+.tabpanel.active{display:block; animation:fadein .25s ease;}
+@keyframes fadein{from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:translateY(0);}}
+
+/* ---------- Topic content blocks ---------- */
+.topic-intro{font-size:15.5px; color:var(--text-dim); max-width:72ch; margin-bottom:6px;}
+.block{margin:34px 0;}
+.block-label{
+  display:flex; align-items:center; gap:10px; margin-bottom:12px;
+}
+.block-label .tag{
+  font-family:var(--mono); font-size:12px; font-weight:700; padding:3px 9px; border-radius:5px;
+}
+.tag.why{background:rgba(94,203,255,0.12); color:var(--cyan); border:1px solid rgba(94,203,255,0.3);}
+.tag.what{background:rgba(255,180,84,0.12); color:var(--amber); border:1px solid rgba(255,180,84,0.3);}
+.tag.how{background:rgba(107,207,143,0.12); color:var(--green); border:1px solid rgba(107,207,143,0.3);}
+.block-label h4{font-family:var(--head); font-size:15px; margin:0; font-weight:600; color:var(--text);}
+.block .content{max-width:74ch; font-size:15px; color:var(--text-dim);}
+.block .content p{margin:0 0 12px;}
+.block .content ul{margin:0 0 12px; padding-left:20px;}
+.block .content li{margin-bottom:6px;}
+.block .content strong{color:var(--text);}
+.callout{
+  border-left:3px solid var(--cyan); background:var(--surface); padding:12px 16px;
+  border-radius:0 8px 8px 0; font-size:14px; color:var(--text-dim); max-width:70ch; margin:14px 0;
+}
+
+/* ---------- Code blocks ---------- */
+.code-card{
+  background:var(--surface); border:1px solid var(--border-soft); border-radius:var(--radius);
+  overflow:hidden; margin:16px 0 22px; max-width:820px;
+}
+.code-card .code-head{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:10px 14px; border-bottom:1px solid var(--border-soft); background:var(--surface-2);
+}
+.code-card .filename{font-family:var(--mono); font-size:12.5px; color:var(--text-dim);}
+.code-card .copy-btn{
+  font-family:var(--mono); font-size:11.5px; color:var(--text-faint); background:none;
+  border:1px solid var(--border); border-radius:5px; padding:4px 9px; cursor:pointer;
+}
+.code-card .copy-btn:hover{color:var(--text); border-color:var(--text-dim);}
+.code-card .copy-btn.copied{color:var(--green); border-color:var(--green);}
+.code-card pre{
+  margin:0; padding:16px 18px; overflow-x:auto; font-family:var(--mono); font-size:13px; line-height:1.65;
+}
+.code-card code{font-family:var(--mono);}
+.cmt{color:var(--text-faint);}
+.kw{color:var(--cyan);}
+.str{color:var(--green);}
+.typ{color:var(--amber);}
+
+.output-box{
+  background:#081019; border:1px solid var(--border-soft); border-left:3px solid var(--green);
+  border-radius:0 8px 8px 0; padding:12px 16px; max-width:820px; margin:0 0 22px;
+  font-family:var(--mono); font-size:12.5px; color:#a8e6bd; white-space:pre-wrap;
+}
+.output-box .lbl{display:block; font-family:var(--body); color:var(--green); font-size:11px; font-weight:600; margin-bottom:6px; letter-spacing:.3px;}
+
+/* ---------- Quick guide ---------- */
+.quickguide{
+  background:var(--surface); border:1px solid var(--border-soft); border-radius:var(--radius);
+  padding:18px 20px; max-width:820px; margin:20px 0 30px;
+}
+.quickguide .qg-title{font-family:var(--head); font-weight:600; font-size:14.5px; color:var(--amber); margin:0 0 12px; display:flex; align-items:center; gap:8px;}
+.quickguide ol{margin:0; padding-left:20px; font-size:14px; color:var(--text-dim);}
+.quickguide li{margin-bottom:8px;}
+.quickguide code{font-family:var(--mono); background:var(--surface-2); padding:1px 6px; border-radius:4px; font-size:12.5px; color:var(--cyan);}
+
+/* ---------- Download / case study strip ---------- */
+.dl-strip{
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  background:var(--surface-2); border:1px solid var(--border-soft); border-radius:var(--radius);
+  padding:14px 18px; margin:14px 0 30px; max-width:820px;
+}
+.dl-strip .icon{font-family:var(--mono); color:var(--amber); font-size:18px;}
+.dl-strip .txt{font-size:13.5px; color:var(--text-dim); flex-grow:1;}
+.dl-strip .txt b{color:var(--text); display:block; font-size:14px; margin-bottom:2px;}
+
+.case-banner{
+  border:1px dashed var(--amber-dim); background:rgba(255,180,84,0.06); border-radius:var(--radius);
+  padding:14px 18px; max-width:74ch; margin:24px 0; font-size:13.5px; color:var(--text-dim);
+}
+.case-banner b{color:var(--amber); font-family:var(--mono); font-size:12px; display:block; margin-bottom:5px;}
+
+/* ---------- Topic footer nav ---------- */
+.topic-nav{display:flex; justify-content:space-between; margin-top:48px; padding-top:24px; border-top:1px solid var(--border-soft);}
+.topic-nav .btn{font-family:var(--body);}
+
+/* ---------- Footer ---------- */
+footer{
+  border-top:1px solid var(--border-soft); padding:28px; text-align:center;
+  color:var(--text-faint); font-size:12.5px;
+}
+footer a{color:var(--cyan); text-decoration:none;}
+
+@media (max-width:640px){
+  .topbar nav{display:none;}
+  .hero{padding:44px 18px 28px;}
+  .day-section, .tabs-wrap, .module-header{padding-left:18px; padding-right:18px;}
+  .tabbar{top:57px;}
+}
+
+</style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <button class="sidebar-toggle" type="button" aria-label="Open course navigation">☰</button>
+    <a href="index.html" class="brand">
+      <span class="brand-mark">C++</span>
+      <span class="brand-text">Enterprise C++ Handbook<small>by Raushan Ranjan · RR Skillverse</small></span>
+    </a>
+  </div>
+  <div class="topbar-center">
+    <label class="search-bar">
+      <span class="search-icon">⌕</span>
+      <input class="search-input" type="search" placeholder="Search the handbook" aria-label="Search the handbook">
+      <kbd class="search-kbd">⌘ K</kbd>
+    </label>
+  </div>
+  <div class="topbar-right">
+    <a href="index.html">All modules</a>
+    <a href="index.html#day1">Curriculum</a>
+    <a class="btn-notes" href="index.html#day1">Start learning</a>
+  </div>
+</div>
+
+<div class="app-layout">
+<aside class="sidebar-left">
+  <div class="sidebar-content">
+    <div class="sidebar-section-title">Course map</div>
+    <nav class="nav-tree" aria-label="Course navigation">
+      <div class="nav-day" data-open="true">
+        <a class="nav-day-toggle" href="index.html#day1"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 1</span><span class="nav-day-subtitle">Foundations</span><span class="nav-day-chevron">›</span></a>
+        <div class="nav-day-body">
+          <div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics">
+            <li class="nav-topic"><a href="module0.html">Foundation Enhancer</a></li>
+            <li class="nav-topic active"><a href="module1.html">C++ Basics</a></li>
+          </ul></div>
+          <div class="nav-module"><div class="nav-module-label">Topics</div><div class="nav-tabs">
+            <button class="nav-tab active" data-tab="t1">01 Classes &amp; Objects</button>
+            <button class="nav-tab" data-tab="t2">02 Access specifiers</button>
+            <button class="nav-tab" data-tab="t3">03 Constructors &amp; destructors</button>
+            <button class="nav-tab" data-tab="t4">04 Static members</button>
+            <button class="nav-tab" data-tab="t5">05 Friend functions &amp; classes</button>
+          </div></div>
+        </div>
+      </div>
+      <div class="nav-day" data-open="true"><a class="nav-day-toggle" href="index.html#day2"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 2</span><span class="nav-day-subtitle">Polymorphism</span><span class="nav-day-chevron">›</span></a><div class="nav-day-body"><div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module2.html">Inheritance &amp; Polymorphism</a></li><li class="nav-topic"><a href="module3.html">Compile-time Polymorphism</a></li></ul></div></div></div>
+      <div class="nav-day"><a class="nav-day-toggle" href="index.html#day3"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 3</span><span class="nav-day-subtitle">Robustness</span><span class="nav-day-chevron">›</span></a></div>
+      <div class="nav-day"><a class="nav-day-toggle" href="index.html#day4"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 4</span><span class="nav-day-subtitle">Modern C++</span><span class="nav-day-chevron">›</span></a></div>
+      <div class="nav-day"><a class="nav-day-toggle" href="index.html#day5"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 5</span><span class="nav-day-subtitle">Networking</span><span class="nav-day-chevron">›</span></a></div>
+    </nav>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section-title">Resources</div>
+    <ul class="sidebar-resources">
+      <li><a href="https://github.com/raushan1107/Advanced-cpp-sample-codes" target="_blank" rel="noopener">↗ Source code</a></li>
+      <li><a href="index.html#day1">▣ Course overview</a></li>
+    </ul>
+  </div>
+</aside>
+<main class="main-content">
+<div class="module-header">
+  <div class="breadcrumb"><a href="index.html">Foundations</a> / Module 1</div>
+  <h1>C++ Basics</h1>
+  <p class="sub">This module runs one case study end to end: a bank account. We'll build it up piece by piece — turning it into a class, locking down its data, giving it proper construction and cleanup, adding a shared counter, and finally letting one trusted class audit it — so every keyword below has a job to do inside a system you'd actually recognise.</p>
+  <div class="module-meta">
+    <span><b>Day:</b> 1 of 6</span>
+    <span><b>Topics:</b> 5</span>
+    <span><b>Case study:</b> Banking system</span>
+    <span><b>Repo folder:</b> <code style="color:var(--cyan)">08-ClassesandObjects/</code></span>
+  </div>
+  <div class="case-banner">
+    <b>// RUNNING CASE STUDY</b>
+    We're building <code>BankAccount</code> — a class that must never let its balance be corrupted from outside, must always start in a valid state, must know how many accounts exist bank-wide, and must let exactly one trusted class (a bank manager) audit its private data. Each tab below adds one capability.
+  </div>
+</div>
+
+<div class="tabs-wrap">
+  <div class="tabbar">
+    <button data-tab="t1" class="active"><span class="num">01</span>Classes &amp; Objects</button>
+    <button data-tab="t2"><span class="num">02</span>Access Specifiers</button>
+    <button data-tab="t3"><span class="num">03</span>Constructors &amp; Destructors</button>
+    <button data-tab="t4"><span class="num">04</span>Static Members</button>
+    <button data-tab="t5"><span class="num">05</span>Friend Functions &amp; Classes</button>
+  </div>
+
+  <!-- TAB 1: Classes & Objects -->
+  <div class="tabpanel active" id="t1">
+    <p class="topic-intro">A class is the blueprint. An object is one real account built from it.</p>
+
+    <div class="block">
+      <div class="block-label"><span class="tag why">WHY</span><h4>Why bundle balance and behaviour together</h4></div>
+      <div class="content">
+        <p>Think about what a bank account actually needs to guarantee: <em>nobody should be able to set the balance to an arbitrary number without going through deposit/withdraw logic.</em> If balance is just a loose variable passed around functions (Module 0's procedural style), that guarantee is impossible to enforce — any function anywhere can assign to it directly. A class lets the account carry its own rules with it, wherever it goes.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag what">WHAT</span><h4>Class syntax, objects, and where they live in memory</h4></div>
+      <div class="content">
+        <p>A <strong>class</strong> is declared with the <code>class</code> keyword and a body of members (data + functions). An <strong>object</strong> is a concrete instance of that class. In C++, you choose where an object lives:</p>
+        <ul>
+          <li><strong>Stack allocation</strong> — <code>BankAccount acc;</code> — created and destroyed automatically when it goes out of scope.</li>
+          <li><strong>Heap allocation</strong> — <code>BankAccount* acc = new BankAccount();</code> — you control its lifetime, and <strong>you must call <code>delete</code></strong> yourself when done, or it leaks.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag how">HOW</span><h4>A minimal BankAccount class, both ways</h4></div>
+      <div class="content"><p>This mirrors a real pattern from the course repo (<code>08-ClassesandObjects/c1.cpp</code>), rebuilt around our case study:</p></div>
+
+      <div class="code-card">
+        <div class="code-head"><span class="filename">bank_account_basic.cpp</span><button class="copy-btn">Copy</button></div>
+        <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class BankAccount {
+public:
+    string owner;
+    double balance;
+
+    void deposit(double amount) {
+        balance += amount;
+        cout &lt;&lt; owner &lt;&lt; " deposited " &lt;&lt; amount
+             &lt;&lt; ". New balance: " &lt;&lt; balance &lt;&lt; endl;
+    }
+};
+
+int main() {
+    BankAccount acc1;                     // stack allocation
+    acc1.owner = "Ravi";
+    acc1.balance = 1000;
+    acc1.deposit(500);
+
+    BankAccount* acc2 = new BankAccount(); // heap allocation
+    acc2-&gt;owner = "Anita";
+    acc2-&gt;balance = 2000;
+    acc2-&gt;deposit(750);
+
+    delete acc2;   // we allocated with new, so we must delete it ourselves
+    return 0;
+}</code></pre>
+      </div>
+
+      <div class="output-box"><span class="lbl">Expected output</span>Ravi deposited 500. New balance: 1500
+Anita deposited 750. New balance: 2750</div>
+
+      <div class="quickguide">
+        <p class="qg-title">⚡ Quick guide — try it yourself</p>
+        <ol>
+          <li>Save as <code>bank_account_basic.cpp</code>, compile: <code>g++ -std=c++17 bank_account_basic.cpp -o bank1</code></li>
+          <li>Run it: <code>./bank1</code></li>
+          <li>Try this: remove the <code>delete acc2;</code> line, recompile, and run again — the program still works, but you've now leaked memory. Memory tools and profiling are planned for Module 7.</li>
+        </ol>
+      </div>
+
+      <div class="dl-strip">
+        <span class="icon">⭳</span>
+        <span class="txt"><b>See the original in the repo</b>The same stack-vs-heap pattern, with a Student class — <code style="color:var(--cyan)">08-ClassesandObjects/c1.cpp</code></span>
+        <a class="btn btn-ghost" href="https://raw.githubusercontent.com/raushan1107/Advanced-cpp-sample-codes/main/08-ClassesandObjects/c1.cpp" target="_blank" rel="noopener">Download .cpp</a>
+      </div>
+
+      <div class="callout">Notice <code>balance</code> is still <code>public</code> here — anyone can write <code>acc1.balance = -99999;</code> and the class can't stop them. That's exactly the gap Access Specifiers close next.</div>
+    </div>
+
+    <div class="topic-nav">
+      <span></span>
+      <button class="btn btn-primary" onclick="document.querySelector('[data-tab=t2]').click()">Next: Access Specifiers →</button>
+    </div>
+  </div>
+
+  <!-- TAB 2: Access Specifiers -->
+  <div class="tabpanel" id="t2">
+    <p class="topic-intro">Now we close the gap the last tab ended on.</p>
+
+    <div class="block">
+      <div class="block-label"><span class="tag why">WHY</span><h4>Why balance can't stay public</h4></div>
+      <div class="content">
+        <p>A public <code>balance</code> means <em>any</em> line of code, anywhere in a million-line codebase, can silently corrupt it — no logging, no validation, no way to trace who did it. Enterprise systems treat this as a design defect. The fix is to hide the data and expose only the operations that are allowed to change it.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag what">WHAT</span><h4>public, private, protected</h4></div>
+      <div class="content">
+        <ul>
+          <li><strong>public</strong> — accessible from anywhere the object is visible.</li>
+          <li><strong>private</strong> — accessible only from inside the class's own member functions (and its friends — Tab 5). This is the default for <code>class</code>.</li>
+          <li><strong>protected</strong> — like private, but also accessible to derived classes. You'll use this properly once inheritance is introduced in Module 2.</li>
+        </ul>
+        <p>A common enterprise pattern: keep data <code>private</code>, and expose controlled <code>public</code> methods to read or change it — often called <strong>getters and setters</strong>, though good design keeps them meaningful (like <code>deposit()</code>) rather than a raw <code>setBalance()</code> that defeats the whole point.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag how">HOW</span><h4>Locking down BankAccount's balance</h4></div>
+
+      <div class="code-card">
+        <div class="code-head"><span class="filename">bank_account_private.cpp</span><button class="copy-btn">Copy</button></div>
+        <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class BankAccount {
+private:
+    double balance;   // no code outside this class can touch balance directly
+
+public:
+    string owner;
+
+    void deposit(double amount) {
+        if (amount &lt;= 0) {
+            cout &lt;&lt; "Deposit must be positive." &lt;&lt; endl;
+            return;
+        }
+        balance += amount;
+    }
+
+    void withdraw(double amount) {
+        if (amount &gt; balance) {
+            cout &lt;&lt; "Insufficient funds." &lt;&lt; endl;
+            return;
+        }
+        balance -= amount;
+    }
+
+    double getBalance() {
+        return balance;   // the only way outside code can read balance
+    }
+};
+
+int main() {
+    BankAccount acc;
+    acc.owner = "Ravi";
+    acc.deposit(1000);
+    acc.withdraw(300);
+
+    // acc.balance = -99999;   // <-- uncomment this: it will NOT compile
+
+    cout &lt;&lt; acc.owner &lt;&lt; "'s balance: " &lt;&lt; acc.getBalance() &lt;&lt; endl;
+    return 0;
+}</code></pre>
+      </div>
+
+      <div class="output-box"><span class="lbl">Expected output</span>Ravi's balance: 700</div>
+
+      <div class="quickguide">
+        <p class="qg-title">⚡ Quick guide — try it yourself</p>
+        <ol>
+          <li>Save as <code>bank_account_private.cpp</code>, compile with <code>g++ -std=c++17</code>, run it.</li>
+          <li>Uncomment the <code>acc.balance = -99999;</code> line and recompile. Read the compiler error carefully — it will say something like <code>'double BankAccount::balance' is private</code>. That error is the access specifier doing its job.</li>
+          <li>Try calling <code>acc.withdraw(5000);</code> — confirm it's rejected by the balance check instead of silently going negative.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="topic-nav">
+      <button class="btn btn-ghost" onclick="document.querySelector('[data-tab=t1]').click()">← Classes &amp; Objects</button>
+      <button class="btn btn-primary" onclick="document.querySelector('[data-tab=t3]').click()">Next: Constructors &amp; Destructors →</button>
+    </div>
+  </div>
+
+  <!-- TAB 3: Constructors & Destructors -->
+  <div class="tabpanel" id="t3">
+    <p class="topic-intro">Every account needs to start in a valid state — and clean up properly when it's closed.</p>
+
+    <div class="block">
+      <div class="block-label"><span class="tag why">WHY</span><h4>Why "just remember to initialise it" isn't good enough</h4></div>
+      <div class="content">
+        <p>In the last tab, if you create a <code>BankAccount</code> and call <code>getBalance()</code> before ever calling <code>deposit()</code>, you get whatever garbage value happened to be in memory — because <code>balance</code> was never initialised. Enterprise bugs caused by uninitialised state are notoriously hard to reproduce. A <strong>constructor</strong> guarantees every object starts valid, automatically, every single time — no relying on the caller to remember.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag what">WHAT</span><h4>Default, parameterized, and copy constructors — and the destructor</h4></div>
+      <div class="content">
+        <ul>
+          <li><strong>Default constructor</strong> — takes no arguments, runs automatically when you write <code>BankAccount acc;</code>.</li>
+          <li><strong>Parameterized constructor</strong> — takes arguments, lets you construct an already-populated object in one line: <code>BankAccount acc("Ravi", 1000);</code></li>
+          <li><strong>Copy constructor</strong> — runs when a new object is created <em>from</em> an existing one (<code>BankAccount acc2 = acc1;</code>). The compiler gives you one for free (a shallow, member-by-member copy) if you don't write your own — but for anything managing a resource, write your own to be safe.</li>
+          <li><strong>Destructor</strong> — named <code>~ClassName()</code>, takes no arguments, runs automatically when the object goes out of scope (or is <code>delete</code>d). Use it to release resources — close a file, log an audit trail, free memory.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag how">HOW</span><h4>All three constructors on BankAccount</h4></div>
+      <div class="content"><p>Adapted from the course repo's <code>c2withconstructor.cpp</code> pattern:</p></div>
+
+      <div class="code-card">
+        <div class="code-head"><span class="filename">bank_account_constructors.cpp</span><button class="copy-btn">Copy</button></div>
+        <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class BankAccount {
+private:
+    string owner;
+    double balance;
+
+public:
+    // Default constructor — every account starts safely at zero
+    BankAccount() {
+        owner = "Unnamed";
+        balance = 0.0;
+        cout &lt;&lt; "Default constructor: new empty account created." &lt;&lt; endl;
+    }
+
+    // Parameterized constructor — open an account with real details
+    BankAccount(string ownerName, double openingBalance) {
+        owner = ownerName;
+        balance = openingBalance;
+        cout &lt;&lt; "Account opened for " &lt;&lt; owner &lt;&lt; "." &lt;&lt; endl;
+    }
+
+    // Copy constructor — e.g. issuing a joint/duplicate account record
+    BankAccount(const BankAccount &source) {
+        owner = source.owner;
+        balance = source.balance;
+        cout &lt;&lt; "Copy constructor: duplicated account for " &lt;&lt; owner &lt;&lt; "." &lt;&lt; endl;
+    }
+
+    void display() {
+        cout &lt;&lt; owner &lt;&lt; "'s balance: " &lt;&lt; balance &lt;&lt; endl;
+    }
+};
+
+int main() {
+    BankAccount a1;                          // default constructor runs
+    BankAccount a2("Meena", 5000);           // parameterized constructor runs
+    BankAccount a3 = a2;                     // copy constructor runs
+
+    a1.display();
+    a2.display();
+    a3.display();
+    return 0;
+}</code></pre>
+      </div>
+
+      <div class="output-box"><span class="lbl">Expected output</span>Default constructor: new empty account created.
+Account opened for Meena.
+Copy constructor: duplicated account for Meena.
+Unnamed's balance: 0
+Meena's balance: 5000
+Meena's balance: 5000</div>
+
+      <div class="dl-strip">
+        <span class="icon">⭳</span>
+        <span class="txt"><b>Get the code</b>Original file — <code style="color:var(--cyan)">08-ClassesandObjects/c2withconstructor.cpp</code></span>
+        <a class="btn btn-ghost" href="https://raw.githubusercontent.com/raushan1107/Advanced-cpp-sample-codes/main/08-ClassesandObjects/c2withconstructor.cpp" target="_blank" rel="noopener">Download .cpp</a>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag how">HOW</span><h4>The destructor — closing an account cleanly</h4></div>
+
+      <div class="code-card">
+        <div class="code-head"><span class="filename">bank_account_destructor.cpp</span><button class="copy-btn">Copy</button></div>
+        <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class BankAccount {
+public:
+    string owner;
+
+    BankAccount(string ownerName) {
+        owner = ownerName;
+        cout &lt;&lt; "Account opened for " &lt;&lt; owner &lt;&lt; endl;
+    }
+
+    // Destructor: same name as the class, preceded by ~.
+    // Runs automatically — no manual call needed for stack objects.
+    ~BankAccount() {
+        cout &lt;&lt; "Account closed for " &lt;&lt; owner &lt;&lt; " — audit log written." &lt;&lt; endl;
+    }
+};
+
+int main() {
+    BankAccount a1("Ravi");                      // stack object
+    BankAccount* a2 = new BankAccount("Anita");   // heap object
+
+    delete a2;   // explicitly triggers ~BankAccount() for the heap object
+    return 0;
+    // a1 goes out of scope here -> its destructor runs automatically
+}</code></pre>
+      </div>
+
+      <div class="output-box"><span class="lbl">Expected output</span>Account opened for Ravi
+Account opened for Anita
+Account closed for Anita — audit log written.
+Account closed for Ravi — audit log written.</div>
+
+      <div class="quickguide">
+        <p class="qg-title">⚡ Quick guide — try it yourself</p>
+        <ol>
+          <li>Save both snippets and compile each with <code>g++ -std=c++17</code>.</li>
+          <li>In the destructor example, remove the <code>delete a2;</code> line and rerun — notice <code>"Account closed for Anita"</code> never prints. That's a leaked object <em>and</em> a missed audit log.</li>
+          <li>Predict the print order before running: which destructor fires first, <code>a1</code>'s or the manually-deleted <code>a2</code>'s? Then check your answer against the output.</li>
+        </ol>
+      </div>
+
+      <div class="dl-strip">
+        <span class="icon">⭳</span>
+        <span class="txt"><b>Get the code</b>Original file — <code style="color:var(--cyan)">08-ClassesandObjects/destructorprog.cpp</code></span>
+        <a class="btn btn-ghost" href="https://raw.githubusercontent.com/raushan1107/Advanced-cpp-sample-codes/main/08-ClassesandObjects/destructorprog.cpp" target="_blank" rel="noopener">Download .cpp</a>
+      </div>
+    </div>
+
+    <div class="topic-nav">
+      <button class="btn btn-ghost" onclick="document.querySelector('[data-tab=t2]').click()">← Access Specifiers</button>
+      <button class="btn btn-primary" onclick="document.querySelector('[data-tab=t4]').click()">Next: Static Members →</button>
+    </div>
+  </div>
+
+  <!-- TAB 4: Static Members -->
+  <div class="tabpanel" id="t4">
+    <p class="topic-intro">Some information belongs to the bank as a whole, not to any one account.</p>
+
+    <div class="block">
+      <div class="block-label"><span class="tag why">WHY</span><h4>Why we need data that isn't per-object</h4></div>
+      <div class="content">
+        <p>"How many accounts has this bank opened in total?" isn't a property of any single <code>BankAccount</code> — it's shared across all of them. If you stored a <code>totalAccounts</code> counter as a normal member, every object would have its own separate copy, each stuck at whatever value it started with. A <strong>static</strong> member solves this: exactly one copy exists, shared by the class itself and every instance of it.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag what">WHAT</span><h4>Static data members and static functions</h4></div>
+      <div class="content">
+        <ul>
+          <li><strong>Static data member</strong> — declared with <code>static</code> inside the class, but must be <strong>defined (initialised) once, outside</strong> the class, e.g. <code>int BankAccount::totalAccounts = 0;</code></li>
+          <li><strong>Static member function</strong> — can be called via the class name directly (<code>BankAccount::showTotal();</code>), without needing any object. It can only touch other static members — it has no access to a particular object's data.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag how">HOW</span><h4>Counting every account ever opened</h4></div>
+      <div class="content"><p>Adapted from the repo's <code>staticmemandfunc.cpp</code> (there it counts Employees; here it counts accounts):</p></div>
+
+      <div class="code-card">
+        <div class="code-head"><span class="filename">bank_account_static.cpp</span><button class="copy-btn">Copy</button></div>
+        <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class BankAccount {
+public:
+    int accountId;
+    string owner;
+    static int totalAccounts;   // declaration only — shared by ALL accounts
+
+    BankAccount(string ownerName) {
+        owner = ownerName;
+        totalAccounts++;            // every new account bumps the shared counter
+        accountId = totalAccounts;  // simple way to assign a unique ID
+    }
+
+    void display() {
+        cout &lt;&lt; "Account #" &lt;&lt; accountId &lt;&lt; " — " &lt;&lt; owner &lt;&lt; endl;
+    }
+
+    static void showTotal() {
+        // static function: no 'this', can only touch static members
+        cout &lt;&lt; "Total accounts opened: " &lt;&lt; totalAccounts &lt;&lt; endl;
+    }
+};
+
+// Definition (and initialisation) of the static member — required exactly once
+int BankAccount::totalAccounts = 0;
+
+int main() {
+    BankAccount::showTotal();     // callable before any object exists
+
+    BankAccount a1("Ravi");
+    BankAccount a2("Meena");
+    BankAccount a3("Karan");
+
+    a1.display();
+    a2.display();
+    a3.display();
+
+    BankAccount::showTotal();     // now reflects all three accounts
+    return 0;
+}</code></pre>
+      </div>
+
+      <div class="output-box"><span class="lbl">Expected output</span>Total accounts opened: 0
+Account #1 — Ravi
+Account #2 — Meena
+Account #3 — Karan
+Total accounts opened: 3</div>
+
+      <div class="quickguide">
+        <p class="qg-title">⚡ Quick guide — try it yourself</p>
+        <ol>
+          <li>Save as <code>bank_account_static.cpp</code>, compile with <code>g++ -std=c++17</code>, run it.</li>
+          <li>Add a 4th account and confirm the total updates to 4 without you touching <code>totalAccounts</code> directly anywhere in <code>main()</code>.</li>
+          <li>Try calling <code>a1.showTotal();</code> instead of <code>BankAccount::showTotal();</code> — it still compiles (static members are reachable both ways), but the class-name form is the idiomatic one since it makes clear no specific object is involved.</li>
+        </ol>
+      </div>
+
+      <div class="dl-strip">
+        <span class="icon">⭳</span>
+        <span class="txt"><b>Get the code</b>Original file (Employee counter) — <code style="color:var(--cyan)">08-ClassesandObjects/staticmemandfunc.cpp</code></span>
+        <a class="btn btn-ghost" href="https://raw.githubusercontent.com/raushan1107/Advanced-cpp-sample-codes/main/08-ClassesandObjects/staticmemandfunc.cpp" target="_blank" rel="noopener">Download .cpp</a>
+      </div>
+    </div>
+
+    <div class="topic-nav">
+      <button class="btn btn-ghost" onclick="document.querySelector('[data-tab=t3]').click()">← Constructors &amp; Destructors</button>
+      <button class="btn btn-primary" onclick="document.querySelector('[data-tab=t5]').click()">Next: Friend Functions &amp; Classes →</button>
+    </div>
+  </div>
+
+  <!-- TAB 5: Friend Functions & Classes -->
+  <div class="tabpanel" id="t5">
+    <p class="topic-intro">Private means "not to the world" — but sometimes one specific, trusted class still needs in.</p>
+
+    <div class="block">
+      <div class="block-label"><span class="tag why">WHY</span><h4>Why private isn't always absolute</h4></div>
+      <div class="content">
+        <p>Our <code>BankAccount.balance</code> is private — correctly so. But a real bank has a <code>BankManager</code> role that legitimately needs to adjust balances directly (correcting an error, processing an override) without going through the normal <code>deposit</code>/<code>withdraw</code> rules a regular customer-facing API would enforce. Making <code>balance</code> public just to satisfy this one case would defeat the whole point. C++'s answer is <strong>friendship</strong> — an explicit, named exception the class itself grants.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag what">WHAT</span><h4>Friend functions vs friend classes</h4></div>
+      <div class="content">
+        <ul>
+          <li><strong>Friend function</strong> — a standalone (non-member) function explicitly declared inside the class with the <code>friend</code> keyword. It's not a member, but it can read and write the class's private/protected data.</li>
+          <li><strong>Friend class</strong> — an entire class declared as a friend. Every member function of the friend class can then access the private/protected members of the class that granted friendship.</li>
+          <li>Friendship is <strong>granted, not taken</strong> — <code>BankAccount</code> must explicitly say <code>friend class BankManager;</code> inside its own body. <code>BankManager</code> has no say in the matter, and friendship is one-directional and not inherited.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag how">HOW</span><h4>BankManager auditing BankAccount — straight from the repo</h4></div>
+      <div class="content"><p>This exact example already exists in the course repository, built around this precise scenario:</p></div>
+
+      <div class="code-card">
+        <div class="code-head"><span class="filename">08-ClassesandObjects/friendclass.cpp (excerpt)</span><button class="copy-btn">Copy</button></div>
+        <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class BankAccount {
+private:
+    double balance;
+    string name;
+    friend class BankManager;   // grants BankManager access to our private data
+
+public:
+    BankAccount(string n, double b) {
+        name = n;
+        balance = b;
+        cout &lt;&lt; "Account created for " &lt;&lt; name &lt;&lt; " with balance " &lt;&lt; balance &lt;&lt; endl;
+    }
+};
+
+class BankManager {
+public:
+    void setBalance(BankAccount &account, double amount) {
+        account.balance = amount;   // legal ONLY because of the friend declaration
+    }
+
+    double getBalance(BankAccount &account) {
+        return account.balance;     // same here
+    }
+};
+
+int main() {
+    BankAccount account("John Doe", 500.0);
+    BankManager manager;
+
+    manager.setBalance(account, 1000.0);
+    double accbal = manager.getBalance(account);
+
+    cout &lt;&lt; "Updated Balance: " &lt;&lt; accbal &lt;&lt; endl;
+    return 0;
+}</code></pre>
+      </div>
+
+      <div class="output-box"><span class="lbl">Expected output</span>Account created for John Doe with balance 500
+Updated Balance: 1000</div>
+
+      <div class="quickguide">
+        <p class="qg-title">⚡ Quick guide — try it yourself</p>
+        <ol>
+          <li>Save the excerpt as <code>friendclass_bank.cpp</code>, compile with <code>g++ -std=c++17</code>, run it.</li>
+          <li>Comment out the line <code>friend class BankManager;</code> inside <code>BankAccount</code>, recompile, and read the error — <code>BankManager</code> loses access to <code>balance</code> entirely.</li>
+          <li>Write a plain (non-friend) function <code>tryHack(BankAccount &amp;a) { a.balance = 0; }</code> outside both classes — confirm it fails to compile, proving friendship isn't transitive or guessable.</li>
+        </ol>
+      </div>
+
+      <div class="dl-strip">
+        <span class="icon">⭳</span>
+        <span class="txt"><b>Get the code</b>Full file — also includes a friend-function <code>add()</code> example and an <code>Engine</code>/<code>Car</code> friend class — <code style="color:var(--cyan)">08-ClassesandObjects/friendclass.cpp</code></span>
+        <a class="btn btn-ghost" href="https://raw.githubusercontent.com/raushan1107/Advanced-cpp-sample-codes/main/08-ClassesandObjects/friendclass.cpp" target="_blank" rel="noopener">Download .cpp</a>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag how">HOW</span><h4>A friend <em>function</em>, not a whole friend class</h4></div>
+      <div class="content"><p>When only one function — not an entire class — needs access, declare just that function as a friend:</p></div>
+
+      <div class="code-card">
+        <div class="code-head"><span class="filename">08-ClassesandObjects/friendFunction.cpp</span><button class="copy-btn">Copy</button></div>
+        <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+class Box {
+private:
+    double width;
+public:
+    Box(double w) : width(w) {}
+
+    // Declares printWidth as a friend — defining it right here is
+    // just a convenience; it is still NOT a member function.
+    friend void printWidth(Box box)
+    {
+        cout &lt;&lt; "Width of box: " &lt;&lt; box.width &lt;&lt; endl;
+        // A friend function is like a trusted guest let into the house (class) —
+        // it can see the private furniture, but it doesn't live there.
+    }
+};
+
+int main() {
+    Box box(10.0);
+    printWidth(box);   // called like any ordinary function — no box.printWidth()
+    return 0;
+}</code></pre>
+      </div>
+
+      <div class="output-box"><span class="lbl">Expected output</span>Width of box: 10</div>
+
+      <div class="dl-strip">
+        <span class="icon">⭳</span>
+        <span class="txt"><b>Get the code</b>Original file — <code style="color:var(--cyan)">08-ClassesandObjects/friendFunction.cpp</code></span>
+        <a class="btn btn-ghost" href="https://raw.githubusercontent.com/raushan1107/Advanced-cpp-sample-codes/main/08-ClassesandObjects/friendFunction.cpp" target="_blank" rel="noopener">Download .cpp</a>
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>Module 1 recap:</strong> <code>BankAccount</code> is now a real class — its data is private and safe (Access Specifiers), it's always constructed validly and cleans up after itself (Constructors &amp; Destructors), it tracks a bank-wide total (Static Members), and exactly one trusted class can override its rules when legitimately needed (Friend Classes). Module 2 picks this up and asks: what if we need a <code>SavingsAccount</code> and a <code>CurrentAccount</code> that are both "a kind of" <code>BankAccount</code>, but behave differently?
+    </div>
+
+    <div class="topic-nav">
+      <button class="btn btn-ghost" onclick="document.querySelector('[data-tab=t4]').click()">← Static Members</button>
+      <a class="btn btn-primary" href="index.html">Back to all modules →</a>
+    </div>
+  </div>
+
+  <section class="try-now" id="try-now">
+    <div class="try-now-header">
+      <div>
+        <div class="section-kicker">Learn by doing</div>
+        <h2>Try now: build a safe bank account</h2>
+        <p>We have moved from loose data and functions to a class that protects its own state. This complete program uses a private balance, a constructor, member functions, and a static account counter in one small banking use case.</p>
+      </div>
+      <span class="try-badge">15 minutes</span>
+    </div>
+
+    <div class="build-ladder">
+      <div class="build-step">
+        <div class="build-step-title"><span>Step 1</span><strong>Create a class with protected state</strong></div>
+        <p>Begin with a private balance and one public function that can read it.</p>
+        <div class="code-card"><div class="code-head"><span class="filename">step1_class.cpp</span><button class="copy-btn">Copy</button></div><pre><code>#include &lt;iostream&gt;
+
+class BankAccount {
+private:
+    double balance;
+
+public:
+    BankAccount(double openingBalance) : balance(openingBalance) {}
+    void printBalance() const {
+        std::cout &lt;&lt; "Balance: " &lt;&lt; balance &lt;&lt; std::endl;
+    }
+};
+
+int main() {
+    BankAccount account(1000);
+    account.printBalance();
+    return 0;
+}</code></pre></div>
+        <p class="run-line"><b>Run:</b> <code>g++ -std=c++17 step1_class.cpp -o step1</code>, then <code>step1.exe</code> or <code>./step1</code></p>
+        <p class="mini-output"><b>See:</b> <code>Balance: 1000</code></p>
+      </div>
+      <div class="build-step">
+        <div class="build-step-title"><span>Step 2</span><strong>Add safe operations</strong></div>
+        <p>Put the rules for deposits and withdrawals inside the class instead of changing the balance from <code>main</code>.</p>
+        <div class="code-card"><div class="code-head"><span class="filename">step2_operations.cpp</span><button class="copy-btn">Copy</button></div><pre><code>#include &lt;iostream&gt;
+
+class BankAccount {
+private:
+    double balance;
+
+public:
+    BankAccount(double openingBalance) : balance(openingBalance) {}
+    void deposit(double amount) { if (amount &gt; 0) balance += amount; }
+    bool withdraw(double amount) {
+        if (amount &lt;= 0 || amount &gt; balance) return false;
+        balance -= amount;
+        return true;
+    }
+    void printBalance() const {
+        std::cout &lt;&lt; "Balance: " &lt;&lt; balance &lt;&lt; std::endl;
+    }
+};
+
+int main() {
+    BankAccount account(1000);
+    account.deposit(250);
+    std::cout &lt;&lt; "Withdrawal accepted: "
+              &lt;&lt; std::boolalpha &lt;&lt; account.withdraw(100) &lt;&lt; std::endl;
+    account.printBalance();
+    return 0;
+}</code></pre></div>
+        <p class="run-line"><b>Run:</b> <code>g++ -std=c++17 step2_operations.cpp -o step2</code>, then <code>step2.exe</code> or <code>./step2</code></p>
+        <p class="mini-output"><b>See:</b> <code>Withdrawal accepted: true</code> and <code>Balance: 1150</code></p>
+      </div>
+      <div class="build-step">
+        <div class="build-step-title"><span>Step 3</span><strong>Share a class-level count</strong></div>
+        <p>Add a static member so every account contributes to one bank-wide total.</p>
+        <div class="code-card"><div class="code-head"><span class="filename">step3_static.cpp</span><button class="copy-btn">Copy</button></div><pre><code>#include &lt;iostream&gt;
+
+class BankAccount {
+private:
+    static int openAccounts;
+public:
+    BankAccount() { ++openAccounts; }
+    static int accountCount() { return openAccounts; }
+};
+
+int BankAccount::openAccounts = 0;
+
+int main() {
+    BankAccount first;
+    BankAccount second;
+    std::cout &lt;&lt; "Open accounts: "
+              &lt;&lt; BankAccount::accountCount() &lt;&lt; std::endl;
+    return 0;
+}</code></pre></div>
+        <p class="run-line"><b>Run:</b> <code>g++ -std=c++17 step3_static.cpp -o step3</code>, then <code>step3.exe</code> or <code>./step3</code></p>
+        <p class="mini-output"><b>See:</b> <code>Open accounts: 2</code></p>
+      </div>
+    </div>
+
+    <div class="build-divider"><span>Now combine the pieces into the complete use case</span></div>
+    <div class="try-step"><span>01</span><div><strong>Understand the design before you type</strong><p><code>BankAccount</code> owns the balance. The constructor creates a valid starting state. <code>deposit</code> and <code>withdraw</code> control changes. <code>openAccounts</code> is shared by every object. The user of the class cannot write directly to <code>balance</code>.</p></div></div>
+
+    <div class="code-card">
+      <div class="code-head"><span class="filename">program.cpp · complete use case</span><button class="copy-btn">Copy</button></div>
+      <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+class BankAccount {
+private:
+    std::string owner;
+    double balance;
+    static int openAccounts;
+
+public:
+    BankAccount(const std::string&amp; accountOwner, double openingBalance)
+        : owner(accountOwner), balance(openingBalance) {
+        ++openAccounts;
+    }
+
+    void deposit(double amount) {
+        if (amount &gt; 0) balance += amount;
+    }
+
+    bool withdraw(double amount) {
+        if (amount &lt;= 0 || amount &gt; balance) return false;
+        balance -= amount;
+        return true;
+    }
+
+    void printSummary() const {
+        std::cout &lt;&lt; owner &lt;&lt; " has balance: " &lt;&lt; balance &lt;&lt; std::endl;
+    }
+
+    static int accountCount() { return openAccounts; }
+};
+
+int BankAccount::openAccounts = 0;
+
+int main() {
+    BankAccount ravi("Ravi", 1000);
+    BankAccount maya("Maya", 500);
+
+    ravi.deposit(250);
+    maya.withdraw(100);
+    ravi.printSummary();
+    maya.printSummary();
+    std::cout &lt;&lt; "Open accounts: " &lt;&lt; BankAccount::accountCount() &lt;&lt; std::endl;
+    return 0;
+}</code></pre>
+    </div>
+
+    <div class="output-box"><span class="lbl">Expected output</span>Ravi has balance: 1250
+Maya has balance: 400
+Open accounts: 2</div>
+
+    <div class="quickguide">
+      <p class="qg-title">Run it in VS Code</p>
+      <ol>
+        <li>Create a folder such as <code>module1-try-now</code> and open it in VS Code.</li>
+        <li>Create <code>program.cpp</code>, paste the code above, and save it.</li>
+        <li>Open <strong>Terminal → New Terminal</strong> and compile: <code>g++ -std=c++17 program.cpp -o program</code></li>
+        <li>Run it on Windows with <code>program.exe</code>, or on Linux/macOS with <code>./program</code>.</li>
+        <li>Try a valid withdrawal and an amount larger than the balance. Read the returned <code>bool</code> and compare the output.</li>
+      </ol>
+    </div>
+
+    <div class="task-card">
+      <div class="task-label">Homework / assessment</div>
+      <h3>Add transfers and account validation</h3>
+      <p>Create your own <code>program.cpp</code> that extends the bank account program with:</p>
+      <ul>
+        <li>a <code>transferTo</code> member function that moves money between two accounts;</li>
+        <li>a rejected transfer when the source has insufficient funds;</li>
+        <li>a clear transaction message and final summary for both customers.</li>
+      </ul>
+      <p class="hint-title">Hints, not the answer</p>
+      <ul class="hint-list">
+        <li>Use references for the destination account so the real object is changed.</li>
+        <li>Reuse <code>withdraw</code> and <code>deposit</code> instead of changing <code>balance</code> directly.</li>
+        <li>Return <code>true</code> only after the source withdrawal succeeds.</li>
+      </ul>
+    </div>
+
+    <div class="submission-card">
+      <strong>Submit for evaluation</strong>
+      <p>Send your finished <code>program.cpp</code> to the trainer's cohort email. Use your name in both places:</p>
+      <div><b>Subject:</b> <code>Module 1 Task - Your Name - program.cpp</code></div>
+      <div><b>Body:</b> <code>Your Name | Module 1 | compiler used | result you observed</code></div>
+      <p>Attach the exact file you compiled. Include one sentence describing how your program handles a failed transfer.</p>
+    </div>
+  </section>
+
+</div>
+
+</main>
+</div>
+
+<footer>
+  Module 1 of 11 · Enterprise C++ Training Programme · Prepared by <strong>Raushan Ranjan</strong> · Koenig Solutions
+</footer>
+
+<script>
+// ============================================================
+// Enterprise C++ Handbook — shared behaviour
+// ============================================================
+
+function initSidebar(){
+  const toggle = document.querySelector('.sidebar-toggle');
+  const sidebar = document.querySelector('.sidebar-left');
+  if(!toggle || !sidebar) return;
+  const desktop = window.matchMedia('(min-width: 861px)');
+  toggle.setAttribute('aria-expanded', 'true');
+  toggle.addEventListener('click', () => {
+    if(desktop.matches){
+      const collapsed = document.body.classList.toggle('sidebar-collapsed');
+      toggle.setAttribute('aria-expanded', String(!collapsed));
+    } else {
+      sidebar.classList.toggle('open');
+    }
+  });
+  sidebar.querySelectorAll('a:not(.nav-day-toggle)').forEach(link => link.addEventListener('click', () => sidebar.classList.remove('open')));
+}
+
+function initNavGroups(){
+  document.querySelectorAll('.nav-day').forEach(day => {
+    const toggle = day.querySelector(':scope > .nav-day-toggle');
+    const body = day.querySelector(':scope > .nav-day-body');
+    if(!toggle || !body) return;
+    toggle.setAttribute('aria-expanded', String(day.dataset.open === 'true'));
+    toggle.addEventListener('click', event => {
+      event.preventDefault();
+      const open = day.dataset.open === 'true';
+      day.dataset.open = String(!open);
+      toggle.setAttribute('aria-expanded', String(!open));
+    });
+  });
+}
+
+function initNavModules(){
+  document.querySelectorAll('.nav-module').forEach(module => {
+    const label = module.querySelector(':scope > .nav-module-label');
+    const content = module.querySelector(':scope > .nav-topics, :scope > .nav-tabs');
+    if(!label || !content) return;
+    module.dataset.open = module.dataset.open || 'true';
+    label.setAttribute('role', 'button');
+    label.setAttribute('tabindex', '0');
+    label.setAttribute('aria-expanded', String(module.dataset.open === 'true'));
+    const toggle = () => {
+      const open = module.dataset.open === 'true';
+      module.dataset.open = String(!open);
+      label.setAttribute('aria-expanded', String(!open));
+    };
+    label.addEventListener('click', toggle);
+    label.addEventListener('keydown', event => {
+      if(event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        toggle();
+      }
+    });
+  });
+}
+
+// ---- Tab switching (per module page) ----
+function initTabs(){
+  const bar = document.querySelector('.tabbar');
+  if(!bar) return;
+  const buttons = [...document.querySelectorAll('.tabbar button, .nav-tab')];
+  const panels = [...document.querySelectorAll('.tabpanel')];
+
+  function activate(id, updateHash){
+    buttons.forEach(b => b.classList.toggle('active', b.dataset.tab === id));
+    panels.forEach(p => p.classList.toggle('active', p.id === id));
+    if(updateHash) history.replaceState(null, '', '#' + id);
+  }
+
+  buttons.forEach(b => b.addEventListener('click', () => activate(b.dataset.tab, true)));
+
+  const initial = (location.hash || '').replace('#', '');
+  if(initial && buttons.some(b => b.dataset.tab === initial)){
+    activate(initial, false);
+  } else if(buttons.length){
+    activate(buttons[0].dataset.tab, false);
+  }
+}
+
+// ---- Copy-to-clipboard on code cards ----
+function initCopyButtons(){
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const card = btn.closest('.code-card');
+      const codeEl = card.querySelector('code');
+      const text = codeEl.innerText;
+      try{
+        await navigator.clipboard.writeText(text);
+      }catch(e){
+        const ta = document.createElement('textarea');
+        ta.value = text; document.body.appendChild(ta); ta.select();
+        document.execCommand('copy'); document.body.removeChild(ta);
+      }
+      const original = btn.textContent;
+      btn.textContent = 'Copied ✓';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = original; btn.classList.remove('copied'); }, 1600);
+    });
+  });
+}
+
+// ---- Star ratings (stored locally in the trainer / learner's browser) ----
+function initRatings(){
+  document.querySelectorAll('.stars').forEach(starRow => {
+    const key = 'rrcpp_rating_' + starRow.dataset.module;
+    const stars = [...starRow.querySelectorAll('.star')];
+    const noteEl = starRow.parentElement.querySelector('.rating-note');
+
+    function paint(value){
+      stars.forEach((s, i) => s.classList.toggle('filled', i < value));
+    }
+    function saved(){ return parseInt(localStorage.getItem(key) || '0', 10); }
+
+    paint(saved());
+    if(noteEl && saved()) noteEl.textContent = 'Your rating: ' + saved() + '/5';
+
+    stars.forEach((s, i) => {
+      s.addEventListener('mouseenter', () => paint(i + 1));
+      s.addEventListener('mouseleave', () => paint(saved()));
+      s.addEventListener('click', () => {
+        localStorage.setItem(key, String(i + 1));
+        paint(i + 1);
+        if(noteEl) noteEl.textContent = 'Your rating: ' + (i + 1) + '/5 — thanks!';
+      });
+    });
+  });
+}
+
+// ---- Very small C++ syntax highlighter (keywords / strings / comments / types) ----
+function highlightCode(){
+  const KEYWORDS = ['class','struct','public','private','protected','virtual','override',
+    'static','const','friend','return','if','else','for','while','do','switch','case',
+    'break','continue','new','delete','this','namespace','using','template','typename',
+    'try','catch','throw','void','true','false','nullptr','explicit','default','sizeof',
+    'auto','enum','union','operator','inline','extern','constexpr','noexcept','mutable'];
+  const TYPES = ['int','double','float','char','bool','string','long','short','unsigned',
+    'size_t','vector','map','set','queue','stack','list','pair','shared_ptr','unique_ptr',
+    'thread','mutex','future','ostream','istream'];
+  const kwRe = new RegExp('\\b(' + KEYWORDS.join('|') + ')\\b', 'g');
+  const typeRe = new RegExp('\\b(' + TYPES.join('|') + ')\\b', 'g');
+
+  document.querySelectorAll('.code-card pre code').forEach(el => {
+    let src = el.textContent;
+    // Escape HTML first
+    src = src.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    // Tokenize line by line to keep comments/strings from crossing lines badly
+    const lines = src.split('\n').map(line => {
+      // Protect string literals
+      let out = '';
+      let i = 0;
+      let commentIdx = line.indexOf('//');
+      let codePart = commentIdx >= 0 ? line.slice(0, commentIdx) : line;
+      let commentPart = commentIdx >= 0 ? line.slice(commentIdx) : '';
+      // Strings within codePart
+      const strings = [];
+      codePart = codePart.replace(/"([^"\\]|\\.)*"/g, m => {
+        const token = `__CPP_STRING_${strings.length}__`;
+        strings.push(`<span class="str">${m}</span>`);
+        return token;
+      });
+      codePart = codePart.replace(kwRe, m => `<span class="kw">${m}</span>`);
+      codePart = codePart.replace(typeRe, m => `<span class="typ">${m}</span>`);
+      strings.forEach((markup, index) => {
+        codePart = codePart.replace(`__CPP_STRING_${index}__`, markup);
+      });
+      out = codePart + (commentPart ? `<span class="cmt">${commentPart}</span>` : '');
+      return out;
+    });
+    el.innerHTML = lines.join('\n');
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  initSidebar();
+  initNavGroups();
+  initNavModules();
+  initTabs();
+  initCopyButtons();
+  initRatings();
+  highlightCode();
+});
+
+</script>
+</body>
+</html>

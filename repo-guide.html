@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How to Use the Repository | Enterprise C++ Handbook</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .guide-intro { max-width: 760px; margin-bottom: 34px; }
+    .guide-intro h1 { margin-bottom: 12px; }
+    .guide-intro p, .guide-step p { color: var(--text-muted); line-height: 1.7; }
+    .guide-grid { display: grid; gap: 16px; max-width: 920px; }
+    .guide-step { padding: 22px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+    .guide-step h2 { margin: 0 0 8px; font-size: 20px; }
+    .guide-step h3 { margin: 18px 0 8px; font-size: 15px; }
+    .guide-number { color: var(--accent-dark); font-family: var(--mono); font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+    .guide-step pre { margin: 12px 0; padding: 16px; overflow-x: auto; background: var(--code-bg); border: 1px solid var(--code-border); border-radius: var(--radius-sm); color: var(--text); font-family: var(--mono); font-size: 13px; line-height: 1.65; }
+    .guide-step ul { color: var(--text-muted); line-height: 1.7; padding-left: 22px; }
+    .guide-callout { padding: 16px; border-left: 3px solid var(--accent); background: var(--accent-soft); color: var(--text-muted); }
+    .guide-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="sidebar-toggle" type="button" aria-label="Toggle course navigation" aria-expanded="true">☰</button>
+      <a href="index.html" class="brand"><span class="brand-mark">C++</span><span class="brand-text">Enterprise C++ Handbook<small>Personal notes by Raushan Ranjan</small></span></a>
+    </div>
+    <div class="topbar-right"><a href="index.html">Course home</a><a href="module-authoring-context.html">Study flow</a></div>
+  </header>
+  <div class="app-layout">
+    <aside class="sidebar-left">
+      <div class="sidebar-content">
+        <div class="sidebar-section-title">Start here</div>
+        <nav class="nav-tree" aria-label="Guide navigation">
+          <div class="nav-day" data-open="true">
+            <a class="nav-day-toggle" href="#start" aria-expanded="true"><span class="nav-day-icon">◐</span><span class="nav-day-label">Repository</span><span class="nav-day-chevron">›</span></a>
+            <div class="nav-day-body">
+              <div class="nav-module" data-open="true"><div class="nav-module-label">Guide sections</div><ul class="nav-topics"><li class="nav-topic"><a href="#setup">Setup</a></li><li class="nav-topic"><a href="#sequence">Sequence</a></li><li class="nav-topic"><a href="#workflow">Daily workflow</a></li></ul></div>
+            </div>
+          </div>
+        </nav>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-section-title">Course</div>
+        <ul class="sidebar-resources"><li><a href="index.html">Course overview</a></li><li><a href="module0.html">Module 0</a></li><li><a href="module1.html">Module 1</a></li><li><a href="module2.html">Module 2</a></li><li><a href="module3.html">Module 3</a></li></ul>
+      </div>
+    </aside>
+    <main class="main-content">
+      <div class="guide-intro" id="start">
+        <div class="eyebrow">Student guide</div>
+        <h1>How to use the notes and sample-code repository</h1>
+        <p>Use this page every time you practise. Read the matching handbook topic first, open the suggested repository folder, run one example, and then make one small change. You are not only reading C++; you are building a habit of compiling, observing, and explaining.</p>
+        <div class="guide-callout"><strong>The learning loop:</strong> read the note → open the folder → compile → run → change one line → run again → explain the output.</div>
+      </div>
+      <div class="guide-grid">
+        <section class="guide-step" id="setup">
+          <div class="guide-number">01 · Setup once</div>
+          <h2>Prepare VS Code and a compiler</h2>
+          <p>VS Code is your editor. You still need a compiler such as GCC/G++, Clang, or MSVC. Open the repository folder in VS Code, then open <strong>Terminal → New Terminal</strong>.</p>
+          <pre>cd path\to\Advanced-cpp-sample-codes
+code .</pre>
+          <p>Check that the compiler is available:</p>
+          <pre>g++ --version</pre>
+          <p>On Windows with MinGW, run the executable with <code>.exe</code>. On Linux/macOS, run it with <code>./</code>.</p>
+        </section>
+        <section class="guide-step" id="sequence">
+          <div class="guide-number">02 · Follow the sequence</div>
+          <h2>Open folders in course order</h2>
+          <p>Start with the numbered folders. The number is the classroom order, while the original folder name remains visible after the prefix.</p>
+          <ul>
+            <li><code>01-Structs</code> → basic data modelling</li>
+            <li><code>02-FunctionsLearning</code> → functions and reuse</li>
+            <li><code>03-Datatype-modifiers</code> → types and modifiers</li>
+            <li><code>04-Conditional-Iterators</code> → decisions and loops</li>
+            <li><code>05-Array</code> → arrays and collections</li>
+            <li><code>06-Strings</code> → text processing</li>
+            <li><code>07-Pointers</code> → addresses and ownership foundations</li>
+            <li><code>08-ClassesandObjects</code> → classes, inheritance examples, and Module 1/2 references</li>
+            <li><code>09-Operators</code> → operator examples for Module 3</li>
+            <li><code>10-ExceptionHandling</code> onward → robustness, STL, smart pointers, threading, networking, and linking</li>
+          </ul>
+          <p>Do not jump to a later folder because the filename looks interesting. If a later example uses a name you do not know, return to the earlier folder and run the smaller example first.</p>
+        </section>
+        <section class="guide-step" id="workflow">
+          <div class="guide-number">03 · Run one example</div>
+          <h2>Read, compile, run, change</h2>
+          <p>For example, open <code>01-Structs</code>, choose a <code>.cpp</code> file, and compile from that folder:</p>
+          <pre>g++ -std=c++17 example.cpp -o example</pre>
+          <p>Run it:</p>
+          <pre>Windows: example.exe
+Linux/macOS: ./example</pre>
+          <p>Write down what you expected and what you observed. Then change one input, label, or calculation and compile again. If the output changes, explain why before moving on.</p>
+        </section>
+        <section class="guide-step">
+          <div class="guide-number">04 · Connect it to the handbook</div>
+          <h2>Use the notes as your map</h2>
+          <ul>
+            <li>Module 0 explains the compiler, syntax, namespaces, terminal, and C versus C++.</li>
+            <li>Module 1 explains classes through the banking case study and points to <code>08-ClassesandObjects</code>.</li>
+            <li>Module 2 explains inheritance and dynamic binding before you inspect the shape examples.</li>
+            <li>Module 3 explains overloading before you inspect <code>09-Operators</code>.</li>
+          </ul>
+          <div class="guide-links"><a class="btn btn-primary" href="index.html">Open course home</a><a class="btn btn-ghost" href="module-authoring-context.html">Open study flow guide</a></div>
+        </section>
+      </div>
+      <footer class="page-footer">Personal notes by Raushan Ranjan · Enterprise C++ Handbook</footer>
+    </main>
+  </div>
+  <script>
+    function initGuideNav() {
+      const toggle = document.querySelector('.sidebar-toggle');
+      const sidebar = document.querySelector('.sidebar-left');
+      if (!toggle || !sidebar) return;
+      const desktop = window.matchMedia('(min-width: 861px)');
+      toggle.addEventListener('click', () => {
+        if (desktop.matches) document.body.classList.toggle('sidebar-collapsed');
+        else sidebar.classList.toggle('open');
+      });
+      sidebar.querySelectorAll('a:not(.nav-day-toggle)').forEach((link) => link.addEventListener('click', () => sidebar.classList.remove('open')));
+      sidebar.querySelectorAll('.nav-module-label').forEach((label) => {
+        const module = label.parentElement;
+        const content = module.querySelector(':scope > .nav-topics, :scope > .nav-tabs');
+        if (!content) return;
+        label.setAttribute('role', 'button');
+        label.setAttribute('tabindex', '0');
+        label.setAttribute('aria-expanded', 'true');
+        const toggleModule = () => {
+          const open = module.dataset.open !== 'false';
+          module.dataset.open = String(!open);
+          label.setAttribute('aria-expanded', String(!open));
+        };
+        label.addEventListener('click', toggleModule);
+        label.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            toggleModule();
+          }
+        });
+      });
+    }
+    initGuideNav();
+  </script>
+</body>
+</html>

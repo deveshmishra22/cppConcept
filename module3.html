@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Module 3: Compile-time Polymorphism | Enterprise C++ Handbook</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-lockup">
+      <div class="brand-mark">C++</div>
+      <div>
+        <div class="brand-title">Enterprise C++ Handbook</div>
+        <div class="brand-subtitle">Personal notes by Raushan Ranjan</div>
+      </div>
+    </div>
+    <button class="sidebar-toggle" type="button" aria-label="Toggle navigation" aria-expanded="true">☰</button>
+  </header>
+  <div class="app-layout">
+    <aside class="sidebar-left" aria-label="Course navigation">
+      <div class="sidebar-content">
+        <div class="sidebar-section-title">Course map</div>
+        <nav class="nav-tree" aria-label="Course navigation">
+          <div class="nav-day">
+            <a class="nav-day-toggle" href="index.html#day1" aria-expanded="false"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 1</span><span class="nav-day-subtitle">Foundations</span><span class="nav-day-chevron">›</span></a>
+            <div class="nav-day-body">
+              <div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module0.html">Foundation Enhancer</a></li><li class="nav-topic"><a href="module1.html">C++ Basics</a></li></ul></div>
+            </div>
+          </div>
+          <div class="nav-day" data-open="true">
+            <a class="nav-day-toggle" href="index.html#day2" aria-expanded="true"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 2</span><span class="nav-day-subtitle">Polymorphism</span><span class="nav-day-chevron">›</span></a>
+            <div class="nav-day-body">
+              <div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module2.html">Inheritance &amp; Polymorphism</a></li><li class="nav-topic"><a class="active" href="module3.html">Compile-time Polymorphism</a></li></ul></div>
+              <div class="nav-module"><div class="nav-module-label">Topics</div><div class="nav-tabs" aria-label="Module 3 topics">
+                <button class="nav-tab active" type="button" data-tab="t1">01 Function overloading</button>
+                <button class="nav-tab" type="button" data-tab="t2">02 Operator overloading</button>
+                <button class="nav-tab" type="button" data-tab="t3">03 Complex numbers</button>
+                <button class="nav-tab" type="button" data-tab="t4">04 Point comparison</button>
+              </div></div>
+            </div>
+          </div>
+          <div class="nav-day"><a class="nav-day-toggle" href="index.html#day3" aria-expanded="false"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 3</span><span class="nav-day-subtitle">Robustness</span><span class="nav-day-chevron">›</span></a></div>
+          <div class="nav-day"><a class="nav-day-toggle" href="index.html#day4" aria-expanded="false"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 4</span><span class="nav-day-subtitle">Modern C++</span><span class="nav-day-chevron">›</span></a></div>
+          <div class="nav-day"><a class="nav-day-toggle" href="index.html#day5" aria-expanded="false"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 5</span><span class="nav-day-subtitle">Networking</span><span class="nav-day-chevron">›</span></a></div>
+        </nav>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-section-title">Resources</div>
+        <ul class="sidebar-resources"><li><a href="https://github.com/raushan1107/Advanced-cpp-sample-codes" target="_blank" rel="noopener">↗ Source code</a></li><li><a href="index.html#day2">▣ Course overview</a></li></ul>
+      </div>
+    </aside>
+    <main class="main-content">
+      <section class="module-header">
+        <div class="eyebrow">Polymorphism · Module 3</div>
+        <h1>Compile-time polymorphism</h1>
+        <p class="lede">Let the compiler choose the right operation from the types and arguments we provide.</p>
+        <div class="module-meta"><span>⏱ Half day</span><span>▣ Guided practice</span><span>⌘ C++17</span></div>
+      </section>
+      <div class="tabs-wrap">
+        <div class="tabbar" role="tablist" aria-label="Module 3 topics">
+          <button class="tab active" type="button" data-tab="t1">Function overloading</button>
+          <button class="tab" type="button" data-tab="t2">Operator overloading</button>
+          <button class="tab" type="button" data-tab="t3">Complex numbers</button>
+          <button class="tab" type="button" data-tab="t4">Point comparison</button>
+        </div>
+        <section class="tabpanel active" id="t1">
+          <div class="section-kicker">01 · The idea</div>
+          <h2>One name, different parameter lists</h2>
+          <p>Function overloading lets related operations share one readable name. The compiler selects a function using the number, order, and types of arguments. The return type alone is not enough to create an overload.</p>
+          <div class="callout"><strong>Think of it like a C# method overload.</strong> The call site supplies the clue, and overload resolution happens before the program runs.</div>
+          <pre><code>int add(int left, int right);
+double add(double left, double right);
+
+add(2, 3);          // int version
+add(2.5, 3.5);      // double version</code></pre>
+        </section>
+        <section class="tabpanel" id="t2">
+          <div class="section-kicker">02 · The idea</div>
+          <h2>Make domain values feel natural</h2>
+          <p>Operator overloading gives a user-defined type meaningful behavior for familiar operators such as <code>+</code>, <code>==</code>, and <code>&lt;</code>. It does not invent a new operator or change how an operator works for built-in types.</p>
+          <div class="two-column">
+            <div class="mini-card"><strong>Good fit</strong><span>Value-like types such as money, points, vectors, and complex numbers.</span></div>
+            <div class="mini-card"><strong>Guardrail</strong><span>Keep the behavior predictable. A plus operator should not secretly delete a file.</span></div>
+          </div>
+          <pre><code>Complex operator+(const Complex&amp; other) const;
+bool operator==(const Point&amp; other) const;</code></pre>
+        </section>
+        <section class="tabpanel" id="t3">
+          <div class="section-kicker">03 · Worked concept</div>
+          <h2>Complex numbers as a value type</h2>
+          <p>A complex number has a real part and an imaginary part. Addition is performed component by component, which makes <code>operator+</code> a clear and useful abstraction.</p>
+          <pre><code>Complex first{2.0, 3.0};
+Complex second{1.5, 4.0};
+Complex total = first + second;
+
+// total is 3.5 + 7.0i</code></pre>
+          <p class="muted">The calling code expresses the problem, while the class owns the arithmetic rule.</p>
+        </section>
+        <section class="tabpanel" id="t4">
+          <div class="section-kicker">04 · Worked concept</div>
+          <h2>Comparing points safely</h2>
+          <p>A point comparison can mean different things. Here, equality means both coordinates match exactly. In production geometry code, decide explicitly whether floating-point tolerance is required.</p>
+          <pre><code>Point expected{10, 20};
+Point actual{10, 20};
+
+if (actual == expected) {
+    std::cout &lt;&lt; "Coordinates match\n";
+}</code></pre>
+          <div class="callout"><strong>Design question:</strong> Before overloading an operator, write one sentence describing what the operator means for your type.</div>
+        </section>
+      </div>
+      <section class="try-now">
+        <div class="section-kicker">Try now · Build it progressively</div>
+        <h2>Compile, run, observe, then extend</h2>
+        <p>Create each file in a practice folder, paste the code, and run the command. Each step adds one idea.</p>
+        <article class="practice-step">
+          <div class="step-number">01</div>
+          <div class="step-body">
+            <h3>Overload a calculator function</h3>
+            <pre><code>#include &lt;iostream&gt;
+
+int add(int left, int right) { return left + right; }
+double add(double left, double right) { return left + right; }
+
+int main() {
+    std::cout &lt;&lt; add(2, 3) &lt;&lt; '\n';
+    std::cout &lt;&lt; add(2.5, 3.5) &lt;&lt; '\n';
+}</code></pre>
+            <div class="run-row"><code>g++ -std=c++17 step1_calculator.cpp -o step1_calculator &amp;&amp; ./step1_calculator</code><span>Output: 5, then 6</span></div>
+          </div>
+        </article>
+        <article class="practice-step">
+          <div class="step-number">02</div>
+          <div class="step-body">
+            <h3>Add two complex values</h3>
+            <pre><code>#include &lt;iostream&gt;
+
+class Complex {
+    double real_;
+    double imaginary_;
+public:
+    Complex(double real, double imaginary) : real_(real), imaginary_(imaginary) {}
+    Complex operator+(const Complex&amp; other) const {
+        return {real_ + other.real_, imaginary_ + other.imaginary_};
+    }
+    void print() const { std::cout &lt;&lt; real_ &lt;&lt; " + " &lt;&lt; imaginary_ &lt;&lt; "i\n"; }
+};
+
+int main() {
+    (Complex{2, 3} + Complex{1.5, 4}).print();
+}</code></pre>
+            <div class="run-row"><code>g++ -std=c++17 step2_complex.cpp -o step2_complex &amp;&amp; ./step2_complex</code><span>Output: 3.5 + 7i</span></div>
+          </div>
+        </article>
+        <article class="practice-step">
+          <div class="step-number">03</div>
+          <div class="step-body">
+            <h3>Compare two points</h3>
+            <pre><code>#include &lt;iostream&gt;
+
+struct Point {
+    int x;
+    int y;
+    bool operator==(const Point&amp; other) const {
+        return x == other.x &amp;&amp; y == other.y;
+    }
+};
+
+int main() {
+    Point saved{10, 20};
+    Point received{10, 20};
+    std::cout &lt;&lt; (saved == received ? "match" : "different") &lt;&lt; '\n';
+}</code></pre>
+            <div class="run-row"><code>g++ -std=c++17 step3_point.cpp -o step3_point &amp;&amp; ./step3_point</code><span>Output: match</span></div>
+          </div>
+        </article>
+      </section>
+      <section class="complete-program">
+        <div class="section-kicker">Complete use case</div>
+        <h2>Geometry inspection report</h2>
+        <p>This program combines an overloaded function with operator overloads. It checks whether two recorded points match and calculates two measurements.</p>
+        <pre><code>#include &lt;iostream&gt;
+
+struct Point {
+    int x;
+    int y;
+    bool operator==(const Point&amp; other) const {
+        return x == other.x &amp;&amp; y == other.y;
+    }
+};
+
+int total(int first, int second) { return first + second; }
+double total(double first, double second) { return first + second; }
+
+int main() {
+    Point expected{120, 80};
+    Point measured{120, 80};
+
+    std::cout &lt;&lt; "Point check: "
+              &lt;&lt; (expected == measured ? "PASS" : "REVIEW") &lt;&lt; '\n';
+    std::cout &lt;&lt; "Integer total: " &lt;&lt; total(120, 80) &lt;&lt; '\n';
+    std::cout &lt;&lt; "Decimal total: " &lt;&lt; total(12.5, 7.25) &lt;&lt; '\n';
+}</code></pre>
+        <div class="run-row"><code>g++ -std=c++17 program.cpp -o program &amp;&amp; ./program</code><span>Point check: PASS · Integer total: 200 · Decimal total: 19.75</span></div>
+      </section>
+      <section class="homework-card">
+        <div class="section-kicker">Homework · Assessment</div>
+        <h2>Extend the geometry report</h2>
+        <p>Add a <code>Rectangle</code> type with <code>width</code> and <code>height</code>. Provide an <code>area()</code> function and overload <code>==</code> so two rectangles can be compared.</p>
+        <div class="hint-list">
+          <strong>Hints</strong>
+          <span>Keep dimensions private if you use a class.</span>
+          <span>Return the area as a numeric value rather than printing from the calculation.</span>
+          <span>Test one matching pair and one different pair.</span>
+        </div>
+        <p class="submission-note"><strong>Submit:</strong> Save your solution as <code>program.cpp</code> and email it for evaluation. Put your name in the email subject and in the message body.</p>
+      </section>
+      <footer class="page-footer">Personal notes by Raushan Ranjan · Enterprise C++ Handbook</footer>
+    </main>
+  </div>
+  <script>
+    function initSidebar() {
+      const toggle = document.querySelector('.sidebar-toggle');
+      const sidebar = document.querySelector('.sidebar-left');
+      if (!toggle || !sidebar) return;
+      toggle.addEventListener('click', () => {
+        const desktop = window.matchMedia('(min-width: 861px)').matches;
+        if (desktop) document.body.classList.toggle('sidebar-collapsed');
+        else sidebar.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', String(desktop
+          ? !document.body.classList.contains('sidebar-collapsed')
+          : sidebar.classList.contains('open')));
+      });
+      sidebar.querySelectorAll('a:not(.nav-day-toggle)').forEach((link) => {
+        link.addEventListener('click', () => sidebar.classList.remove('open'));
+      });
+    }
+    function initNavGroups() {
+      document.querySelectorAll('.nav-day').forEach((day) => {
+        const toggle = day.querySelector(':scope > .nav-day-toggle');
+        const body = day.querySelector(':scope > .nav-day-body');
+        if (!toggle || !body) return;
+        toggle.setAttribute('aria-expanded', String(day.dataset.open === 'true'));
+        toggle.addEventListener('click', (event) => {
+          event.preventDefault();
+          const open = day.dataset.open === 'true';
+          day.dataset.open = String(!open);
+          toggle.setAttribute('aria-expanded', String(!open));
+        });
+      });
+    }
+    function initNavModules() {
+      document.querySelectorAll('.nav-module').forEach((module) => {
+        const label = module.querySelector(':scope > .nav-module-label');
+        const content = module.querySelector(':scope > .nav-topics, :scope > .nav-tabs');
+        if (!label || !content) return;
+        module.dataset.open = module.dataset.open || 'true';
+        label.setAttribute('role', 'button');
+        label.setAttribute('tabindex', '0');
+        label.setAttribute('aria-expanded', String(module.dataset.open === 'true'));
+        const toggle = () => {
+          const open = module.dataset.open === 'true';
+          module.dataset.open = String(!open);
+          label.setAttribute('aria-expanded', String(!open));
+        };
+        label.addEventListener('click', toggle);
+        label.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            toggle();
+          }
+        });
+      });
+    }
+    function initTabs() {
+      const controls = document.querySelectorAll('.tabbar button, .nav-tab');
+      const panels = document.querySelectorAll('.tabpanel');
+      controls.forEach((control) => control.addEventListener('click', () => {
+        const target = control.dataset.tab;
+        controls.forEach((item) => item.classList.toggle('active', item.dataset.tab === target));
+        panels.forEach((panel) => panel.classList.toggle('active', panel.id === target));
+      }));
+    }
+    function initCopyButtons() {
+      document.querySelectorAll('pre').forEach((block) => {
+        const button = document.createElement('button');
+        button.className = 'copy-code';
+        button.type = 'button';
+        button.textContent = 'Copy';
+        block.appendChild(button);
+        button.addEventListener('click', async () => {
+          await navigator.clipboard.writeText(block.querySelector('code').innerText);
+          button.textContent = 'Copied';
+          setTimeout(() => { button.textContent = 'Copy'; }, 1200);
+        });
+      });
+    }
+    initSidebar();
+    initNavGroups();
+    initNavModules();
+    initTabs();
+    initCopyButtons();
+  </script>
+</body>
+</html>

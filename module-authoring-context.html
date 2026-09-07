@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Study Flow Guide | Enterprise C++ Handbook</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .study-content { max-width: 900px; }
+    .study-content h1 { margin-bottom: 12px; }
+    .study-content > p { max-width: 72ch; color: var(--text-muted); line-height: 1.7; }
+    .study-section { margin: 30px 0; padding: 22px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+    .study-section h2 { margin: 0 0 12px; font-size: 21px; }
+    .study-section h3 { margin: 20px 0 8px; font-size: 15px; color: var(--text); }
+    .study-section p, .study-section li { color: var(--text-muted); line-height: 1.7; }
+    .study-section ul, .study-section ol { padding-left: 22px; }
+    .study-section code { color: var(--accent-dark); }
+    .study-callout { margin-top: 18px; padding: 15px 17px; border-left: 3px solid var(--accent); background: var(--accent-soft); color: var(--text-muted); }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="sidebar-toggle" type="button" aria-label="Toggle course navigation" aria-expanded="true">☰</button>
+      <a href="index.html" class="brand"><span class="brand-mark">C++</span><span class="brand-text">Enterprise C++ Handbook<small>Personal notes by Raushan Ranjan</small></span></a>
+    </div>
+    <div class="topbar-right"><a href="index.html">Course home</a><a href="repo-guide.html">Repository guide</a></div>
+  </header>
+  <div class="app-layout">
+    <aside class="sidebar-left">
+      <div class="sidebar-content">
+        <div class="sidebar-section-title">Study flow</div>
+        <nav class="nav-tree" aria-label="Study flow navigation">
+          <div class="nav-day" data-open="true">
+            <a class="nav-day-toggle" href="#method" aria-expanded="true"><span class="nav-day-icon">◐</span><span class="nav-day-label">Learning method</span><span class="nav-day-chevron">›</span></a>
+            <div class="nav-day-body">
+              <div class="nav-module" data-open="true"><div class="nav-module-label">What to do</div><ul class="nav-topics"><li class="nav-topic"><a href="#module-shape">Module pattern</a></li><li class="nav-topic"><a href="#try-now">Try now</a></li><li class="nav-topic"><a href="#submit">Assessment</a></li></ul></div>
+            </div>
+          </div>
+        </nav>
+        <div class="sidebar-divider"></div>
+        <ul class="sidebar-resources"><li><a href="repo-guide.html">Repository guide</a></li><li><a href="index.html">Course overview</a></li></ul>
+      </div>
+    </aside>
+    <main class="main-content">
+      <div class="study-content" id="method">
+        <div class="eyebrow">Student-friendly learning instructions</div>
+        <h1>How to study each C++ module</h1>
+        <p>I want you to use these notes actively. Do not only read a code block and move on. Read the explanation, copy the small program into VS Code, compile it, see the output, change one thing, and then explain the result in your own words.</p>
+        <section class="study-section" id="module-shape">
+          <h2>Every module follows the same path</h2>
+          <ol>
+            <li>Start with the purpose: understand why this C++ feature exists.</li>
+            <li>Learn the syntax words before the larger example uses them.</li>
+            <li>Open the Try now section and create each file with the exact filename shown.</li>
+            <li>Run the command, read the output, and compare it with the expected result.</li>
+            <li>Open the complete <code>program.cpp</code> use case and run it separately.</li>
+            <li>Complete the homework by extending the same program, not by starting an unrelated project.</li>
+          </ol>
+          <div class="study-callout"><strong>Simple rule:</strong> If you cannot explain the output, stop and run the smaller previous step again. That is learning, not failure.</div>
+        </section>
+        <section class="study-section" id="try-now">
+          <h2>How to use Try now</h2>
+          <p>Create a practice folder, for example <code>module3-practice</code>. In VS Code, create the file named by the lesson. Paste the complete snippet into that file.</p>
+          <h3>Compile</h3>
+          <p>Use the command shown in the lesson, normally:</p>
+          <p><code>g++ -std=c++17 step1_example.cpp -o step1_example</code></p>
+          <h3>Run</h3>
+          <p>On Windows run <code>step1_example.exe</code>. On Linux/macOS run <code>./step1_example</code>. If the terminal shows an error, read the first error line, check the filename, and compile again after fixing one issue.</p>
+          <h3>Change one thing</h3>
+          <p>Change one input, one printed message, or one calculation. Do not change five things at once. Run the same command again and write down what changed.</p>
+        </section>
+        <section class="study-section" id="submit">
+          <h2>How to complete the assessment</h2>
+          <p>Use the complete use case as your starting point. Add only the requested continuation feature and keep the file named <code>program.cpp</code>. Compile the exact file you plan to submit.</p>
+          <h3>Send your result</h3>
+          <p>Send your finished <code>program.cpp</code> to the trainer's cohort email. Use your name in both places.</p>
+          <p><strong>Subject:</strong> <code>Module N Task - Your Name - program.cpp</code></p>
+          <p><strong>Body:</strong> <code>Your Name | Module N | compiler used | result you observed</code></p>
+          <p>Attach the exact file you compiled and briefly describe any different output or failed test.</p>
+        </section>
+        <section class="study-section">
+          <h2>What I expect from your code</h2>
+          <ul>
+            <li>Use the language feature taught in that module.</li>
+            <li>Keep the program small enough to explain line by line.</li>
+            <li>Use meaningful names and format the code clearly.</li>
+            <li>Submit hints-based work; do not wait for a complete homework answer.</li>
+            <li>Tell me what worked, what failed, and what you tried.</li>
+          </ul>
+        </section>
+      </div>
+      <footer class="page-footer">Personal notes by Raushan Ranjan · Enterprise C++ Handbook</footer>
+    </main>
+  </div>
+  <script>
+    const toggle = document.querySelector('.sidebar-toggle');
+    const sidebar = document.querySelector('.sidebar-left');
+    if (toggle && sidebar) {
+      const desktop = window.matchMedia('(min-width: 861px)');
+      toggle.addEventListener('click', () => {
+        if (desktop.matches) document.body.classList.toggle('sidebar-collapsed');
+        else sidebar.classList.toggle('open');
+      });
+      sidebar.querySelectorAll('a:not(.nav-day-toggle)').forEach((link) => link.addEventListener('click', () => sidebar.classList.remove('open')));
+      sidebar.querySelectorAll('.nav-module-label').forEach((label) => {
+        const module = label.parentElement;
+        const content = module.querySelector(':scope > .nav-topics, :scope > .nav-tabs');
+        if (!content) return;
+        label.setAttribute('role', 'button');
+        label.setAttribute('tabindex', '0');
+        label.setAttribute('aria-expanded', 'true');
+        const toggleModule = () => {
+          const open = module.dataset.open !== 'false';
+          module.dataset.open = String(!open);
+          label.setAttribute('aria-expanded', String(!open));
+        };
+        label.addEventListener('click', toggleModule);
+        label.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            toggleModule();
+          }
+        });
+      });
+    }
+  </script>
+</body>
+</html>

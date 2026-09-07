@@ -1,0 +1,1293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 0: Foundation Enhancer — Enterprise C++ Handbook</title>
+<style>
+/* ============================================================
+   Enterprise C++ Handbook — shared design system
+   Theme: "Blueprint" — schematic navy + phosphor amber,
+   evoking memory diagrams / compiled output / terminal traces.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap');
+
+:root{
+  --bg:        #0b1420;
+  --bg-grid:   #101d2e;
+  --surface:   #121d2e;
+  --surface-2: #16233a;
+  --border:    #23374f;
+  --border-soft: #1b2b40;
+  --text:      #e8edf4;
+  --text-dim:  #93a5bd;
+  --text-faint:#5d7290;
+  --amber:     #ffb454;
+  --amber-dim: #7a5a2c;
+  --cyan:      #5ecbff;
+  --green:     #6bcf8f;
+  --red:       #ff8080;
+  --radius:    10px;
+  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --head: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --body: 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:
+    linear-gradient(var(--bg-grid) 1px, transparent 1px) 0 0/100% 28px,
+    linear-gradient(90deg, var(--bg-grid) 1px, transparent 1px) 0 0/28px 100%,
+    var(--bg);
+  color:var(--text);
+  font-family:var(--body);
+  line-height:1.6;
+  font-size:16px;
+}
+
+a{color:inherit;}
+
+/* ---------- Top bar ---------- */
+.topbar{
+  position:sticky; top:0; z-index:40;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 28px;
+  background:rgba(11,20,32,0.92);
+  backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--border-soft);
+}
+.brand{
+  display:flex; align-items:center; gap:10px;
+  font-family:var(--head); font-weight:700; font-size:17px; letter-spacing:0.2px;
+  text-decoration:none; color:var(--text);
+}
+.brand .mark{
+  width:30px;height:30px;border-radius:7px;
+  background:linear-gradient(135deg,var(--amber),#c97a1f);
+  display:flex;align-items:center;justify-content:center;
+  color:#1a1204; font-family:var(--mono); font-weight:700; font-size:14px;
+}
+.brand small{
+  display:block; font-family:var(--body); font-weight:400; font-size:11.5px; color:var(--text-faint);
+}
+.topbar nav{display:flex; gap:22px; align-items:center; font-size:14px;}
+.topbar nav a{color:var(--text-dim); text-decoration:none; margin-left:22px;}
+.topbar nav a:first-child{margin-left:0;}
+.topbar nav a:hover{color:var(--amber);}
+.topbar .repo-link{
+  font-family:var(--mono); font-size:12.5px; color:var(--cyan);
+  border:1px solid var(--border); padding:6px 12px; border-radius:7px;
+  text-decoration:none;
+}
+.topbar .repo-link:hover{border-color:var(--cyan);}
+
+/* ---------- Hero ---------- */
+.hero{
+  padding:64px 28px 40px; max-width:1120px; margin:0 auto;
+}
+.hero .eyebrow{
+  font-family:var(--mono); color:var(--amber); font-size:13px; margin-bottom:14px;
+}
+.hero h1{
+  font-family:var(--head); font-size:clamp(32px,5vw,52px); line-height:1.08;
+  margin:0 0 18px; max-width:16ch; font-weight:700;
+}
+.hero p.lede{
+  color:var(--text-dim); font-size:17px; max-width:62ch; margin:0 0 28px;
+}
+.hero .stats{display:flex; gap:36px; flex-wrap:wrap; margin-top:8px;}
+.hero .stat b{display:block; font-family:var(--head); font-size:26px; color:var(--amber);}
+.hero .stat span{font-size:13px; color:var(--text-faint);}
+
+/* ---------- Day sections on landing page ---------- */
+.day-section{max-width:1120px; margin:0 auto; padding:8px 28px 54px;}
+.day-heading{
+  display:flex; align-items:baseline; gap:14px; margin:46px 0 18px;
+  border-top:1px solid var(--border-soft); padding-top:28px;
+}
+.day-heading:first-child{border-top:none; padding-top:0;}
+.day-heading .day-tag{
+  font-family:var(--mono); color:var(--bg); background:var(--amber);
+  font-size:13px; padding:4px 10px; border-radius:6px; font-weight:700; white-space:nowrap;
+}
+.day-heading h2{font-family:var(--head); font-size:20px; margin:0; font-weight:600;}
+.day-heading .day-status{font-size:12.5px; color:var(--text-faint); margin-left:auto; font-family:var(--mono);}
+
+.card-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px;}
+.card{
+  background:var(--surface); border:1px solid var(--border-soft); border-radius:var(--radius);
+  padding:20px; display:flex; flex-direction:column; gap:12px; position:relative;
+}
+.card.locked{opacity:0.55;}
+.card .module-tag{font-family:var(--mono); font-size:11.5px; color:var(--cyan);}
+.card h3{font-family:var(--head); font-size:17px; margin:0; font-weight:600;}
+.card p{font-size:13.5px; color:var(--text-dim); margin:0; flex-grow:1;}
+.card .topic-list{list-style:none; padding:0; margin:0; font-size:12.5px; color:var(--text-faint);}
+.card .topic-list li{padding:2px 0; padding-left:14px; position:relative;}
+.card .topic-list li::before{content:"›"; position:absolute; left:0; color:var(--amber);}
+.card-footer{display:flex; align-items:center; justify-content:space-between; margin-top:6px;}
+.btn{
+  font-family:var(--mono); font-size:13px; font-weight:600; text-decoration:none;
+  padding:9px 16px; border-radius:7px; border:1px solid transparent; cursor:pointer;
+  display:inline-flex; align-items:center; gap:7px;
+}
+.btn-primary{background:var(--amber); color:#1a1204;}
+.btn-primary:hover{background:#ffc372;}
+.btn-ghost{background:transparent; border-color:var(--border); color:var(--text-dim);}
+.btn-ghost:hover{border-color:var(--text-dim); color:var(--text);}
+.btn[disabled]{opacity:0.4; cursor:not-allowed;}
+
+.stars{display:flex; gap:3px; cursor:pointer;}
+.stars .star{font-size:16px; color:var(--border); transition:color .15s;}
+.stars .star.filled{color:var(--amber);}
+.rating-note{font-size:11px; color:var(--text-faint); margin-top:2px;}
+
+/* ---------- Module page ---------- */
+.module-header{max-width:1120px; margin:0 auto; padding:36px 28px 0;}
+.breadcrumb{font-family:var(--mono); font-size:12.5px; color:var(--text-faint); margin-bottom:14px;}
+.breadcrumb a{color:var(--cyan); text-decoration:none;}
+.module-header h1{font-family:var(--head); font-size:clamp(26px,4vw,38px); margin:0 0 10px;}
+.module-header .sub{color:var(--text-dim); max-width:70ch; font-size:15.5px; margin-bottom:20px;}
+.module-meta{display:flex; gap:22px; flex-wrap:wrap; margin-bottom:26px; font-size:13px; color:var(--text-faint); font-family:var(--mono);}
+.module-meta b{color:var(--text-dim); font-weight:600;}
+
+/* ---------- Tabs ---------- */
+.tabs-wrap{max-width:1120px; margin:0 auto; padding:0 28px 80px;}
+.tabbar{
+  display:flex; gap:4px; overflow-x:auto; border-bottom:1px solid var(--border-soft);
+  margin-bottom:32px; position:sticky; top:63px; background:var(--bg); z-index:30;
+  padding-top:6px;
+}
+.tabbar button{
+  font-family:var(--body); font-weight:600; font-size:14px; color:var(--text-faint);
+  background:none; border:none; padding:12px 18px; cursor:pointer; white-space:nowrap;
+  border-bottom:2px solid transparent; position:relative; top:1px;
+}
+.tabbar button .num{font-family:var(--mono); color:var(--text-faint); margin-right:8px; font-size:12px;}
+.tabbar button.active{color:var(--text); border-bottom-color:var(--amber);}
+.tabbar button.active .num{color:var(--amber);}
+.tabbar button:hover{color:var(--text);}
+
+.tabpanel{display:none;}
+.tabpanel.active{display:block; animation:fadein .25s ease;}
+@keyframes fadein{from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:translateY(0);}}
+
+/* ---------- Topic content blocks ---------- */
+.topic-intro{font-size:15.5px; color:var(--text-dim); max-width:72ch; margin-bottom:6px;}
+.block{margin:34px 0;}
+.block-label{
+  display:flex; align-items:center; gap:10px; margin-bottom:12px;
+}
+.block-label .tag{
+  font-family:var(--mono); font-size:12px; font-weight:700; padding:3px 9px; border-radius:5px;
+}
+.tag.why{background:rgba(94,203,255,0.12); color:var(--cyan); border:1px solid rgba(94,203,255,0.3);}
+.tag.what{background:rgba(255,180,84,0.12); color:var(--amber); border:1px solid rgba(255,180,84,0.3);}
+.tag.how{background:rgba(107,207,143,0.12); color:var(--green); border:1px solid rgba(107,207,143,0.3);}
+.block-label h4{font-family:var(--head); font-size:15px; margin:0; font-weight:600; color:var(--text);}
+.block .content{max-width:74ch; font-size:15px; color:var(--text-dim);}
+.block .content p{margin:0 0 12px;}
+.block .content ul{margin:0 0 12px; padding-left:20px;}
+.block .content li{margin-bottom:6px;}
+.block .content strong{color:var(--text);}
+.callout{
+  border-left:3px solid var(--cyan); background:var(--surface); padding:12px 16px;
+  border-radius:0 8px 8px 0; font-size:14px; color:var(--text-dim); max-width:70ch; margin:14px 0;
+}
+
+/* ---------- Code blocks ---------- */
+.code-card{
+  background:var(--surface); border:1px solid var(--border-soft); border-radius:var(--radius);
+  overflow:hidden; margin:16px 0 22px; max-width:820px;
+}
+.code-card .code-head{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:10px 14px; border-bottom:1px solid var(--border-soft); background:var(--surface-2);
+}
+.code-card .filename{font-family:var(--mono); font-size:12.5px; color:var(--text-dim);}
+.code-card .copy-btn{
+  font-family:var(--mono); font-size:11.5px; color:var(--text-faint); background:none;
+  border:1px solid var(--border); border-radius:5px; padding:4px 9px; cursor:pointer;
+}
+.code-card .copy-btn:hover{color:var(--text); border-color:var(--text-dim);}
+.code-card .copy-btn.copied{color:var(--green); border-color:var(--green);}
+.code-card pre{
+  margin:0; padding:16px 18px; overflow-x:auto; font-family:var(--mono); font-size:13px; line-height:1.65;
+}
+.code-card code{font-family:var(--mono);}
+.cmt{color:var(--text-faint);}
+.kw{color:var(--cyan);}
+.str{color:var(--green);}
+.typ{color:var(--amber);}
+
+.output-box{
+  background:#081019; border:1px solid var(--border-soft); border-left:3px solid var(--green);
+  border-radius:0 8px 8px 0; padding:12px 16px; max-width:820px; margin:0 0 22px;
+  font-family:var(--mono); font-size:12.5px; color:#a8e6bd; white-space:pre-wrap;
+}
+.output-box .lbl{display:block; font-family:var(--body); color:var(--green); font-size:11px; font-weight:600; margin-bottom:6px; letter-spacing:.3px;}
+
+/* ---------- Quick guide ---------- */
+.quickguide{
+  background:var(--surface); border:1px solid var(--border-soft); border-radius:var(--radius);
+  padding:18px 20px; max-width:820px; margin:20px 0 30px;
+}
+.quickguide .qg-title{font-family:var(--head); font-weight:600; font-size:14.5px; color:var(--amber); margin:0 0 12px; display:flex; align-items:center; gap:8px;}
+.quickguide ol{margin:0; padding-left:20px; font-size:14px; color:var(--text-dim);}
+.quickguide li{margin-bottom:8px;}
+.quickguide code{font-family:var(--mono); background:var(--surface-2); padding:1px 6px; border-radius:4px; font-size:12.5px; color:var(--cyan);}
+
+/* ---------- Download / case study strip ---------- */
+.dl-strip{
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  background:var(--surface-2); border:1px solid var(--border-soft); border-radius:var(--radius);
+  padding:14px 18px; margin:14px 0 30px; max-width:820px;
+}
+.dl-strip .icon{font-family:var(--mono); color:var(--amber); font-size:18px;}
+.dl-strip .txt{font-size:13.5px; color:var(--text-dim); flex-grow:1;}
+.dl-strip .txt b{color:var(--text); display:block; font-size:14px; margin-bottom:2px;}
+
+.case-banner{
+  border:1px dashed var(--amber-dim); background:rgba(255,180,84,0.06); border-radius:var(--radius);
+  padding:14px 18px; max-width:74ch; margin:24px 0; font-size:13.5px; color:var(--text-dim);
+}
+.case-banner b{color:var(--amber); font-family:var(--mono); font-size:12px; display:block; margin-bottom:5px;}
+
+/* ---------- Topic footer nav ---------- */
+.topic-nav{display:flex; justify-content:space-between; margin-top:48px; padding-top:24px; border-top:1px solid var(--border-soft);}
+.topic-nav .btn{font-family:var(--body);}
+
+/* ---------- Footer ---------- */
+footer{
+  border-top:1px solid var(--border-soft); padding:28px; text-align:center;
+  color:var(--text-faint); font-size:12.5px;
+}
+footer a{color:var(--cyan); text-decoration:none;}
+
+@media (max-width:640px){
+  .topbar nav{display:none;}
+  .hero{padding:44px 18px 28px;}
+  .day-section, .tabs-wrap, .module-header{padding-left:18px; padding-right:18px;}
+  .tabbar{top:57px;}
+}
+
+</style>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <button class="sidebar-toggle" type="button" aria-label="Open course navigation">☰</button>
+    <a href="index.html" class="brand">
+      <span class="brand-mark">C++</span>
+      <span class="brand-text">Enterprise C++ Handbook<small>by Raushan Ranjan · RR Skillverse</small></span>
+    </a>
+  </div>
+  <div class="topbar-center">
+    <label class="search-bar">
+      <span class="search-icon">⌕</span>
+      <input class="search-input" type="search" placeholder="Search the handbook" aria-label="Search the handbook">
+      <kbd class="search-kbd">⌘ K</kbd>
+    </label>
+  </div>
+  <div class="topbar-right">
+    <a href="index.html">All modules</a>
+    <a href="index.html#day1">Curriculum</a>
+    <a class="btn-notes" href="index.html#day1">Start learning</a>
+  </div>
+</div>
+
+<div class="app-layout">
+<aside class="sidebar-left">
+  <div class="sidebar-content">
+    <div class="sidebar-section-title">Course map</div>
+    <nav class="nav-tree" aria-label="Course navigation">
+      <div class="nav-day" data-open="true">
+        <a class="nav-day-toggle" href="index.html#day1"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 1</span><span class="nav-day-subtitle">Foundations</span><span class="nav-day-chevron">›</span></a>
+        <div class="nav-day-body">
+          <div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics">
+            <li class="nav-topic active"><a href="module0.html">Foundation Enhancer</a></li>
+            <li class="nav-topic"><a href="module1.html">C++ Basics</a></li>
+          </ul></div>
+          <div class="nav-module"><div class="nav-module-label">Topics</div><div class="nav-tabs">
+            <button class="nav-tab active" data-tab="t0">00 Syntax, tools &amp; execution</button>
+            <button class="nav-tab" data-tab="t1">01 Evolution of C to C++</button>
+            <button class="nav-tab" data-tab="t2">02 Procedural vs OOP</button>
+            <button class="nav-tab" data-tab="t3">03 Key differences</button>
+            <button class="nav-tab" data-tab="t4">04 How this handbook teaches</button>
+            <button class="nav-tab" data-tab="t5">05 C vs C++ comparison</button>
+          </div></div>
+        </div>
+      </div>
+      <div class="nav-day" data-open="true"><a class="nav-day-toggle" href="index.html#day2"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 2</span><span class="nav-day-subtitle">Polymorphism</span><span class="nav-day-chevron">›</span></a><div class="nav-day-body"><div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module2.html">Inheritance &amp; Polymorphism</a></li><li class="nav-topic"><a href="module3.html">Compile-time Polymorphism</a></li></ul></div></div></div>
+      <div class="nav-day"><a class="nav-day-toggle" href="index.html#day3"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 3</span><span class="nav-day-subtitle">Robustness</span><span class="nav-day-chevron">›</span></a></div>
+      <div class="nav-day"><a class="nav-day-toggle" href="index.html#day4"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 4</span><span class="nav-day-subtitle">Modern C++</span><span class="nav-day-chevron">›</span></a></div>
+      <div class="nav-day"><a class="nav-day-toggle" href="index.html#day5"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 5</span><span class="nav-day-subtitle">Networking</span><span class="nav-day-chevron">›</span></a></div>
+    </nav>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section-title">Resources</div>
+    <ul class="sidebar-resources">
+      <li><a href="https://github.com/raushan1107/Advanced-cpp-sample-codes" target="_blank" rel="noopener">↗ Source code</a></li>
+      <li><a href="index.html#day1">▣ Course overview</a></li>
+    </ul>
+  </div>
+</aside>
+<main class="main-content">
+<div class="module-header">
+  <div class="breadcrumb"><a href="index.html">Foundations</a> / Module 0 · Add-on</div>
+  <h1>Foundation Enhancer</h1>
+  <p class="sub">Before we write a single class, we need to agree on why C++ looks the way it does. This module resets the mental model — from "functions acting on data" to "objects that own their data" — so every keyword you type from Module 1 onward has a reason behind it.</p>
+  <div class="module-meta">
+    <span><b>Day:</b> 1 of 6</span>
+    <span><b>Topics:</b> 6</span>
+    <span><b>Type:</b> Conceptual + 1 hands-on check</span>
+    <span><b>Repo folder:</b> root files &amp; <code style="color:var(--cyan)">01-Structs/</code></span>
+  </div>
+</div>
+
+<div class="tabs-wrap">
+  <div class="tabbar">
+    <button data-tab="t0" class="active"><span class="num">00</span>Syntax, tools &amp; execution</button>
+    <button data-tab="t1"><span class="num">01</span>Evolution of C to C++</button>
+    <button data-tab="t2"><span class="num">02</span>Procedural vs OOP</button>
+    <button data-tab="t3"><span class="num">03</span>Key Differences: C vs C++</button>
+    <button data-tab="t4"><span class="num">04</span>How This Handbook Teaches</button>
+    <button data-tab="t5"><span class="num">05</span>C vs C++: one problem</button>
+  </div>
+
+  <!-- TAB 0 -->
+  <div class="tabpanel active" id="t0">
+    <p class="topic-intro">Before classes, students need to know what a C++ file is, what the compiler does with it, and what each line of the first program means.</p>
+
+    <div class="block">
+      <div class="block-label"><span class="tag why">WHY</span><h4>What happens when C++ code runs?</h4></div>
+      <div class="content">
+        <p>A <code>.cpp</code> file is human-readable source code. The toolchain turns it into a program in stages:</p>
+        <ol>
+          <li><strong>Preprocess:</strong> expands lines such as <code>#include &lt;iostream&gt;</code>.</li>
+          <li><strong>Compile:</strong> checks C++ syntax and translates each source file into machine-oriented object code.</li>
+          <li><strong>Link:</strong> combines object code with required library code and creates an executable.</li>
+          <li><strong>Run:</strong> the operating system loads the executable and calls <code>main()</code>.</li>
+        </ol>
+        <p>VS Code is the editor where we write and inspect code. It is not the compiler by itself. We also need a compiler toolchain and a terminal command to build the file.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag what">WHAT</span><h4>C++ compared with C# and other managed languages</h4></div>
+      <div class="content">
+        <p>If you know C#, the difference is useful rather than scary. A C# file is compiled into CIL (also called MSIL), and the CLR loads that intermediate code, verifies it, and usually JIT-compiles methods to machine code while the program runs. The runtime supplies services such as garbage collection.</p>
+        <p>C++ normally follows a more direct path: the compiler turns each source file into native object code, the linker joins it with libraries, and the operating system loads the resulting executable. There is no required CLR between your program and the operating system, so you choose more of the memory, binary, and deployment details. That extra control is why C++ is common in systems software, but the edit-compile-run loop is still straightforward.</p>
+      </div>
+      <div class="code-card">
+        <div class="code-head"><span class="filename">Two execution paths</span></div>
+        <pre><code>C# / .NET:  Program.cs
+             -> C# compiler
+             -> CIL / MSIL assembly
+             -> CLR + JIT
+             -> machine code at runtime
+
+C++:       program.cpp
+             -> preprocessor
+             -> C++ compiler
+             -> object file
+             -> linker + libraries
+             -> native executable
+             -> operating system loader</code></pre>
+      </div>
+      <div class="callout"><strong>Connection:</strong> C# developers already know the most important workflow idea: source code is transformed by tools before it executes. C++ changes where that transformation happens and who owns more of the runtime details; it does not require learning programming from zero.</div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag what">WHAT</span><h4>Tools required for this course</h4></div>
+      <div class="content">
+        <ul>
+          <li><strong>VS Code:</strong> editor, integrated terminal, and optional Microsoft C/C++ extension for completion and error hints.</li>
+          <li><strong>GCC / g++:</strong> the GNU C++ compiler. On Windows, install a MinGW-w64 distribution such as MSYS2; on Ubuntu use <code>sudo apt install g++</code>; on macOS use Apple Clang via <code>xcode-select --install</code>.</li>
+          <li><strong>MSVC:</strong> Microsoft's compiler, installed with Visual Studio or Build Tools. Use the Developer Command Prompt and the <code>cl</code> command.</li>
+          <li><strong>Clang:</strong> an LLVM compiler available as <code>clang++</code>. It follows the same edit, compile, run cycle.</li>
+          <li><strong>CMake:</strong> a build-system tool we will introduce when projects need more than one source file. It is not required for this first exercise.</li>
+        </ul>
+      </div>
+      <div class="quickguide">
+        <p class="qg-title">Check which compiler is installed</p>
+        <ol>
+          <li>GCC: <code>g++ --version</code></li>
+          <li>Clang: <code>clang++ --version</code></li>
+          <li>MSVC: open a Developer Command Prompt and run <code>cl</code></li>
+          <li>Use one available compiler consistently while learning. The examples below use <code>g++</code>.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag what">WHAT</span><h4>Read the first C++ program line by line</h4></div>
+      <div class="content">
+        <p><code>#include &lt;iostream&gt;</code> makes declarations for standard input and output available. The angle brackets mean the compiler searches its standard include locations.</p>
+        <p><code>std</code> is the namespace owned by the C++ standard library. <code>cout</code>, <code>cin</code>, and <code>endl</code> are names provided by that library. The <code>std::</code> prefix says exactly where each name comes from; it is not part of the variable's name.</p>
+        <p><code>std::cout</code> writes to the console, <code>std::cin</code> reads from keyboard input, and <code>std::endl</code> inserts a new line and flushes the output buffer. They are ready-made library objects and manipulators, but we can write our own functions and namespace names alongside them.</p>
+      </div>
+      <div class="code-card">
+        <div class="code-head"><span class="filename">hello.cpp</span><button class="copy-btn">Copy</button></div>
+        <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+int main() {
+    std::cout &lt;&lt; "Enter your name: ";
+    std::string name;
+    std::cin &gt;&gt; name;
+    std::cout &lt;&lt; "Hello, " &lt;&lt; name &lt;&lt; std::endl;
+    return 0;
+}</code></pre>
+      </div>
+      <div class="callout"><strong>Notice:</strong> each standard-library type or facility should have its own include. This is why the example includes both <code>&lt;iostream&gt;</code> and <code>&lt;string&gt;</code>.</div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag how">HOW</span><h4>Namespaces and familiar ideas in other languages</h4></div>
+      <div class="content">
+        <p>Namespaces prevent two libraries from using the same short name without conflict. We can create one ourselves:</p>
+      </div>
+      <div class="code-card">
+        <div class="code-head"><span class="filename">namespaces.cpp</span><button class="copy-btn">Copy</button></div>
+        <pre><code>#include &lt;iostream&gt;
+
+namespace training {
+    void hello() { std::cout &lt;&lt; "Hello from training" &lt;&lt; std::endl; }
+}
+
+int main() {
+    training::hello();
+    return 0;
+}</code></pre>
+      </div>
+      <div class="content">
+        <p>The same organizing idea appears elsewhere: Python uses modules such as <code>math.sqrt</code>, Java uses packages such as <code>java.util.List</code>, and JavaScript uses imports such as <code>console.log</code> from a module. C++ uses <code>namespace::name</code>.</p>
+        <p>You may write <code>using namespace std;</code> in a tiny learning file, but avoid putting it in shared headers or large programs because it imports many short names and can create collisions. Prefer <code>std::cout</code> while learning where each name came from.</p>
+      </div>
+    </div>
+
+    <div class="quickguide">
+      <p class="qg-title">Compile and run the first file</p>
+      <ol>
+        <li>From a terminal, create and enter a folder: <code>mkdir cpp-first-run</code> then <code>cd cpp-first-run</code>. In VS Code you can open it with <code>code .</code>.</li>
+        <li>Save the file in VS Code as <code>program.cpp</code>.</li>
+        <li>GCC: <code>g++ -std=c++17 program.cpp -o program</code>, then Windows <code>program.exe</code> or macOS/Linux <code>./program</code>.</li>
+        <li>Clang: <code>clang++ -std=c++17 program.cpp -o program</code>, then run the same executable command.</li>
+        <li>MSVC: <code>cl /std:c++17 program.cpp</code>, then run <code>program.exe</code>.</li>
+        <li>When you edit the file, compile again. The executable does not update until a successful build finishes.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- TAB 1 -->
+  <div class="tabpanel" id="t1">
+    <p class="topic-intro">C++ wasn't invented to replace C — it was invented because one engineer, maintaining large C systems at Bell Labs, kept hitting the same wall.</p>
+
+    <div class="block">
+      <div class="block-label"><span class="tag why">WHY</span><h4>Why C wasn't enough for growing systems</h4></div>
+      <div class="content">
+        <p>By the early 1980s, Bjarne Stroustrup was building simulation software in C and repeatedly ran into the same problems every large C codebase eventually hits:</p>
+        <ul>
+          <li><strong>Data and the functions that operate on it live apart.</strong> A <code>struct Employee</code> and the twenty functions that touch it are scattered across files, with nothing stopping unrelated code from reaching in and corrupting the data.</li>
+          <li><strong>No safe way to reuse and extend behaviour.</strong> If ten teams need a "manager" that behaves like an "employee" plus a bit more, C gives you copy-paste, not a language mechanism for "is-a-kind-of".</li>
+          <li><strong>Manual memory bookkeeping, with no cleanup guarantee.</strong> Every <code>malloc</code> needs a matching <code>free</code>, tracked entirely by discipline — one missed path and you leak memory in production.</li>
+        </ul>
+        <p>C++ started life literally as <strong>"C with Classes"</strong> — Stroustrup's answer was to keep C's performance and low-level control, but let programmers group data with behaviour, model relationships, and let the compiler enforce some of the discipline humans kept forgetting.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag what">WHAT</span><h4>What C++ actually adds on top of C</h4></div>
+      <div class="content">
+        <p>C++ is (almost entirely) a superset of C — most valid C compiles as C++ — plus a set of additions that matter for this course:</p>
+        <ul>
+          <li><strong>Classes &amp; objects</strong> — bundling data with the functions that act on it (Module 1).</li>
+          <li><strong>Inheritance &amp; polymorphism</strong> — modelling "is-a" relationships and runtime behaviour (Module 2).</li>
+          <li><strong>Templates</strong> — writing logic once for any type, resolved at compile time (Module 5).</li>
+          <li><strong>Exceptions</strong> — a structured way to signal and handle errors, instead of checking a return code after every call.</li>
+          <li><strong>The Standard Template Library (STL)</strong> — battle-tested containers and algorithms you don't have to write yourself (Module 6).</li>
+        </ul>
+        <p>Enterprise systems — trading engines, telecom switches, game engines, embedded and OS-level code — still lean on C++ today for exactly the reason Stroustrup designed it: you get structure <em>without</em> giving up the raw performance and memory control that C offers.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag how">HOW</span><h4>Confirm your compiler and C++ standard</h4></div>
+      <div class="content">
+        <p>Every C++ compiler defines a special macro, <code>__cplusplus</code>, whose value tells you which language standard you're actually compiling against (C++11, C++14, C++17, C++20...). This matters because several features in this course — lambdas, smart pointers, <code>auto</code> — depend on the standard being used.</p>
+      </div>
+
+      <div class="code-card">
+        <div class="code-head">
+          <span class="filename">cppversioncheck.cpp</span>
+          <button class="copy-btn">Copy</button>
+        </div>
+        <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    // __cplusplus is a predefined macro — the compiler fills in its
+    // value based on which C++ standard you're compiling against.
+    // 201703L means C++17, 201402L means C++14, and so on.
+    cout &lt;&lt; "C++ version: " &lt;&lt; __cplusplus &lt;&lt; endl;
+
+    cin &gt;&gt; ws;   // consumes any stray whitespace left in the input buffer
+    return 0;
+}</code></pre>
+      </div>
+
+      <div class="output-box"><span class="lbl">Expected output (will vary by compiler/flags)</span>C++ version: 201703</div>
+
+      <div class="quickguide">
+        <p class="qg-title">⚡ Quick guide — try it yourself</p>
+        <ol>
+          <li>Copy the snippet above and save it as <code>cppversioncheck.cpp</code>.</li>
+          <li>Open a terminal in that folder and compile it: <code>g++ cppversioncheck.cpp -o cppversioncheck</code></li>
+          <li>Run it: on Windows <code>cppversioncheck.exe</code>, on Linux/Mac <code>./cppversioncheck</code></li>
+          <li>Note the number you get — if it's older than <code>201703L</code>, add <code>-std=c++17</code> to your compile command for the rest of this course: <code>g++ -std=c++17 file.cpp -o file</code></li>
+        </ol>
+      </div>
+
+      <div class="dl-strip">
+        <span class="icon">⭳</span>
+        <span class="txt"><b>Get the code</b>Original file from the course repository — root of the repo.</span>
+        <a class="btn btn-ghost" href="https://raw.githubusercontent.com/raushan1107/Advanced-cpp-sample-codes/main/cppversioncheck.cpp" target="_blank" rel="noopener">Download .cpp</a>
+      </div>
+    </div>
+
+    <div class="topic-nav">
+      <span></span>
+      <button class="btn btn-primary" onclick="document.querySelector('[data-tab=t2]').click()">Next: Procedural vs OOP →</button>
+    </div>
+  </div>
+
+  <!-- TAB 2 -->
+  <div class="tabpanel" id="t2">
+    <p class="topic-intro">The single biggest shift moving from C to C++ isn't syntax — it's <strong>where you put the logic</strong>.</p>
+
+    <div class="block">
+      <div class="block-label"><span class="tag why">WHY</span><h4>Why "who can change this data?" becomes a real question</h4></div>
+      <div class="content">
+        <p>In a purely procedural style, data structures are passive — any function, anywhere in the program, can reach in and modify a record. That's fine for a 200-line script. It stops being fine once fifteen developers are touching the same <code>Employee</code> struct across forty files: nobody can be sure which function last changed a field, or whether it did so safely.</p>
+        <p>Object-oriented programming's answer is to <strong>attach the data to the behaviour that's allowed to touch it</strong>. The object becomes the unit of change — and the unit you reason about, test, and reuse.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag what">WHAT</span><h4>Procedural vs OOP, defined</h4></div>
+      <div class="content">
+        <ul>
+          <li><strong>Procedural paradigm:</strong> the program is a sequence of functions/procedures. Data is typically passed <em>into</em> functions as arguments; there's no built-in link between a piece of data and the operations meant for it.</li>
+          <li><strong>Object-oriented paradigm:</strong> the program is a set of objects, each bundling its own data (state) with the functions (methods) that operate on that data. Access can be restricted (Module 1's Access Specifiers), and objects can be extended through inheritance (Module 2).</li>
+        </ul>
+        <p>Neither paradigm is "better" in the abstract — C++ actually lets you mix both. But for anything with meaningful state and lifetime (a bank account, a network connection, a UI widget), OOP tends to scale better as a codebase grows.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag how">HOW</span><h4>The same problem, two ways</h4></div>
+      <div class="content">
+        <p>Here's one small task — store a student's roll number and name, then print them — written both ways so you can see exactly what OOP changes.</p>
+      </div>
+
+      <div class="code-card">
+        <div class="code-head"><span class="filename">procedural_style.cpp</span><button class="copy-btn">Copy</button></div>
+        <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+// Procedural style: data (rollNo, name) and behaviour (displayStudent)
+// are completely separate. Any function in this file could modify
+// rollNo or name directly — nothing stops it.
+struct StudentData {
+    int rollNo;
+    string name;
+};
+
+void displayStudent(StudentData s) {
+    cout &lt;&lt; "Roll: " &lt;&lt; s.rollNo &lt;&lt; ", Name: " &lt;&lt; s.name &lt;&lt; endl;
+}
+
+int main() {
+    StudentData s1;
+    s1.rollNo = 101;
+    s1.name = "Ravi";
+
+    displayStudent(s1);   // we had to remember which function does this
+    return 0;
+}</code></pre>
+      </div>
+
+      <div class="code-card">
+        <div class="code-head"><span class="filename">oop_style.cpp</span><button class="copy-btn">Copy</button></div>
+        <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+// OOP style: the Student class owns both its data and the one
+// function that's meant to touch it. rollNo/name are private —
+// see Module 1's Access Specifiers for exactly what that buys us.
+class Student {
+private:
+    int rollNo;
+    string name;
+
+public:
+    void setDetails(int rollNo, string name) {
+        this-&gt;rollNo = rollNo;
+        this-&gt;name = name;
+    }
+
+    void display() {
+        cout &lt;&lt; "Roll: " &lt;&lt; rollNo &lt;&lt; ", Name: " &lt;&lt; name &lt;&lt; endl;
+    }
+};
+
+int main() {
+    Student s1;
+    s1.setDetails(101, "Ravi");
+    s1.display();          // the object knows how to display itself
+    return 0;
+}</code></pre>
+      </div>
+
+      <div class="output-box"><span class="lbl">Both programs print</span>Roll: 101, Name: Ravi</div>
+
+      <div class="quickguide">
+        <p class="qg-title">⚡ Quick guide — try it yourself</p>
+        <ol>
+          <li>Save the two snippets as <code>procedural_style.cpp</code> and <code>oop_style.cpp</code>.</li>
+          <li>Compile each: <code>g++ procedural_style.cpp -o proc</code> and <code>g++ oop_style.cpp -o oop</code></li>
+          <li>Run both and confirm they print the same result.</li>
+          <li>Now try this on your own: add an <code>age</code> field to both versions. Notice how in <code>oop_style.cpp</code> you only touch the <code>Student</code> class, while in <code>procedural_style.cpp</code> you have to check every function that receives a <code>StudentData</code>.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="topic-nav">
+      <button class="btn btn-ghost" onclick="document.querySelector('[data-tab=t1]').click()">← Evolution of C to C++</button>
+      <button class="btn btn-primary" onclick="document.querySelector('[data-tab=t3]').click()">Next: Key Differences →</button>
+    </div>
+  </div>
+
+  <!-- TAB 3 -->
+  <div class="tabpanel" id="t3">
+    <p class="topic-intro">Three habits carry over from C that quietly cause bugs in C++ if you don't unlearn them deliberately.</p>
+
+    <div class="block">
+      <div class="block-label"><span class="tag why">WHY</span><h4>Why these three differences matter in practice</h4></div>
+      <div class="content">
+        <ul>
+          <li><strong>struct vs class:</strong> C programmers default to <code>struct</code> out of habit. In C++, that habit silently makes every member <strong>public</strong> — fine for a plain data bag, risky for anything meant to protect its state.</li>
+          <li><strong>malloc/free vs new/delete:</strong> mixing them is undefined behaviour. <code>malloc</code> hands you raw, uninitialised memory — it never calls a constructor. <code>free</code>-ing an object created with <code>new</code> skips its destructor entirely.</li>
+          <li><strong>return codes vs exceptions:</strong> traditional C checks an error code after every call. C++ can throw an exception at the point of failure and let it propagate to whoever is actually equipped to handle it (see Module 4).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag what">WHAT</span><h4>The rules, precisely</h4></div>
+      <div class="content">
+        <ul>
+          <li><strong>Default access:</strong> <code>struct</code> members are <code>public</code> by default; <code>class</code> members are <code>private</code> by default. That's the <em>only</em> hard difference — both can have constructors, methods, and inheritance in C++.</li>
+          <li><strong>Memory allocation:</strong> <code>new</code>/<code>delete</code> call the constructor/destructor for you and are type-safe. <code>malloc</code>/<code>free</code> just reserve/release raw bytes — no constructor, no destructor, no type checking.</li>
+          <li><strong>Error handling:</strong> C conventionally signals failure via a return value or <code>errno</code>, which the caller must remember to check. C++ exceptions unwind the stack automatically and can carry rich error context — at the cost of a small runtime overhead when actually thrown.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag how">HOW</span><h4>struct in C++ — still a full type, just public by default</h4></div>
+      <div class="content">
+        <p>This is the actual <code>Person</code> struct from the course repository — notice it has a member function, just like a class would.</p>
+      </div>
+
+      <div class="code-card">
+        <div class="code-head"><span class="filename">01-Structs/Program1.cpp</span><button class="copy-btn">Copy</button></div>
+        <pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+struct Person
+{
+    // No access specifier given -> these are public by default,
+    // because this is a struct, not a class.
+    string first_name;
+    string last_name;
+    int age;
+    float salary;
+
+    void introduce() {
+        cout &lt;&lt; "Hi, my name is " &lt;&lt; first_name
+             &lt;&lt; " and I am " &lt;&lt; age &lt;&lt; " years old." &lt;&lt; endl;
+    }
+};
+
+int main()
+{
+    Person p1;
+    cout &lt;&lt; "Enter first name: ";
+    cin &gt;&gt; p1.first_name;     // works because first_name is public
+    cout &lt;&lt; "Enter last name: ";
+    cin &gt;&gt; p1.last_name;
+    cout &lt;&lt; "Enter age: ";
+    cin &gt;&gt; p1.age;
+    cout &lt;&lt; "Enter salary: ";
+    cin &gt;&gt; p1.salary;
+
+    cout &lt;&lt; "\nDisplaying Information." &lt;&lt; endl;
+    cout &lt;&lt; "First Name: " &lt;&lt; p1.first_name &lt;&lt; endl;
+    cout &lt;&lt; "Last Name: " &lt;&lt; p1.last_name &lt;&lt; endl;
+    cout &lt;&lt; "Age: " &lt;&lt; p1.age &lt;&lt; endl;
+    cout &lt;&lt; "Salary: " &lt;&lt; p1.salary;
+
+    p1.introduce();
+    return 0;
+}</code></pre>
+      </div>
+
+      <div class="output-box"><span class="lbl">Sample run (input in bold is typed by the user)</span>Enter first name: Anita
+Enter last name: Sharma
+Enter age: 29
+Enter salary: 55000
+
+Displaying Information.
+First Name: Anita
+Last Name: Sharma
+Age: 29
+Salary: 55000
+Hi, my name is Anita and I am 29 years old.</div>
+
+      <div class="quickguide">
+        <p class="qg-title">⚡ Quick guide — try it yourself</p>
+        <ol>
+          <li>Save as <code>Program1.cpp</code> and compile: <code>g++ Program1.cpp -o person</code></li>
+          <li>Run it and enter your own details when prompted.</li>
+          <li>Now change <code>struct Person</code> to <code>class Person</code> and recompile — you'll get compiler errors on every <code>cin &gt;&gt; p1.first_name</code> line. Fix it by adding <code>public:</code> right after the opening brace, and see the errors disappear. That one line is the entire struct/class difference in action.</li>
+        </ol>
+      </div>
+
+      <div class="dl-strip">
+        <span class="icon">⭳</span>
+        <span class="txt"><b>Get the code</b>From the course repository — <code style="color:var(--cyan)">01-Structs/Program1.cpp</code></span>
+        <a class="btn btn-ghost" href="https://raw.githubusercontent.com/raushan1107/Advanced-cpp-sample-codes/main/01-Structs/Program1.cpp" target="_blank" rel="noopener">Download .cpp</a>
+      </div>
+
+      <div class="callout">
+        <strong>malloc/free vs new/delete</strong> and <strong>return codes vs exceptions</strong> get their own hands-on treatment once we have real classes to allocate and real failure paths to handle — you'll see <code>new</code>/<code>delete</code> at work throughout Module 1, and exception handling is planned for Module 4. <a href="#t5">Open the final C vs C++ comparison tab</a> for the complete side-by-side example.
+      </div>
+    </div>
+
+    <div class="topic-nav">
+      <button class="btn btn-ghost" onclick="document.querySelector('[data-tab=t2]').click()">← Procedural vs OOP</button>
+      <button class="btn btn-primary" onclick="document.querySelector('[data-tab=t4]').click()">Next: How This Handbook Teaches →</button>
+    </div>
+  </div>
+
+  <!-- TAB 4 -->
+  <div class="tabpanel" id="t4">
+    <p class="topic-intro">One more thing before Module 1 — how this handbook is structured, and why.</p>
+
+    <div class="block">
+      <div class="block-label"><span class="tag why">WHY</span><h4>Why case studies instead of isolated examples</h4></div>
+      <div class="content">
+        <p>Syntax you only see once, in isolation, rarely sticks. So instead of a fresh throwaway example for every keyword, each module follows one running scenario end to end — a scenario chosen because it's the kind of system you'd actually build:</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag what">WHAT</span><h4>The case study running through each module</h4></div>
+      <div class="content">
+        <p>Modules 0 and 1 are available now. The entries below are the planned learning path for the upcoming modules; the index marks them as <strong>Coming soon</strong> until their notes and runnable exercises are published.</p>
+        <ul>
+          <li><strong>Module 1:</strong> a banking system — classes, access control, constructors, static account counters, friend auditors.</li>
+          <li><strong>Module 2:</strong> a Shape hierarchy (Circle, Rectangle, Triangle) — inheritance and polymorphism.</li>
+          <li><strong>Module 4:</strong> a robust file reader — exception handling and RAII.</li>
+          <li><strong>Module 5:</strong> a generic Stack&lt;T&gt; — templates.</li>
+          <li><strong>Module 6:</strong> student records search — STL containers and algorithms.</li>
+          <li><strong>Module 7:</strong> a Producer-Consumer pipeline — concurrency.</li>
+          <li><strong>Module 8–9:</strong> a client-server chat app, then the same idea wrapped in a Qt GUI.</li>
+        </ul>
+        <p>Every topic tab in this handbook follows the same three-part rhythm, so you always know what you're reading:</p>
+        <ul>
+          <li><span class="tag why" style="margin-right:6px">WHY</span> the real-world motivation — what breaks without this concept.</li>
+          <li><span class="tag what" style="margin-right:6px">WHAT</span> the precise definition — what the concept actually is.</li>
+          <li><span class="tag how" style="margin-right:6px">HOW</span> runnable code with comments, a quick guide, and (where the repo has it) a direct download link.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag how">HOW</span><h4>Set up your environment once, use it all week</h4></div>
+      <div class="content">
+        <p>Every code snippet in this handbook is designed to be copy-pasted, saved, compiled, and run exactly as shown — with the same two commands every time.</p>
+      </div>
+
+      <div class="quickguide">
+        <p class="qg-title">⚡ Quick guide — one-time setup</p>
+        <ol>
+          <li><strong>Install a compiler.</strong> Windows: MinGW-w64 or the compiler bundled with Visual Studio. Linux: <code>sudo apt install g++</code>. Mac: <code>xcode-select --install</code>.</li>
+          <li><strong>Verify it works:</strong> <code>g++ --version</code> should print a version number, not "command not found".</li>
+          <li><strong>The compile-and-run pattern used throughout this handbook:</strong>
+            <br><code>g++ -std=c++17 filename.cpp -o programname</code>
+            <br>then <code>./programname</code> (Linux/Mac) or <code>programname.exe</code> (Windows).</li>
+          <li><strong>Get the full repo at once (optional):</strong> <code>git clone https://github.com/raushan1107/Advanced-cpp-sample-codes.git</code> — every "Get the code" button in this handbook links to a file inside it.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="topic-nav">
+      <button class="btn btn-ghost" onclick="document.querySelector('[data-tab=t3]').click()">← Key Differences</button>
+      <a class="btn btn-primary" href="module1.html">Start Module 1: C++ Basics →</a>
+    </div>
+  </div>
+
+  <!-- TAB 5 -->
+  <div class="tabpanel" id="t5">
+    <p class="topic-intro">The same small requirement can be solved in both languages. The goal is not to declare one language better; it is to see how C++ evolves C's low-level control into stronger grouping, safer interfaces, and library-supported types.</p>
+
+    <div class="case-banner"><b>One problem</b>Store one student's name and score, then print whether the student passed. We will allocate the record dynamically so the memory-management difference is visible.</div>
+
+    <div class="compare-grid">
+      <article class="compare-card">
+        <div class="compare-label">C version - student.c</div>
+        <p>C keeps a plain <code>struct</code> and separate functions. The caller manages the pointer and checks the allocation result.</p>
+        <div class="code-card"><div class="code-head"><span class="filename">student.c</span><button class="copy-btn">Copy</button></div><pre><code>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+typedef struct {
+    char name[40];
+    int score;
+} Student;
+
+void set_student(Student* student, const char* name, int score) {
+    strncpy(student-&gt;name, name, sizeof(student-&gt;name) - 1);
+    student-&gt;name[sizeof(student-&gt;name) - 1] = '\0';
+    student-&gt;score = score;
+}
+
+void print_result(const Student* student) {
+    printf("%s scored %d: %s\n", student-&gt;name,
+           student-&gt;score,
+           student-&gt;score &gt;= 50 ? "PASS" : "RETRY");
+}
+
+int main(void) {
+    Student* student = malloc(sizeof *student);
+    if (student == NULL) return 1;
+
+    set_student(student, "Asha", 86);
+    print_result(student);
+    free(student);
+    return 0;
+}</code></pre></div>
+        <p class="run-line"><b>Build:</b> <code>gcc -std=c11 student.c -o student_c</code></p>
+        <p class="run-line"><b>Run:</b> Windows <code>student_c.exe</code>; Linux/macOS <code>./student_c</code></p>
+      </article>
+
+      <article class="compare-card">
+        <div class="compare-label">C++ version - student.cpp</div>
+        <p>C++ groups the data and operations in a <code>class</code>. The class protects its fields and gives callers a small public interface.</p>
+        <div class="code-card"><div class="code-head"><span class="filename">student.cpp</span><button class="copy-btn">Copy</button></div><pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+class Student {
+private:
+    std::string name;
+    int score;
+
+public:
+    Student(const std::string&amp; studentName, int studentScore)
+        : name(studentName), score(studentScore) {}
+
+    void printResult() const {
+        std::cout &lt;&lt; name &lt;&lt; " scored " &lt;&lt; score &lt;&lt; ": "
+                  &lt;&lt; (score &gt;= 50 ? "PASS" : "RETRY")
+                  &lt;&lt; std::endl;
+    }
+};
+
+int main() {
+    Student* student = new Student("Asha", 86);
+    student-&gt;printResult();
+    delete student;
+    return 0;
+}</code></pre></div>
+        <p class="run-line"><b>Build:</b> <code>g++ -std=c++17 student.cpp -o student_cpp</code></p>
+        <p class="run-line"><b>Run:</b> Windows <code>student_cpp.exe</code>; Linux/macOS <code>./student_cpp</code></p>
+      </article>
+    </div>
+
+    <div class="output-box"><span class="lbl">Both programs produce</span>Asha scored 86: PASS</div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag what">WHAT</span><h4>What changed and why it matters</h4></div>
+      <div class="content">
+        <ul>
+          <li><strong>Data and behavior:</strong> C keeps <code>Student</code> data in a struct and puts functions outside it. C++ puts <code>printResult</code> inside the class, so the object owns the behavior that understands its state.</li>
+          <li><strong>Memory:</strong> C uses <code>malloc</code> and <code>free</code>; C++ uses <code>new</code> and <code>delete</code> in this teaching example. In production C++, prefer automatic lifetime or <code>std::unique_ptr</code> instead of owning a raw pointer.</li>
+          <li><strong>Types:</strong> C uses a fixed character array and C string functions. C++ uses <code>std::string</code>, which manages its own character storage.</li>
+          <li><strong>Access:</strong> C has no <code>private:</code> section in a struct. C++ classes default to private members, so callers cannot change <code>score</code> directly.</li>
+          <li><strong>Syntax:</strong> <code>-&gt;</code> still means access through a pointer in both examples. C++ adds constructors, member functions, access control, and standard-library abstractions around the same underlying machine resources.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="quickguide">
+      <p class="qg-title">Try the comparison yourself</p>
+      <ol>
+        <li>Change <code>86</code> to <code>42</code> in both files and rebuild both programs.</li>
+        <li>In the C++ version, try writing <code>student-&gt;score = 100;</code> in <code>main</code>. Read the compiler error.</li>
+        <li>In the C version, notice that the external function can access every field through the pointer.</li>
+        <li>Keep the output the same while identifying which language feature makes each version different.</li>
+      </ol>
+    </div>
+
+    <div class="topic-nav">
+      <button class="btn btn-ghost" onclick="document.querySelector('[data-tab=t4]').click()">← How this handbook teaches</button>
+      <a class="btn btn-primary" href="module1.html">Continue to Module 1 →</a>
+    </div>
+  </div>
+
+  <section class="try-now" id="try-now">
+    <div class="try-now-header">
+      <div>
+        <div class="section-kicker">Learn by doing</div>
+        <h2>Try now: build a learner progress report</h2>
+        <p>We have moved from the history of C++ to the key design shift: data can be represented in a <code>struct</code>, while functions operate on that data. This small program uses that procedural model to solve a real training problem.</p>
+      </div>
+      <span class="try-badge">10 minutes</span>
+    </div>
+
+    <div class="build-ladder">
+      <div class="build-step">
+        <div class="build-step-title"><span>Step 1</span><strong>Make the program speak</strong></div>
+        <p>Start with only the entry point and one output statement.</p>
+        <div class="code-card"><div class="code-head"><span class="filename">step1_hello.cpp</span><button class="copy-btn">Copy</button></div><pre><code>#include &lt;iostream&gt;
+
+int main() {
+    std::cout &lt;&lt; "Learner report" &lt;&lt; std::endl;
+    return 0;
+}</code></pre></div>
+        <p class="run-line"><b>Run:</b> <code>g++ -std=c++17 step1_hello.cpp -o step1</code>, then <code>step1.exe</code> or <code>./step1</code></p>
+        <p class="mini-output"><b>See:</b> <code>Learner report</code></p>
+      </div>
+      <div class="build-step">
+        <div class="build-step-title"><span>Step 2</span><strong>Read input from the learner</strong></div>
+        <p>Add a name variable, read it with <code>std::cin</code>, and print it back.</p>
+        <div class="code-card"><div class="code-head"><span class="filename">step2_input.cpp</span><button class="copy-btn">Copy</button></div><pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+int main() {
+    std::string name;
+    std::cout &lt;&lt; "Name: ";
+    std::cin &gt;&gt; name;
+    std::cout &lt;&lt; "Learner: " &lt;&lt; name &lt;&lt; std::endl;
+    return 0;
+}</code></pre></div>
+        <p class="run-line"><b>Run:</b> <code>g++ -std=c++17 step2_input.cpp -o step2</code>, then <code>step2.exe</code> or <code>./step2</code></p>
+        <p class="mini-output"><b>Try input:</b> <code>Asha</code> &nbsp; <b>See:</b> <code>Learner: Asha</code></p>
+      </div>
+      <div class="build-step">
+        <div class="build-step-title"><span>Step 3</span><strong>Group related data in a struct</strong></div>
+        <p>Replace separate values with one learner record and pass it to a reporting function.</p>
+        <div class="code-card"><div class="code-head"><span class="filename">step3_record.cpp</span><button class="copy-btn">Copy</button></div><pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+struct Learner {
+    std::string name;
+    int completedTopics;
+    int totalTopics;
+};
+
+void printProgress(const Learner&amp; learner) {
+    std::cout &lt;&lt; learner.name &lt;&lt; ": "
+              &lt;&lt; learner.completedTopics &lt;&lt; "/"
+              &lt;&lt; learner.totalTopics &lt;&lt; std::endl;
+}
+
+int main() {
+    Learner learner{"Asha", 3, 4};
+    printProgress(learner);
+    return 0;
+}</code></pre></div>
+        <p class="run-line"><b>Run:</b> <code>g++ -std=c++17 step3_record.cpp -o step3</code>, then <code>step3.exe</code> or <code>./step3</code></p>
+        <p class="mini-output"><b>See:</b> <code>Asha: 3/4</code></p>
+      </div>
+    </div>
+
+    <div class="build-divider"><span>Now combine the pieces into the complete use case</span></div>
+    <div class="try-step"><span>01</span><div><strong>Understand the shape of the solution</strong><p><code>Learner</code> stores the data. <code>printProgress</code> owns the reporting behavior. <code>main</code> creates the record and calls the function. Notice how the data and behavior are still separate; Module 1 will show how a class can bring them together.</p></div></div>
+
+    <div class="code-card">
+      <div class="code-head"><span class="filename">program.cpp · complete use case</span><button class="copy-btn">Copy</button></div>
+      <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+struct Learner {
+    std::string name;
+    int completedTopics;
+    int totalTopics;
+};
+
+void printProgress(const Learner&amp; learner) {
+    std::cout &lt;&lt; learner.name &lt;&lt; " completed "
+              &lt;&lt; learner.completedTopics &lt;&lt; " of "
+              &lt;&lt; learner.totalTopics &lt;&lt; " topics." &lt;&lt; std::endl;
+
+    if (learner.completedTopics == learner.totalTopics) {
+        std::cout &lt;&lt; "Status: ready for the next module." &lt;&lt; std::endl;
+    } else {
+        std::cout &lt;&lt; "Status: keep practising." &lt;&lt; std::endl;
+    }
+}
+
+int main() {
+    Learner learner{"Asha", 3, 4};
+    printProgress(learner);
+    return 0;
+}</code></pre>
+    </div>
+
+    <div class="output-box"><span class="lbl">Expected output</span>Asha completed 3 of 4 topics.
+Status: keep practising.</div>
+
+    <div class="quickguide">
+      <p class="qg-title">Run it in VS Code</p>
+      <ol>
+        <li>Create a folder such as <code>module0-try-now</code> and open it in VS Code.</li>
+        <li>Create a file named <code>program.cpp</code>, paste the code above, and save it.</li>
+        <li>Open <strong>Terminal → New Terminal</strong> and compile: <code>g++ -std=c++17 program.cpp -o program</code></li>
+        <li>Run it on Windows with <code>program.exe</code>, or on Linux/macOS with <code>./program</code>.</li>
+        <li>Change the learner name and topic counts, save, compile again, and observe how the output changes.</li>
+      </ol>
+    </div>
+
+    <div class="task-card">
+      <div class="task-label">Homework / assessment</div>
+      <h3>Extend the progress report</h3>
+      <p>Create your own <code>program.cpp</code> that stores two learners and prints:</p>
+      <ul>
+        <li>each learner's name and completion percentage;</li>
+        <li>who has completed more topics;</li>
+        <li>a helpful message for anyone below 50% completion.</li>
+      </ul>
+      <p class="hint-title">Hints, not the answer</p>
+      <ul class="hint-list">
+        <li>Keep the data in a <code>struct</code>; write a small function for each report you need.</li>
+        <li>Use <code>const Learner&amp;</code> when a function only reads a learner.</li>
+        <li>Calculate a percentage using <code>completedTopics * 100.0 / totalTopics</code>.</li>
+      </ul>
+    </div>
+
+    <div class="submission-card">
+      <strong>Submit for evaluation</strong>
+      <p>Send your finished <code>program.cpp</code> to the trainer's cohort email. Use your name in both places:</p>
+      <div><b>Subject:</b> <code>Module 0 Task - Your Name - program.cpp</code></div>
+      <div><b>Body:</b> <code>Your Name | Module 0 | compiler used | result you observed</code></div>
+      <p>Attach the exact file you compiled. Include a short note if your output differs from the expected result.</p>
+    </div>
+  </section>
+
+</div>
+
+</main>
+</div>
+
+<footer>
+  Module 0 of 11 · Enterprise C++ Training Programme · Prepared by <strong>Raushan Ranjan</strong> · Koenig Solutions
+</footer>
+
+<script>
+// ============================================================
+// Enterprise C++ Handbook — shared behaviour
+// ============================================================
+
+function initSidebar(){
+  const toggle = document.querySelector('.sidebar-toggle');
+  const sidebar = document.querySelector('.sidebar-left');
+  if(!toggle || !sidebar) return;
+  const desktop = window.matchMedia('(min-width: 861px)');
+  toggle.setAttribute('aria-expanded', 'true');
+  toggle.addEventListener('click', () => {
+    if(desktop.matches){
+      const collapsed = document.body.classList.toggle('sidebar-collapsed');
+      toggle.setAttribute('aria-expanded', String(!collapsed));
+    } else {
+      sidebar.classList.toggle('open');
+    }
+  });
+  sidebar.querySelectorAll('a:not(.nav-day-toggle)').forEach(link => link.addEventListener('click', () => sidebar.classList.remove('open')));
+}
+
+function initNavGroups(){
+  document.querySelectorAll('.nav-day').forEach(day => {
+    const toggle = day.querySelector(':scope > .nav-day-toggle');
+    const body = day.querySelector(':scope > .nav-day-body');
+    if(!toggle || !body) return;
+    toggle.setAttribute('aria-expanded', String(day.dataset.open === 'true'));
+    toggle.addEventListener('click', event => {
+      event.preventDefault();
+      const open = day.dataset.open === 'true';
+      day.dataset.open = String(!open);
+      toggle.setAttribute('aria-expanded', String(!open));
+    });
+  });
+}
+
+function initNavModules(){
+  document.querySelectorAll('.nav-module').forEach(module => {
+    const label = module.querySelector(':scope > .nav-module-label');
+    const content = module.querySelector(':scope > .nav-topics, :scope > .nav-tabs');
+    if(!label || !content) return;
+    module.dataset.open = module.dataset.open || 'true';
+    label.setAttribute('role', 'button');
+    label.setAttribute('tabindex', '0');
+    label.setAttribute('aria-expanded', String(module.dataset.open === 'true'));
+    const toggle = () => {
+      const open = module.dataset.open === 'true';
+      module.dataset.open = String(!open);
+      label.setAttribute('aria-expanded', String(!open));
+    };
+    label.addEventListener('click', toggle);
+    label.addEventListener('keydown', event => {
+      if(event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        toggle();
+      }
+    });
+  });
+}
+
+// ---- Tab switching (per module page) ----
+function initTabs(){
+  const bar = document.querySelector('.tabbar');
+  if(!bar) return;
+  const buttons = [...document.querySelectorAll('.tabbar button, .nav-tab')];
+  const panels = [...document.querySelectorAll('.tabpanel')];
+
+  function activate(id, updateHash){
+    buttons.forEach(b => b.classList.toggle('active', b.dataset.tab === id));
+    panels.forEach(p => p.classList.toggle('active', p.id === id));
+    if(updateHash) history.replaceState(null, '', '#' + id);
+  }
+
+  buttons.forEach(b => b.addEventListener('click', () => activate(b.dataset.tab, true)));
+
+  const initial = (location.hash || '').replace('#', '');
+  if(initial && buttons.some(b => b.dataset.tab === initial)){
+    activate(initial, false);
+  } else if(buttons.length){
+    activate(buttons[0].dataset.tab, false);
+  }
+}
+
+// ---- Copy-to-clipboard on code cards ----
+function initCopyButtons(){
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const card = btn.closest('.code-card');
+      const codeEl = card.querySelector('code');
+      const text = codeEl.innerText;
+      try{
+        await navigator.clipboard.writeText(text);
+      }catch(e){
+        const ta = document.createElement('textarea');
+        ta.value = text; document.body.appendChild(ta); ta.select();
+        document.execCommand('copy'); document.body.removeChild(ta);
+      }
+      const original = btn.textContent;
+      btn.textContent = 'Copied ✓';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = original; btn.classList.remove('copied'); }, 1600);
+    });
+  });
+}
+
+// ---- Star ratings (stored locally in the trainer / learner's browser) ----
+function initRatings(){
+  document.querySelectorAll('.stars').forEach(starRow => {
+    const key = 'rrcpp_rating_' + starRow.dataset.module;
+    const stars = [...starRow.querySelectorAll('.star')];
+    const noteEl = starRow.parentElement.querySelector('.rating-note');
+
+    function paint(value){
+      stars.forEach((s, i) => s.classList.toggle('filled', i < value));
+    }
+    function saved(){ return parseInt(localStorage.getItem(key) || '0', 10); }
+
+    paint(saved());
+    if(noteEl && saved()) noteEl.textContent = 'Your rating: ' + saved() + '/5';
+
+    stars.forEach((s, i) => {
+      s.addEventListener('mouseenter', () => paint(i + 1));
+      s.addEventListener('mouseleave', () => paint(saved()));
+      s.addEventListener('click', () => {
+        localStorage.setItem(key, String(i + 1));
+        paint(i + 1);
+        if(noteEl) noteEl.textContent = 'Your rating: ' + (i + 1) + '/5 — thanks!';
+      });
+    });
+  });
+}
+
+// ---- Very small C++ syntax highlighter (keywords / strings / comments / types) ----
+function highlightCode(){
+  const KEYWORDS = ['class','struct','public','private','protected','virtual','override',
+    'static','const','friend','return','if','else','for','while','do','switch','case',
+    'break','continue','new','delete','this','namespace','using','template','typename',
+    'try','catch','throw','void','true','false','nullptr','explicit','default','sizeof',
+    'auto','enum','union','operator','inline','extern','constexpr','noexcept','mutable'];
+  const TYPES = ['int','double','float','char','bool','string','long','short','unsigned',
+    'size_t','vector','map','set','queue','stack','list','pair','shared_ptr','unique_ptr',
+    'thread','mutex','future','ostream','istream'];
+  const kwRe = new RegExp('\\b(' + KEYWORDS.join('|') + ')\\b', 'g');
+  const typeRe = new RegExp('\\b(' + TYPES.join('|') + ')\\b', 'g');
+
+  document.querySelectorAll('.code-card pre code').forEach(el => {
+    let src = el.textContent;
+    // Escape HTML first
+    src = src.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    // Tokenize line by line to keep comments/strings from crossing lines badly
+    const lines = src.split('\n').map(line => {
+      // Protect string literals
+      let out = '';
+      let i = 0;
+      let commentIdx = line.indexOf('//');
+      let codePart = commentIdx >= 0 ? line.slice(0, commentIdx) : line;
+      let commentPart = commentIdx >= 0 ? line.slice(commentIdx) : '';
+      // Strings within codePart
+      const strings = [];
+      codePart = codePart.replace(/"([^"\\]|\\.)*"/g, m => {
+        const token = `__CPP_STRING_${strings.length}__`;
+        strings.push(`<span class="str">${m}</span>`);
+        return token;
+      });
+      codePart = codePart.replace(kwRe, m => `<span class="kw">${m}</span>`);
+      codePart = codePart.replace(typeRe, m => `<span class="typ">${m}</span>`);
+      strings.forEach((markup, index) => {
+        codePart = codePart.replace(`__CPP_STRING_${index}__`, markup);
+      });
+      out = codePart + (commentPart ? `<span class="cmt">${commentPart}</span>` : '');
+      return out;
+    });
+    el.innerHTML = lines.join('\n');
+  });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  initSidebar();
+  initNavGroups();
+  initNavModules();
+  initTabs();
+  initCopyButtons();
+  initRatings();
+  highlightCode();
+});
+
+</script>
+</body>
+</html>
