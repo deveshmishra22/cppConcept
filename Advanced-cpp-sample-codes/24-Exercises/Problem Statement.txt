@@ -1,0 +1,72 @@
+Exercise: Account Management System (with STL and Algorithms)
+Problem Statement
+
+You are required to design a simple Bank Account Management System using Object-Oriented Programming (OOP) principles and C++ Standard Template Library (STL) features.
+
+The system should manage multiple account types, calculate interest dynamically, store them efficiently using STL containers, and handle invalid withdrawals using a custom exception.
+
+Requirements
+1. Create a base class Account with the following:
+
+Data members:
+
+int accountNumber
+
+string accountHolderName
+
+double balance
+
+Virtual function:
+virtual double calculateInterest() const = 0; — pure virtual, to be overridden.
+
+Member functions:
+
+void deposit(double amount)
+
+void withdraw(double amount) — throws a BankException if withdrawal exceeds balance.
+
+2. Create two derived classes:
+
+SavingsAccount — overrides calculateInterest() to return 6.5% of current balance.
+
+CurrentAccount — overrides calculateInterest() to return 7% of current balance.
+
+3. Implement a custom exception class:
+
+class BankException : public std::exception
+
+Constructor accepts an error message.
+
+Override what() to display the error.
+
+Thrown when withdrawal amount > balance.
+
+4. Use STL Containers and Algorithms:
+
+Store multiple accounts in a std::vector<Account*> container.
+
+Use std::for_each() or range-based for loops to:
+
+Display account information.
+
+Calculate and print total interest across all accounts.
+
+Use std::sort() to sort accounts by balance (descending).
+
+Use std::find_if() to search for an account by name or account number.
+
+5. In the main() function:
+
+Create multiple accounts of different types (Savings and Current).
+
+Store them in a std::vector<Account*>.
+
+Demonstrate the following operations:
+
+Calculate and display interest for each account.
+
+Withdraw valid and invalid amounts (handle exception).
+
+Sort and display accounts by balance.
+
+Find a specific account by holder name and display details.

@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>The Birth of C++ — From Procedures to Objects</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0f1724; /* deep navy */
+      --card:#0b1220;
+      --muted:#94a3b8;
+      --accent:#7c3aed; /* violet */
+      --accent-2:#06b6d4; /* cyan */
+      --glass: rgba(255,255,255,0.04);
+      --radius:14px;
+      --mono: "SFMono-Regular",ui-monospace,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,"Noto Sans",sans-serif;
+      background: linear-gradient(180deg,var(--bg) 0%, #06111a 100%);
+      color:#e6eef8;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.5;
+      padding:48px 24px;
+    }
+
+    .container{max-width:980px;margin:0 auto}
+
+    header.hero{
+      display:flex;align-items:center;gap:18px;margin-bottom:28px
+    }
+    .logo{
+      width:84px;height:84px;border-radius:16px;display:grid;place-items:center;
+      background:linear-gradient(135deg,var(--accent),var(--accent-2));font-weight:800;font-size:26px;color:white;box-shadow:0 6px 20px rgba(12,18,30,0.6)
+    }
+    h1{margin:0;font-size:28px;letter-spacing:-0.4px}
+    .lede{color:var(--muted);margin-top:6px;font-size:14px}
+
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:var(--radius);padding:22px;margin:18px 0;box-shadow:0 8px 40px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.03)}
+
+    nav.toc{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+    nav.toc a{color:var(--accent);text-decoration:none;font-weight:600;font-size:13px}
+    nav.toc a:hover{text-decoration:underline}
+
+    section{margin:18px 0}
+    h2{margin:0 0 8px 0;font-size:20px}
+    p{margin:8px 0;color:#d6e6fb}
+
+    .callout{padding:12px;border-radius:12px;background:linear-gradient(90deg, rgba(124,58,237,0.08), rgba(6,182,212,0.04));border:1px solid rgba(124,58,237,0.08);color:#dfe9ff}
+
+    /* two-column layout for code + explanation */
+    .grid{display:grid;grid-template-columns:1fr 320px;gap:18px}
+    @media (max-width:880px){.grid{grid-template-columns:1fr}}
+
+    table.explain{width:100%;border-collapse:collapse;margin-top:12px}
+    table.explain td, table.explain th{padding:10px;border-bottom:1px dashed rgba(255,255,255,0.03);vertical-align:top}
+    table.explain th{color:var(--muted);text-align:left;font-weight:600}
+
+    /* code blocks */
+    pre{background:linear-gradient(180deg,#071022 0%, #04101a 100%);padding:14px;border-radius:12px;overflow:auto;border:1px solid rgba(255,255,255,0.03)}
+    code{font-family:var(--mono);font-size:13px;color:#dbeafe}
+    .code-toolbar{display:flex;justify-content:flex-end;margin-bottom:6px}
+    .btn{background:var(--glass);border:1px solid rgba(255,255,255,0.03);color:var(--muted);padding:8px 10px;border-radius:10px;font-size:13px;cursor:pointer}
+    .btn:hover{color:white}
+
+    .kicker{display:inline-block;background:rgba(255,255,255,0.03);padding:6px 10px;border-radius:999px;font-weight:700;font-size:12px;color:var(--muted)}
+
+    footer{margin-top:26px;color:var(--muted);font-size:13px}
+
+    /* small badges */
+    .badge{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.03);color:var(--muted);font-weight:600;font-size:12px;margin-right:8px}
+
+    /* highlight for important lines */
+    .highlight{background:linear-gradient(90deg, rgba(124,58,237,0.09), rgba(6,182,212,0.03));padding:8px;border-radius:10px}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="hero">
+      <div class="logo">C++</div>
+      <div>
+        <h1>The Birth of C++ — From Procedures to Objects</h1>
+        <div class="lede">A gentle, decorated walkthrough exploring how C evolved into C++ and why object thinking changed everything.</div>
+        <nav class="toc">
+          <a href="#age-of-c">🕰️ The Age of C</a>
+          <a href="#problem">⚙️ The Problem</a>
+          <a href="#cpp-revolution">🚀 C++ Revolution</a>
+          <a href="#examples">🧩 Examples</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section id="age-of-c" class="card">
+        <div class="kicker">The Story Begins</div>
+        <h2>🕰️ The Story Begins — “The Age of C”</h2>
+        <p>
+          Let’s rewind to the 1970s. Computers were massive, slow, and could barely do what our phones do now.
+          Dennis Ritchie created <strong>C</strong>, a simple and powerful language that talks close to the hardware — ideal for building operating systems like UNIX.
+        </p>
+        <div class="callout">
+          C gave total control: manual memory management, passing the same data between functions repeatedly, and thinking more like the machine than a human.
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>⚙️ Example: The Bank in the C Era</h2>
+        <p>Here is a compact C implementation that models an account and operations on it.</p>
+        <div class="code-toolbar"><button class="btn" onclick="copyToClipboard('cCode1')">Copy C Code</button></div>
+        <pre id="cCode1"><code>#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+struct Account {
+    int accNo;
+    char name[50];
+    float balance;
+};
+
+void deposit(struct Account* acc, float amt) {
+    acc->balance += amt;
+}
+
+void withdraw(struct Account* acc, float amt) {
+    if (amt <= acc->balance)
+        acc->balance -= amt;
+    else
+        printf("Insufficient balance!\n");
+}
+
+int main() {
+    struct Account a1 = {101, "Ritu", 1000.0};
+    deposit(&a1, 200);
+    withdraw(&a1, 1500);
+    printf("Balance for %s: %.2f\n", a1.name, a1.balance);
+    return 0;
+}
+</code></pre>
+
+        <p class="highlight">This works — but notice the repetitive passing of the <code>Account</code> structure and the lack of built-in protection for data.</p>
+      </section>
+
+      <section class="card grid">
+        <div>
+          <h2>🚀 The Problem that Started the Revolution</h2>
+          <p>As software grew, developers asked: <em>“Why can’t code model the real world?”</em> If a bank account is an entity, it should know how to deposit or withdraw itself — not be manipulated by external functions.</p>
+
+          <h2 id="cpp-revolution">🧱 The C++ Revolution — Thinking in Objects</h2>
+          <p>Enter Bjarne Stroustrup in the early 1980s: <strong>C with Classes</strong>. Instead of <code>deposit(account)</code>, we say <code>account.deposit()</code> — logic lives inside the object.</p>
+
+          <table class="explain">
+            <tr><th>Concept</th><th>Meaning</th><th>Why it’s Better</th></tr>
+            <tr><td>class Account</td><td>Defines a blueprint of an object</td><td>Combines data + behavior</td></tr>
+            <tr><td>private:</td><td>Members are hidden</td><td>Data protection (Encapsulation)</td></tr>
+            <tr><td>public:</td><td>Interface accessible outside</td><td>Controlled access</td></tr>
+          </table>
+        </div>
+
+        <aside class="card" style="height:max-content;align-self:start">
+          <div class="kicker">Analogy</div>
+          <p><strong>Mobile Phone</strong>: you press <em>Call</em> — you don't mess with the circuitry. The object hides its internals and exposes a simple interface.</p>
+
+          <div style="margin-top:12px"><span class="badge">Encapsulation</span><span class="badge">Constructors</span><span class="badge">Static</span></div>
+        </aside>
+      </section>
+
+      <section class="card">
+        <h2>🧩 Example: The Bank in C++</h2>
+        <p>Rewriting the earlier program using classes, constructors, and methods.</p>
+        <div class="code-toolbar"><button class="btn" onclick="copyToClipboard('cppCode1')">Copy C++ Code</button></div>
+        <pre id="cppCode1"><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+class Account {
+private:
+    int accNo;
+    string name;
+    float balance;
+
+public:
+    // Constructor
+    Account(int a, string n, float b) {
+        accNo = a;
+        name = n;
+        balance = b;
+    }
+
+    void deposit(float amt) { balance += amt; }
+
+    void withdraw(float amt) {
+        if (amt <= balance)
+            balance -= amt;
+        else
+            cout << "Insufficient balance!" << endl;
+    }
+
+    void showBalance() {
+        cout << "Account: " << accNo << " | Holder: " << name
+             << " | Balance: " << balance << endl;
+    }
+};
+
+int main() {
+    Account ritu(101, "Ritu", 1000.0);
+    ritu.deposit(500);
+    ritu.withdraw(200);
+    ritu.showBalance();
+}
+</code></pre>
+
+        <p class="highlight">Now behavior and data live together. Objects simplify reasoning, maintenance, and extension.</p>
+
+      </section>
+
+      <section class="card">
+        <h2>🔍 Breakdown — Line by Line</h2>
+        <table class="explain">
+          <tr><th>Line</th><th>Meaning</th><th>Why it’s Better</th></tr>
+          <tr><td><code>class Account</code></td><td>Defines object blueprint</td><td>Encapsulates data & behavior</td></tr>
+          <tr><td><code>private:</code></td><td>Hidden members</td><td>Prevents accidental modification</td></tr>
+          <tr><td><code>Account()</code></td><td>Constructor</td><td>Automatic initialization</td></tr>
+          <tr><td><code>ritu.deposit(500)</code></td><td>Message sent to object</td><td>Natural, self-contained logic</td></tr>
+        </table>
+      </section>
+
+      <section class="card">
+        <h2>🧠 Extras: Constructors, Static Members & Friends</h2>
+        <p><strong>Constructors / Destructors</strong> automatically handle setup and cleanup.</p>
+        <div class="code-toolbar"><button class="btn" onclick="copyToClipboard('demoCode')">Copy Demo</button></div>
+        <pre id="demoCode"><code>class Demo {
+public:
+    Demo() { cout << "Object created!\n"; }
+    ~Demo() { cout << "Object destroyed!\n"; }
+};
+
+int main() {
+    Demo d1;
+} // destructor called here
+</code></pre>
+
+        <p><strong>Static members</strong> belong to the class itself (shared state like total accounts).</p>
+
+        <p><strong>Friend functions</strong> allow trusted external access when necessary — use sparingly.</p>
+      </section>
+
+      <section class="card">
+        <h2>🧭 Mini Case Study — Branch System</h2>
+        <pre id="branchCode"><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+class Account {
+    int accNo;
+    string holder;
+    double balance;
+    static int totalAccounts;
+
+public:
+    Account(string name, double amount) {
+        holder = name;
+        balance = amount;
+        accNo = ++totalAccounts;
+        cout << "Account Created for " << holder << " | Account No: " << accNo << endl;
+    }
+
+    void deposit(double amt) { balance += amt; }
+
+    void withdraw(double amt) {
+        if (amt <= balance) balance -= amt;
+        else cout << "Insufficient funds!\n";
+    }
+
+    void showDetails() {
+        cout << "Account No: " << accNo << " | Holder: " << holder
+             << " | Balance: " << balance << endl;
+    }
+
+    ~Account() { cout << "Account Closed: " << holder << endl; }
+};
+
+int Account::totalAccounts = 0;
+
+int main() {
+    Account a1("Ritu", 1000);
+    Account a2("Raushan", 2000);
+
+    a1.deposit(500);
+    a2.withdraw(700);
+
+    a1.showDetails();
+    a2.showDetails();
+}
+</code></pre>
+      </section>
+
+      <section class="card">
+        <h2>🌍 Why C++ Became “Modern C”</h2>
+        <ul>
+          <li>Encapsulation → Safer data</li>
+          <li>Constructors/Destructors → Clean lifecycle</li>
+          <li>Static members → Shared state</li>
+          <li>Friendship → Controlled trust</li>
+          <li>Better syntax & I/O → Easier development</li>
+        </ul>
+      </section>
+
+      <footer>
+        <div class="card">
+          <strong>Author:</strong> Raushan Ranjan — &nbsp; Making concepts simpler.
+        </div>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    function copyToClipboard(id){
+      const code = document.getElementById(id).innerText;
+      navigator.clipboard.writeText(code).then(()=>{
+        alert('Code copied to clipboard');
+      }).catch(()=>{alert('Copy failed — select and copy manually')});
+    }
+  </script>
+</body>
+</html>

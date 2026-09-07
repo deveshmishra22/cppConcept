@@ -1,0 +1,4 @@
+Hello, this is a test2 file.
+2. Writing to a file using ofstream.
+This line is appended to the file.
+Appending more data without overwriting.

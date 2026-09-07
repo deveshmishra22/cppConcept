@@ -1,0 +1,193 @@
+Language Foundation
+
+Keywords: int, float, char, bool, const, static, extern, inline
+Control Structures: if, switch, for, while, do-while, break, continue
+Operators: arithmetic, logical, relational, bitwise, ternary, assignment
+Functions: pass by value/reference, default arguments, inline, recursion
+Pointers: *, &, ->, nullptr, pointer arithmetic, dynamic memory
+Arrays: 1D, 2D, Jagged arrays, array decay
+Strings: char[], std::string, getline(), c_str(), append(), compare()
+
+Memory Management
+
+Dynamic Allocation: new, delete, new[], delete[]
+malloc/free vs new/delete
+Dangling pointers, memory leaks, shallow vs deep copy
+Smart Pointers: unique_ptr, shared_ptr, weak_ptr, make_unique, make_shared
+RAII: automatic resource release, destructors, lock_guard, fstream
+
+Object-Oriented Programming
+
+Class & Object: class, object, public/private/protected, encapsulation
+Constructors: default, parameterized, copy constructor, delegation
+Destructors: ~ClassName(), virtual destructor
+Access Modifiers: public, private, protected
+Friend Functions: friend function, friend class
+Static Members: static variables, static functions
+this pointer: self-reference
+Inline Functions: inline, performance optimization
+
+Inheritance & Polymorphism
+
+Types of Inheritance: single, multiple, multilevel, hierarchical, hybrid
+Inheritance Access: public, private, protected
+Polymorphism: static (compile-time), dynamic (runtime)
+Virtual Functions: virtual, override, final
+Abstract Class: pure virtual function (=0)
+Virtual Destructor, vtable, vptr
+Base-Derived Relationships: upcasting, downcasting, pointer conversion
+Interface Inheritance: pure virtual interface classes
+
+Composition vs Inheritance: has-a vs is-a relationships
+
+Private Inheritance: hidden base functionality, implementation reuse
+Compile-Time Polymorphism
+Function Overloading: multiple functions same name, different parameters
+Operator Overloading: +, -, *, ==, [], (), <<, >>
+Constructors Overloading: multiple constructors
+Templates: template<typename T>, template<class T>
+Non-Type Template Parameters: size_t N, constexpr arguments
+
+Templates & Generic Programming
+
+Function Templates: generic functions
+Class Templates: generic types
+Template Specialization: partial, full
+Template Parameters: type, non-type, default
+STL Integration: generic containers, iterators, algorithms
+Array Class Implementation: template arrays, iterators, bounds check
+Map Container: key-value pairs, iterator access
+
+Standard Template Library (STL)
+
+Sequence Containers: vector, list, deque, array, forward_list
+Associative Containers: map, multimap, set, multiset
+Unordered Containers: unordered_map, unordered_set
+Adapters: stack, queue, priority_queue
+Iterators: begin(), end(), rbegin(), rend(), cbegin(), iterator_traits
+Algorithms: sort, find, count, copy, transform, for_each, accumulate
+Utility Components: pair, tuple, optional, variant
+Functors & Predicates: callable objects, comparison operators
+Exception Handling
+
+Keywords: try, catch, throw
+
+Exception Flow: throw → catch → continue
+Exception Types: std::exception, runtime_error, invalid_argument, logic_error
+Custom Exceptions: user-defined exception classes
+Multiple Catch Blocks: type-specific handling
+Rethrow: throw;
+Stack Unwinding: destructors auto-call during exceptions
+Clean-up Strategies: RAII, smart pointers
+Noexcept Keyword: indicate non-throwing functions
+
+Input/Output & File Handling
+
+Stream Classes: istream, ostream, fstream, ifstream, ofstream
+Operators: <<, >>, overloaded for custom types
+Character I/O: get(), put(), getline(), peek(), ignore()
+Formatted I/O: setw, setprecision, setfill, manipulators
+File Operations: open(), close(), read(), write(), seekg(), tellg()
+File Copy: integer file copy, character file copy
+String Streams: stringstream, ostringstream, istringstream
+
+Namespaces & Modularity
+
+Namespace Definition: namespace myns {}
+Accessing Namespace: myns::function(), using directive
+Anonymous Namespace: internal linkage
+Name Conflicts: resolved by fully qualified names
+Header Guards: #ifndef, #define, #endif
+_cplusplus Macro: header compatibility for C/C++
+extern "C": disable name mangling for C functions
+
+Runtime Type Information (RTTI)
+
+Operators: typeid, dynamic_cast, static_cast, reinterpret_cast, const_cast
+Classes: type_info
+Safe Pointer Conversion: base ↔ derived casting
+Use Cases: type checking, downcasting, dynamic dispatch
+Concurrency (Multithreading)
+Thread Creation: std::thread, join(), detach()
+Synchronization: std::mutex, lock_guard, unique_lock, scoped_lock
+Condition Variables: wait(), notify_one(), notify_all()
+Deadlocks: detection, avoidance, ordering
+Atomic Operations: std::atomic<int>, memory_order
+Future/Promise: async tasks, std::async, std::future, std::promise
+Parallel Execution: thread pool, concurrent algorithms (C++17)
+Case Study: Producer-Consumer problem
+
+Modern C++ (C++11, C++14, C++17, C++20)
+
+Smart Pointers: unique_ptr, shared_ptr, weak_ptr, make_unique, make_shared
+Lambda Expressions: 
+{}, captures, auto return type, generic lambdas
+Move Semantics: std::move, rvalue reference (T&&)
+Range-based for: for(auto& x : container)
+Auto Type Deduction: auto, decltype
+constexpr: compile-time evaluation
+nullptr: type-safe null pointe
+Scoped Enum: enum class
+Structured Binding: auto [x, y] = pair;
+std::optional, std::variant, std::any
+chrono Library: time_point, duration, sleep_for
+Filesystem: std::filesystem::path, exists(), copy(), remove()
+
+Linking & Libraries
+
+Static Linking: .lib / .a files included at compile-time
+Dynamic Linking: .dll / .so files loaded at runtime
+Export Macros: __declspec(dllexport), __declspec(dllimport)
+extern "C": prevent name mangling
+Build Tools: ar, make, cmake
+Shared Object Loading: LoadLibrary(), GetProcAddress()
+Reusability: modular libraries, plugin systems
+Networking & Socket Programming
+Header Files: winsock2.h, ws2tcpip.h
+Functions: socket(), bind(), listen(), accept(), connect(), send(), recv(), closesocket()
+Initialization: WSAStartup(), WSACleanup()
+Address Structures: sockaddr_in, htons(), inet_addr(), INADDR_ANY
+Protocols: TCP (SOCK_STREAM), UDP (SOCK_DGRAM)
+Error Handling: WSAGetLastError(), errno
+Buffers: char[], recv/send buffer sizes
+Threads + Sockets: multithreaded server design
+Case Study: Client-Server chat, async sockets
+
+Qt Framework (GUI & QML)
+
+Core Modules: QtCore, QtGui, QtWidgets, QtNetwork, QtQuick
+Application Classes: QApplication, QMainWindow, QDialog, QWidget
+UI Components: QPushButton, QLabel, QLineEdit, QListWidget, QComboBox
+Layouts: QVBoxLayout, QHBoxLayout, QGridLayout
+Events: mousePressEvent, keyPressEvent, resizeEvent
+Signals & Slots: connect(), emit, SLOT(), SIGNAL(), Q_OBJECT
+QML (Qt Quick): ApplicationWindow, Rectangle, Text, Button, property binding
+Integration: C++ backend with QML frontend
+Tools: Qt Designer, Creator, Linguist, Assistant
+
+File & Data Management
+
+Binary I/O: read(), write(), ios::binary
+Text I/O: getline(), <<, >>
+Serialization: object save/load
+Configuration: reading key-value files, JSON/XML parsing (QJson, tinyxml)
+Logging: file streams, timestamps, append modes
+
+Performance & Debugging
+
+Profiling: gprof, Visual Studio Profiler
+Leak Detection: Valgrind, VLD
+Code Optimization: const references, move semantics, inline, constexpr
+Thread Profiling: performance counters
+Compile Flags: -O2, -Wall, /Ox
+Time Measurement: chrono high_resolution_clock
+
+Advanced Topics
+
+Generic Programming: templates, traits, type deduction
+Meta Programming: SFINAE, enable_if, concepts (C++20)
+Design Patterns: singleton, observer, factory, strategy
+Class Libraries: custom reusable APIs
+Interfacing with Other Languages: C, Python (pybind11), Java (JNI)
+Testing: assert, static_assert, unit tests, test frameworks (GoogleTest)
+
