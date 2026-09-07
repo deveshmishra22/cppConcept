@@ -134,19 +134,79 @@ public:
     <div class="try-now-header"><div><div class="section-kicker">Learn by doing</div><h2>Try now: design a shape report</h2><p>Build the hierarchy in small steps, then combine inheritance, virtual dispatch, an abstract interface, and safe destruction in one use case.</p></div><span class="try-badge">20 minutes</span></div>
     <div class="build-ladder">
       <div class="build-step"><div class="build-step-title"><span>Step 1</span><strong>Create a base and one derived shape</strong></div><p>Start with a virtual display function.</p><div class="code-card"><div class="code-head"><span class="filename">step1_shape.cpp</span><button class="copy-btn">Copy</button></div><pre><code>#include &lt;iostream&gt;
-class Shape { public: virtual void show() const { std::cout &lt;&lt; "Shape\n"; } };
-class Circle : public Shape { public: void show() const override { std::cout &lt;&lt; "Circle\n"; } };
-int main() { Circle circle; circle.show(); }</code></pre></div><p class="run-line"><b>Run:</b> <code>g++ -std=c++17 step1_shape.cpp -o step1</code>, then <code>step1.exe</code> or <code>./step1</code>.</p><p class="mini-output"><b>See:</b> <code>Circle</code></p></div>
+class Shape {
+public:
+    virtual void show() const {
+        std::cout &lt;&lt; "Shape\n";
+    }
+};
+
+class Circle : public Shape {
+public:
+    void show() const override {
+        std::cout &lt;&lt; "Circle\n";
+    }
+};
+
+int main() {
+    Circle circle;
+    circle.show();
+}</code></pre></div><p class="run-line"><b>Run:</b> <code>g++ -std=c++17 step1_shape.cpp -o step1</code>, then <code>step1.exe</code> or <code>./step1</code>.</p><p class="mini-output"><b>See:</b> <code>Circle</code></p></div>
       <div class="build-step"><div class="build-step-title"><span>Step 2</span><strong>Call derived behavior through the base</strong></div><p>Change the call site to use a Shape reference.</p><div class="code-card"><div class="code-head"><span class="filename">step2_dispatch.cpp</span><button class="copy-btn">Copy</button></div><pre><code>#include &lt;iostream&gt;
-class Shape { public: virtual void show() const { std::cout &lt;&lt; "Shape\n"; } };
-class Circle : public Shape { public: void show() const override { std::cout &lt;&lt; "Circle\n"; } };
-class Rectangle : public Shape { public: void show() const override { std::cout &lt;&lt; "Rectangle\n"; } };
-void printShape(const Shape&amp; shape) { shape.show(); }
-int main() { Circle circle; Rectangle rectangle; printShape(circle); printShape(rectangle); }</code></pre></div><p class="run-line"><b>Run:</b> <code>g++ -std=c++17 step2_dispatch.cpp -o step2</code>, then <code>step2.exe</code> or <code>./step2</code>.</p><p class="mini-output"><b>See:</b> <code>Circle</code> then <code>Rectangle</code></p></div>
+class Shape {
+public:
+    virtual void show() const {
+        std::cout &lt;&lt; "Shape\n";
+    }
+};
+
+class Circle : public Shape {
+public:
+    void show() const override {
+        std::cout &lt;&lt; "Circle\n";
+    }
+};
+
+class Rectangle : public Shape {
+public:
+    void show() const override {
+        std::cout &lt;&lt; "Rectangle\n";
+    }
+};
+
+void printShape(const Shape&amp; shape) {
+    shape.show();
+}
+
+int main() {
+    Circle circle;
+    Rectangle rectangle;
+    printShape(circle);
+    printShape(rectangle);
+}</code></pre></div><p class="run-line"><b>Run:</b> <code>g++ -std=c++17 step2_dispatch.cpp -o step2</code>, then <code>step2.exe</code> or <code>./step2</code>.</p><p class="mini-output"><b>See:</b> <code>Circle</code> then <code>Rectangle</code></p></div>
       <div class="build-step"><div class="build-step-title"><span>Step 3</span><strong>Make the contract abstract</strong></div><p>Replace the generic implementation with a pure virtual function.</p><div class="code-card"><div class="code-head"><span class="filename">step3_area.cpp</span><button class="copy-btn">Copy</button></div><pre><code>#include &lt;iostream&gt;
-class Shape { public: virtual double area() const = 0; virtual ~Shape() = default; };
-class Rectangle : public Shape { double width, height; public: Rectangle(double w, double h) : width(w), height(h) {} double area() const override { return width * height; } };
-int main() { Rectangle rectangle(3, 4); std::cout &lt;&lt; rectangle.area() &lt;&lt; std::endl; }</code></pre></div><p class="run-line"><b>Run:</b> <code>g++ -std=c++17 step3_area.cpp -o step3</code>, then <code>step3.exe</code> or <code>./step3</code>.</p><p class="mini-output"><b>See:</b> <code>12</code></p></div>
+class Shape {
+public:
+    virtual double area() const = 0;
+    virtual ~Shape() = default;
+};
+
+class Rectangle : public Shape {
+    double width;
+    double height;
+
+public:
+    Rectangle(double w, double h) : width(w), height(h) {}
+
+    double area() const override {
+        return width * height;
+    }
+};
+
+int main() {
+    Rectangle rectangle(3, 4);
+    std::cout &lt;&lt; rectangle.area() &lt;&lt; std::endl;
+}</code></pre></div><p class="run-line"><b>Run:</b> <code>g++ -std=c++17 step3_area.cpp -o step3</code>, then <code>step3.exe</code> or <code>./step3</code>.</p><p class="mini-output"><b>See:</b> <code>12</code></p></div>
     </div>
     <div class="build-divider"><span>Now combine the pieces into the complete use case</span></div>
     <div class="try-step"><span>01</span><div><strong>Shape hierarchy report</strong><p>The complete program keeps the interface small: every shape can report its name and area, while each derived class owns its formula.</p></div></div>

@@ -469,6 +469,8 @@ strong { font-weight: 600; }
   margin: 0;
   padding: 18px;
   overflow-x: auto;
+  white-space: pre;
+  tab-size: 4;
   border: 1px solid var(--code-border);
   border-radius: var(--radius-sm);
   background: var(--code-bg);
@@ -885,6 +887,8 @@ strong { font-weight: 600; }
   margin: 0;
   padding: 18px 20px;
   overflow-x: auto;
+  white-space: pre;
+  tab-size: 4;
   font-family: var(--mono);
   font-size: 13.5px;
   line-height: 1.65;
