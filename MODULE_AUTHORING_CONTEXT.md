@@ -29,6 +29,104 @@ Every module must follow this order:
 8. Homework or assessment that extends the complete program.
 9. Hints only. Do not provide the homework solution or full homework code.
 10. Submission instructions asking the learner to email `program.cpp` for review.
+11. A Story Mode tab (see the dedicated section below) as the last tab in the
+    module's tab bar. This is required once per module, not once per topic tab.
+
+## Story Mode Tab (Required, One Per Module)
+
+Every module's tab bar ends with one additional tab — Story Mode — that retells
+the whole module as a single real-world narrative instead of another WHY/WHAT/HOW
+topic. It exists so a trainer can teach the technical tabs first, then switch to
+this tab and narrate: "here is the actual problem all of that just solved." Do
+not add a Story Mode tab per lesson/topic — exactly one per module, always last.
+
+### Placement and numbering
+
+- Add it as the final button in both `.tabbar` (main content) and `.nav-tabs`
+  (sidebar), using the next `tN` id after the module's last topic tab (module
+  with topics `t1`-`t4` gets Story Mode as `t5`; module0's `t0`-`t5` gets `t6`).
+- Every existing topic tab's trailing element (a `.topic-nav`, or the last block
+  in the panel if no `.topic-nav` exists) should gain or keep a forward link/button
+  to Story Mode: `<button class="btn btn-primary" onclick="document.querySelector('[data-tab=tN]').click()">Story Mode: see it all connected →</button>`.
+  Reuse the file's existing tab-jump convention — every module page in this repo
+  wires jump buttons the same way, by calling `.click()` on the real tab button
+  via `document.querySelector('[data-tab=tX]')`. Do not invent a new `data-*`
+  attribute or new JS handler; the existing `initTabs()` in each file already
+  listens on `.tabbar button, .nav-tab` and needs nothing new to support this.
+- Update the module header's `Topics:` count in `.module-meta` if that module
+  displays one (add 1 for the new tab).
+- Add one bullet to that module's card on `index.html`:
+  `<li>🎬 Story Mode: {short hook}</li>` as the last `<li>` in its `.topic-list`.
+
+### Required internal structure
+
+```html
+<div class="tabpanel" id="tN">   <!-- or <section class="tabpanel"> if the page uses <section> panels -->
+  <span class="story-badge">🎬 Story Mode</span>
+  <h2 style="margin:0 0 12px;">{Story title}</h2>
+  <p class="story-lede">{2-4 sentence framing, addressed to the learner, present
+     tense, "picture this" voice — states the real problem before any acts.}</p>
+
+  <div class="story-timeline">
+    <div class="story-act">
+      <div class="story-act-head">
+        <span class="story-act-num">ACT 1</span>
+        <h3>{Act title}</h3>
+        <button class="story-jump" type="button" onclick="document.querySelector('[data-tab=t1]').click()">↳ Revisit {Topic name}</button>
+      </div>
+      <p>{One paragraph narrating why this specific topic tab's concept had to
+         exist, told through the module's story characters/company.}</p>
+    </div>
+    <!-- one .story-act per topic tab in the module, same order as the tab bar -->
+  </div>
+
+  <blockquote class="story-pullquote">{One memorable, quotable line that sums up
+     the module's real lesson.}</blockquote>
+
+  <div class="story-also">
+    <p class="story-also-title">Also seen in the wild</p>
+    <div class="story-also-grid">
+      <div class="story-also-item"><span class="story-also-domain">{Domain}</span>{One-line secondary analogy.}</div>
+      <!-- 3-4 items total -->
+    </div>
+  </div>
+
+  <div class="callout"><strong>Bring it back:</strong> {One line tying the story
+     back to this module's actual complete program/homework, and teasing what
+     the next module's story will need.}</div>
+</div>
+```
+
+All of `.story-hero`/`.story-badge`/`.story-lede`/`.story-timeline`/`.story-act`/
+`.story-pullquote`/`.story-also` are already defined:
+
+- In `style.css` (light theme) — used as-is by any new module built in that theme
+  (this is the theme `module2.html` and `module3.html` use, and the one new
+  modules should default to unless told otherwise).
+- Duplicated inline in `module0.html`'s and `module1.html`'s own `<style>` block
+  (dark "Blueprint" theme) — only relevant if a future module is built in that
+  same dark, self-contained-`<style>` format. Copy that CSS block (search either
+  file for `/* ---------- Story Mode ---------- */`) into the new page's own
+  `<style>` rather than linking `style.css`, to match that theme's tokens.
+
+### Choosing the story's theme
+
+- Pick ONE primary real-world analogy per module, and it must match what that
+  module's topic tabs actually teach and actually show in code — never invent a
+  story whose entities don't correspond to the real example code on the page.
+  (Module 2's Story Mode is a game engine's Shape renderer because Module 2's
+  real code is a Shape/Circle/Rectangle hierarchy — it is not a banking story,
+  even though Module 1 is, because Module 2's code isn't about banking.)
+- Inside `.story-also`, add 2-4 *secondary* one-line analogies from other
+  unrelated domains (finance, healthcare, GUI toolkits, plugin systems, maps,
+  automotive, etc.) so the learner sees the pattern is general — these are brief
+  "also seen in the wild" callouts, not full parallel narratives.
+- This repo runs a light continuity device across modules — a recurring
+  fictional company family named "Nimbus" (Nimbus Vending in Module 0, Nimbus
+  Bank in Module 1, Nimbus Games in Modules 2 and 3). Continue "Nimbus" into a
+  later module's story only where it's a natural fit for that module's real
+  content; when it isn't a fit, use a fresh company name rather than forcing it.
+  This is flavor, not a hard requirement.
 
 ## Progressive Try Now Rules
 
@@ -150,15 +248,24 @@ the order of operations. Do not paste a complete homework function or solution.
 
 - `module0.html` demonstrates the foundation-first format, including toolchain
   setup, syntax, namespaces, cross-language analogies, incremental exercises,
-  and a procedural learner-progress use case.
+  and a procedural learner-progress use case. Dark "Blueprint" theme, styled via
+  its own inline `<style>` block (not `style.css`).
 - `module1.html` demonstrates the class-building format, including incremental
   bank-account steps, a complete class-based use case, and transfer homework.
+  Same dark inline-`<style>` theme as `module0.html`.
 - `module2.html` and `module3.html` demonstrate the Day 2 format: topic
   sections are controlled from the left navigation, while the main content
-  remains full-width and includes progressive compile/run practice.
+  remains full-width and includes progressive compile/run practice. Light theme,
+  styled via the shared `style.css`.
 - `style.css` contains the shared visual styles for `try-now`, `build-ladder`,
-  `build-step`, `task-card`, and `submission-card`.
+  `build-step`, `task-card`, `submission-card`, and `story-*` (Story Mode).
+- Every module currently live (`module0`-`module3`) already ends its tab bar
+  with a Story Mode tab — see the dedicated section above before adding a new
+  one. Read an existing Story Mode tab (e.g. `module1.html`'s `id="t6"`) as the
+  concrete worked example before writing a new one from the template.
 
 Modules 4 through 10 are still listed on the index as coming soon. When their
-lesson pages are created, use this exact structure and preserve the handbook's
-WHY / WHAT / HOW explanation rhythm.
+lesson pages are created, use this exact structure (including the required
+Story Mode tab) and preserve the handbook's WHY / WHAT / HOW explanation rhythm.
+Default new modules to the light `style.css` theme used by `module2.html`/
+`module3.html` unless told to match the dark theme instead.

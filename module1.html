@@ -256,6 +256,31 @@ a{color:inherit;}
 }
 .case-banner b{color:var(--amber); font-family:var(--mono); font-size:12px; display:block; margin-bottom:5px;}
 
+/* ---------- Story Mode ---------- */
+.story-hero{max-width:74ch; margin-bottom:30px;}
+.story-badge{display:inline-block; font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.5px; text-transform:uppercase; padding:4px 11px; border-radius:999px; margin-bottom:16px; background:rgba(255,180,84,0.1); color:var(--amber); border:1px solid rgba(255,180,84,0.3);}
+.story-hero h2{margin:0 0 12px; font-family:var(--head);}
+.story-lede{font-size:16.5px; line-height:1.8; color:var(--text-dim); margin:0;}
+.story-timeline{position:relative; max-width:78ch; margin:30px 0; padding-left:28px; border-left:2px solid var(--border-soft);}
+.story-act{position:relative; margin-bottom:32px;}
+.story-act:last-child{margin-bottom:0;}
+.story-act::before{content:""; position:absolute; left:-33px; top:5px; width:10px; height:10px; border-radius:50%; background:var(--amber); border:2px solid var(--bg); box-shadow:0 0 0 1px var(--amber);}
+.story-act-head{display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:8px;}
+.story-act-num{font-family:var(--mono); font-size:11.5px; font-weight:700; color:var(--amber); letter-spacing:.3px;}
+.story-act-head h3{margin:0; font-size:17.5px; font-family:var(--head); color:var(--text); font-weight:600;}
+.story-jump{font-family:var(--mono); font-size:11px; color:var(--text-dim); background:none; border:1px solid var(--border); border-radius:999px; padding:3px 10px; cursor:pointer;}
+.story-jump:hover{color:var(--text); border-color:var(--text-dim);}
+.story-act p{margin:0 0 10px; max-width:72ch; font-size:15.5px; line-height:1.8; color:var(--text-dim);}
+.story-act p:last-child{margin-bottom:0;}
+.story-act strong{color:var(--text);}
+.story-act code{font-family:var(--mono); background:var(--surface-2); border:1px solid var(--border-soft); border-radius:4px; padding:1px 6px; font-size:13.5px; color:var(--amber);}
+.story-pullquote{border-left:3px solid var(--amber); background:var(--surface); border-radius:0 var(--radius) var(--radius) 0; padding:18px 22px; max-width:70ch; margin:28px 0; font-size:17px; font-style:italic; line-height:1.6; color:var(--text);}
+.story-also{max-width:82ch; margin:28px 0;}
+.story-also-title{font-family:var(--mono); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:var(--text-faint); margin:0 0 14px;}
+.story-also-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px;}
+.story-also-item{border:1px solid var(--border-soft); border-radius:var(--radius); padding:13px 15px; font-size:13.5px; line-height:1.6; color:var(--text-dim); background:var(--surface);}
+.story-also-domain{display:block; font-weight:700; color:var(--text); margin-bottom:4px; font-size:13.5px;}
+
 /* ---------- Topic footer nav ---------- */
 .topic-nav{display:flex; justify-content:space-between; margin-top:48px; padding-top:24px; border-top:1px solid var(--border-soft);}
 .topic-nav .btn{font-family:var(--body);}
@@ -319,6 +344,7 @@ footer a{color:var(--cyan); text-decoration:none;}
             <button class="nav-tab" data-tab="t3">03 Constructors &amp; destructors</button>
             <button class="nav-tab" data-tab="t4">04 Static members</button>
             <button class="nav-tab" data-tab="t5">05 Friend functions &amp; classes</button>
+            <button class="nav-tab" data-tab="t6">06 🎬 Story Mode</button>
           </div></div>
         </div>
       </div>
@@ -342,7 +368,7 @@ footer a{color:var(--cyan); text-decoration:none;}
   <p class="sub">This module runs one case study end to end: a bank account. We'll build it up piece by piece — turning it into a class, locking down its data, giving it proper construction and cleanup, adding a shared counter, and finally letting one trusted class audit it — so every keyword below has a job to do inside a system you'd actually recognise.</p>
   <div class="module-meta">
     <span><b>Day:</b> 1 of 6</span>
-    <span><b>Topics:</b> 5</span>
+    <span><b>Topics:</b> 6</span>
     <span><b>Case study:</b> Banking system</span>
     <span><b>Repo folder:</b> <code style="color:var(--cyan)">08-ClassesandObjects/</code></span>
   </div>
@@ -359,6 +385,7 @@ footer a{color:var(--cyan); text-decoration:none;}
     <button data-tab="t3"><span class="num">03</span>Constructors &amp; Destructors</button>
     <button data-tab="t4"><span class="num">04</span>Static Members</button>
     <button data-tab="t5"><span class="num">05</span>Friend Functions &amp; Classes</button>
+    <button data-tab="t6"><span class="num">06</span>🎬 Story Mode</button>
   </div>
 
   <!-- TAB 1: Classes & Objects -->
@@ -921,6 +948,55 @@ int main() {
 
     <div class="topic-nav">
       <button class="btn btn-ghost" onclick="document.querySelector('[data-tab=t4]').click()">← Static Members</button>
+      <button class="btn btn-primary" onclick="document.querySelector('[data-tab=t6]').click()">Story Mode: see it all connected →</button>
+    </div>
+  </div>
+
+  <!-- TAB 6: Story Mode -->
+  <div class="tabpanel" id="t6">
+    <span class="story-badge">🎬 Story Mode</span>
+    <h2 style="font-family:var(--head); font-size:26px; margin:0 0 12px;">The First Branch: building BankAccount for Nimbus Bank</h2>
+    <p class="story-lede">Picture this: Nimbus Bank has hired you as the engineer who has to replace a pile of loose C-style functions and global arrays with something that will not fall over the first time two developers touch it at once. Every tab you just clicked through was one decision in that rebuild. Here is the whole story, start to finish, in the order it actually happened.</p>
+
+    <div class="story-timeline">
+      <div class="story-act">
+        <div class="story-act-head"><span class="story-act-num">ACT 1</span><h3>One customer, scattered code</h3><button class="story-jump" type="button" onclick="document.querySelector('[data-tab=t1]').click()">↳ Revisit Classes &amp; Objects</button></div>
+        <p>Before you arrived, Nimbus Bank tracked each customer's name and balance in separate arrays, updated by free functions scattered across a dozen files. Nobody could say, just by reading a function signature, which arrays it was allowed to touch. Your first move is not clever — it is just honest: put the name and balance that belong to <em>one account</em> inside <strong>one</strong> <code>BankAccount</code> type, with functions like <code>deposit</code> living right next to the data they change. That single decision is what a class actually buys you.</p>
+      </div>
+      <div class="story-act">
+        <div class="story-act-head"><span class="story-act-num">ACT 2</span><h3>Lock the vault</h3><button class="story-jump" type="button" onclick="document.querySelector('[data-tab=t2]').click()">↳ Revisit Access Specifiers</button></div>
+        <p>Two weeks in, a bug ticket lands: a report-generation script set <code>balance</code> directly to fix a rounding display issue, and it shipped a permanently wrong number to a customer's statement. There was nothing stopping it — <code>balance</code> was public. You mark it <code>private</code> the same afternoon. Now the only way to change a balance is through <code>deposit</code> and <code>withdraw</code>, which can refuse a negative amount or an overdraft before it ever touches real money. Private is not secrecy for its own sake — it is the bank refusing to let anyone skip the front door.</p>
+      </div>
+      <div class="story-act">
+        <div class="story-act-head"><span class="story-act-num">ACT 3</span><h3>Open properly, close properly</h3><button class="story-jump" type="button" onclick="document.querySelector('[data-tab=t3]').click()">↳ Revisit Constructors &amp; Destructors</button></div>
+        <p>Next, compliance asks a harder question: can an account ever exist half-built — a name with no balance, or a balance with no owner? With a constructor, the answer becomes no: a <code>BankAccount</code> cannot be created without a name and an opening balance, full stop. And when an account object goes out of scope, its destructor is your guarantee that any logging, file handles, or cleanup the account owed the bank actually happens — nobody has to remember to call a <code>closeAccount()</code> function by hand.</p>
+      </div>
+      <div class="story-act">
+        <div class="story-act-head"><span class="story-act-num">ACT 4</span><h3>The ledger that never lies</h3><button class="story-jump" type="button" onclick="document.querySelector('[data-tab=t4]').click()">↳ Revisit Static Members</button></div>
+        <p>The regulator now wants one number on every quarterly filing: how many accounts has Nimbus Bank ever opened, across every branch, every server, every day. That number does not belong to any single account — it belongs to the <code>BankAccount</code> type itself. A <code>static</code> counter, incremented once inside the constructor, gives every object a shared, always-consistent view of a bank-wide total, without a single global variable in sight.</p>
+      </div>
+      <div class="story-act">
+        <div class="story-act-head"><span class="story-act-num">ACT 5</span><h3>The manager's override</h3><button class="story-jump" type="button" onclick="document.querySelector('[data-tab=t5]').click()">↳ Revisit Friend Functions &amp; Classes</button></div>
+        <p>Finally, the branch manager pushes back: private balances are correct for customers and tellers, but a manager legitimately needs to correct a balance after a proven error — without reopening the whole class to the public just for that one case. <code>friend class BankManager;</code> is the bank's answer: one explicitly named exception, granted by <code>BankAccount</code> itself, that nobody can invoke by accident and nobody outside can forge.</p>
+      </div>
+    </div>
+
+    <blockquote class="story-pullquote">Every keyword in this module exists because a bank somewhere got burned by not having it. <code>private</code>, the constructor, <code>static</code>, <code>friend</code> — none of them are academic. They are five scars, healed into syntax.</blockquote>
+
+    <div class="story-also">
+      <p class="story-also-title">Also seen in the wild</p>
+      <div class="story-also-grid">
+        <div class="story-also-item"><span class="story-also-domain">E-commerce</span>A <code>ShoppingCart</code> class keeps its item list and total private, exposing only <code>addItem()</code>/<code>checkout()</code> — exactly the encapsulation from Act 2.</div>
+        <div class="story-also-item"><span class="story-also-domain">Hospitals</span>A <code>PatientRecord</code> keeps history private to most staff, but grants a <code>friend class Auditor</code> the same override access a <code>BankManager</code> gets here.</div>
+        <div class="story-also-item"><span class="story-also-domain">Games</span>A shared <code>static</code> counter on a <code>Player</code> class tracks "players online right now" the same way Nimbus Bank tracks total accounts opened.</div>
+        <div class="story-also-item"><span class="story-also-domain">Cloud infrastructure</span>A <code>DatabaseConnection</code> class opens a handle in its constructor and guarantees it is released in its destructor — the same RAII instinct that closes a <code>BankAccount</code> cleanly.</div>
+      </div>
+    </div>
+
+    <div class="callout"><strong>Bring it back:</strong> Everything above is exactly what the complete <code>program.cpp</code> below builds in code. When you get to the homework's <code>transfer()</code> feature, you are the engineer again — Nimbus Bank just asked for one more capability, and you already know which five tools solve it.</div>
+
+    <div class="topic-nav">
+      <button class="btn btn-ghost" onclick="document.querySelector('[data-tab=t5]').click()">← Friend Functions &amp; Classes</button>
       <a class="btn btn-primary" href="index.html">Back to all modules →</a>
     </div>
   </div>

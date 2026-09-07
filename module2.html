@@ -36,6 +36,7 @@
             <button class="nav-tab" data-tab="t2">02 Virtual functions</button>
             <button class="nav-tab" data-tab="t3">03 Abstract classes</button>
             <button class="nav-tab" data-tab="t4">04 Destructors &amp; vtables</button>
+            <button class="nav-tab" data-tab="t5">05 🎬 Story Mode</button>
           </div></div>
         </div>
       </div>
@@ -58,7 +59,7 @@
 </div>
 
 <div class="tabs-wrap">
-  <div class="tabbar"><button data-tab="t1" class="active">01 Inheritance</button><button data-tab="t2">02 Virtual functions</button><button data-tab="t3">03 Abstract classes</button><button data-tab="t4">04 Destructors &amp; vtables</button></div>
+  <div class="tabbar"><button data-tab="t1" class="active">01 Inheritance</button><button data-tab="t2">02 Virtual functions</button><button data-tab="t3">03 Abstract classes</button><button data-tab="t4">04 Destructors &amp; vtables</button><button data-tab="t5">05 🎬 Story Mode</button></div>
 
   <div class="tabpanel active" id="t1">
     <p class="topic-intro">Inheritance expresses an intentional relationship: a derived type is a more specific form of a base type.</p>
@@ -128,6 +129,50 @@ public:
     <p class="topic-intro">A polymorphic base class needs a virtual destructor when objects may be destroyed through a base pointer.</p>
     <div class="block"><div class="block-label"><span class="tag why">WHY</span><h4>Why virtual destruction matters</h4></div><div class="content"><p><code>Shape* shape = new Circle;</code> stores a derived object behind a base pointer. With a virtual destructor, <code>delete shape</code> runs the derived cleanup first and then the base cleanup. Without it, deleting through the base pointer is unsafe.</p><p>A vtable is an implementation technique commonly used to support virtual dispatch. Treat it as a useful mental model, not as a promise about one compiler's exact memory layout.</p></div></div>
     <div class="quickguide"><p class="qg-title">Repository examples</p><ol><li>Run <code>virtualdestructor.cpp</code> and observe destructor order.</li><li>Read <code>vtablemechanism.cpp</code> after the behavior is clear.</li><li>Compare the pure interface in <code>purevirtual-interfaces.cpp</code>.</li></ol></div>
+    <div class="topic-nav" style="justify-content:flex-end;"><button class="btn btn-primary" onclick="document.querySelector('[data-tab=t5]').click()">Story Mode: see it all connected →</button></div>
+  </div>
+
+  <div class="tabpanel" id="t5">
+    <span class="story-badge">🎬 Story Mode</span>
+    <h2 style="margin:0 0 12px;">One screen, many shapes</h2>
+    <p class="story-lede">Picture this: you have just joined the rendering team at Nimbus Games. The current build's canvas needs to draw circles, rectangles, and — next sprint — triangles, all on the same frame, all needing a hitbox for collision. The lead engineer refuses to let the render loop know the concrete type of a single object it draws. This module is how that refusal becomes working code.</p>
+
+    <div class="story-timeline">
+      <div class="story-act">
+        <div class="story-act-head"><span class="story-act-num">ACT 1</span><h3>Every shape is a Shape first</h3><button class="story-jump" type="button" onclick="document.querySelector('[data-tab=t1]').click()">↳ Revisit Inheritance</button></div>
+        <p>Circles and rectangles clearly aren't the same thing, but they share a real relationship: both have a position, both get drawn, both belong on the same canvas. Rather than writing three unrelated structs, you give every on-screen object a common <code>Shape</code> base. <code>class Circle : public Shape</code> is Nimbus Games saying, honestly, "a circle is a kind of shape" — not just borrowing code to save typing.</p>
+      </div>
+      <div class="story-act">
+        <div class="story-act-head"><span class="story-act-num">ACT 2</span><h3>The render loop that doesn't need to know</h3><button class="story-jump" type="button" onclick="document.querySelector('[data-tab=t2]').click()">↳ Revisit Virtual Functions</button></div>
+        <p>The renderer holds a list of <code>Shape*</code> — hundreds of objects per frame, mixed circles and rectangles, added and removed as the level plays. It calls <code>shape-&gt;draw()</code> once, in one loop, for every one of them. Without <code>virtual</code>, that call would always run <code>Shape::draw()</code> and every object on screen would render identically. With it, each object draws itself correctly — the renderer never needs an <code>if (isCircle)</code> anywhere in sight.</p>
+      </div>
+      <div class="story-act">
+        <div class="story-act-head"><span class="story-act-num">ACT 3</span><h3>No object gets to skip the contract</h3><button class="story-jump" type="button" onclick="document.querySelector('[data-tab=t3]').click()">↳ Revisit Abstract Classes</button></div>
+        <p>A bug slips into a build: someone creates a bare <code>Shape</code> directly, forgets to give it a real <code>area()</code>, and the collision system silently treats it as having zero size. The lead engineer's fix is to make the contract impossible to dodge — <code>virtual double area() const = 0;</code> makes <code>Shape</code> abstract. Nobody can create a plain <code>Shape</code> again; every concrete object entering the game world is forced to define its own area before it can exist at all.</p>
+      </div>
+      <div class="story-act">
+        <div class="story-act-head"><span class="story-act-num">ACT 4</span><h3>Unloading a level without leaking a frame</h3><button class="story-jump" type="button" onclick="document.querySelector('[data-tab=t4]').click()">↳ Revisit Destructors &amp; Vtables</button></div>
+        <p>When a player finishes a level, Nimbus Games deletes hundreds of <code>Shape*</code> in one sweep to free memory before the next level loads. Some of those shapes own a texture handle that must be released, or the game leaks GPU memory every single level. Without a <code>virtual ~Shape()</code>, <code>delete shape</code> would only ever run the base destructor — the derived cleanup, and the texture, would silently never happen.</p>
+      </div>
+    </div>
+
+    <blockquote class="story-pullquote">The compiler doesn't know it's rendering a game. It just knows it's holding a <code>Shape</code>, and calling the right function anyway — that's the entire trick behind every polymorphic renderer you've ever played.</blockquote>
+
+    <div class="story-also">
+      <p class="story-also-title">Also seen in the wild</p>
+      <div class="story-also-grid">
+        <div class="story-also-item"><span class="story-also-domain">GUI toolkits</span>A <code>Widget</code> base class lets a window loop call <code>draw()</code> on buttons, checkboxes, and sliders without knowing which one it's holding — the same renderer pattern as Act 2.</div>
+        <div class="story-also-item"><span class="story-also-domain">Payments</span>A <code>PaymentMethod</code> interface with <code>CreditCard</code>, <code>PayPal</code>, and <code>UPI</code> implementations is the same abstract-contract idea from Act 3, just charging a customer instead of drawing a pixel.</div>
+        <div class="story-also-item"><span class="story-also-domain">Plugin systems</span>Editors like VS Code load unrelated plugins behind one common interface, and must destroy each one safely through a base pointer — Act 4's exact problem.</div>
+      </div>
+    </div>
+
+    <div class="callout"><strong>Bring it back:</strong> the complete-program shape report below is the render loop from Act 2, minus the graphics — it's the same "one interface, many shapes" idea, stripped down to what you can compile and run right now.</div>
+
+    <div class="topic-nav">
+      <button class="btn btn-ghost" onclick="document.querySelector('[data-tab=t4]').click()">← Destructors &amp; vtables</button>
+      <a class="btn btn-primary" href="module3.html">Continue to Module 3 →</a>
+    </div>
   </div>
 
   <section class="try-now" id="try-now">

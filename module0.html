@@ -256,6 +256,31 @@ a{color:inherit;}
 }
 .case-banner b{color:var(--amber); font-family:var(--mono); font-size:12px; display:block; margin-bottom:5px;}
 
+/* ---------- Story Mode ---------- */
+.story-hero{max-width:74ch; margin-bottom:30px;}
+.story-badge{display:inline-block; font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.5px; text-transform:uppercase; padding:4px 11px; border-radius:999px; margin-bottom:16px; background:rgba(255,180,84,0.1); color:var(--amber); border:1px solid rgba(255,180,84,0.3);}
+.story-hero h2{margin:0 0 12px; font-family:var(--head);}
+.story-lede{font-size:16.5px; line-height:1.8; color:var(--text-dim); margin:0;}
+.story-timeline{position:relative; max-width:78ch; margin:30px 0; padding-left:28px; border-left:2px solid var(--border-soft);}
+.story-act{position:relative; margin-bottom:32px;}
+.story-act:last-child{margin-bottom:0;}
+.story-act::before{content:""; position:absolute; left:-33px; top:5px; width:10px; height:10px; border-radius:50%; background:var(--amber); border:2px solid var(--bg); box-shadow:0 0 0 1px var(--amber);}
+.story-act-head{display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:8px;}
+.story-act-num{font-family:var(--mono); font-size:11.5px; font-weight:700; color:var(--amber); letter-spacing:.3px;}
+.story-act-head h3{margin:0; font-size:17.5px; font-family:var(--head); color:var(--text); font-weight:600;}
+.story-jump{font-family:var(--mono); font-size:11px; color:var(--text-dim); background:none; border:1px solid var(--border); border-radius:999px; padding:3px 10px; cursor:pointer;}
+.story-jump:hover{color:var(--text); border-color:var(--text-dim);}
+.story-act p{margin:0 0 10px; max-width:72ch; font-size:15.5px; line-height:1.8; color:var(--text-dim);}
+.story-act p:last-child{margin-bottom:0;}
+.story-act strong{color:var(--text);}
+.story-act code{font-family:var(--mono); background:var(--surface-2); border:1px solid var(--border-soft); border-radius:4px; padding:1px 6px; font-size:13.5px; color:var(--amber);}
+.story-pullquote{border-left:3px solid var(--amber); background:var(--surface); border-radius:0 var(--radius) var(--radius) 0; padding:18px 22px; max-width:70ch; margin:28px 0; font-size:17px; font-style:italic; line-height:1.6; color:var(--text);}
+.story-also{max-width:82ch; margin:28px 0;}
+.story-also-title{font-family:var(--mono); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:var(--text-faint); margin:0 0 14px;}
+.story-also-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px;}
+.story-also-item{border:1px solid var(--border-soft); border-radius:var(--radius); padding:13px 15px; font-size:13.5px; line-height:1.6; color:var(--text-dim); background:var(--surface);}
+.story-also-domain{display:block; font-weight:700; color:var(--text); margin-bottom:4px; font-size:13.5px;}
+
 /* ---------- Topic footer nav ---------- */
 .topic-nav{display:flex; justify-content:space-between; margin-top:48px; padding-top:24px; border-top:1px solid var(--border-soft);}
 .topic-nav .btn{font-family:var(--body);}
@@ -320,6 +345,7 @@ footer a{color:var(--cyan); text-decoration:none;}
             <button class="nav-tab" data-tab="t3">03 Key differences</button>
             <button class="nav-tab" data-tab="t4">04 How this handbook teaches</button>
             <button class="nav-tab" data-tab="t5">05 C vs C++ comparison</button>
+            <button class="nav-tab" data-tab="t6">06 🎬 Story Mode</button>
           </div></div>
         </div>
       </div>
@@ -343,7 +369,7 @@ footer a{color:var(--cyan); text-decoration:none;}
   <p class="sub">Before we write a single class, we need to agree on why C++ looks the way it does. This module resets the mental model — from "functions acting on data" to "objects that own their data" — so every keyword you type from Module 1 onward has a reason behind it.</p>
   <div class="module-meta">
     <span><b>Day:</b> 1 of 6</span>
-    <span><b>Topics:</b> 6</span>
+    <span><b>Topics:</b> 7</span>
     <span><b>Type:</b> Conceptual + 1 hands-on check</span>
     <span><b>Repo folder:</b> root files &amp; <code style="color:var(--cyan)">01-Structs/</code></span>
   </div>
@@ -357,6 +383,7 @@ footer a{color:var(--cyan); text-decoration:none;}
     <button data-tab="t3"><span class="num">03</span>Key Differences: C vs C++</button>
     <button data-tab="t4"><span class="num">04</span>How This Handbook Teaches</button>
     <button data-tab="t5"><span class="num">05</span>C vs C++: one problem</button>
+    <button data-tab="t6"><span class="num">06</span>🎬 Story Mode</button>
   </div>
 
   <!-- TAB 0 -->
@@ -948,6 +975,54 @@ int main() {
 
     <div class="topic-nav">
       <button class="btn btn-ghost" onclick="document.querySelector('[data-tab=t4]').click()">← How this handbook teaches</button>
+      <button class="btn btn-primary" onclick="document.querySelector('[data-tab=t6]').click()">Story Mode: see it all connected →</button>
+    </div>
+  </div>
+
+  <!-- TAB 6: Story Mode -->
+  <div class="tabpanel" id="t6">
+    <span class="story-badge">🎬 Story Mode</span>
+    <h2 style="font-family:var(--head); font-size:26px; margin:0 0 12px;">From one toolbox to a whole workshop</h2>
+    <p class="story-lede">Picture this: Nimbus Vending has run the same coin-and-snack machines on plain C firmware since 1998. It works, mostly — until a new machine type needs its own pricing rules, and nobody can tell which of forty procedural functions is safe to touch without breaking three other machine types. You are the engineer sent in to plan the rewrite. This module is that planning conversation.</p>
+
+    <div class="story-timeline">
+      <div class="story-act">
+        <div class="story-act-head"><span class="story-act-num">ACT 1</span><h3>Learn the workshop before touching the machines</h3><button class="story-jump" type="button" onclick="document.querySelector('[data-tab=t0]').click()">↳ Revisit Syntax, tools &amp; execution</button></div>
+        <p>Before changing a single business rule, you need to be able to open the firmware project, compile it, run it, and rebuild it after one small change — on your own machine, without guessing. That is the whole point of the toolchain walkthrough: an editor is not a compiler, and neither of them is the thing that actually runs on the vending machine's hardware.</p>
+      </div>
+      <div class="story-act">
+        <div class="story-act-head"><span class="story-act-num">ACT 2</span><h3>Nimbus didn't choose a foreign language</h3><button class="story-jump" type="button" onclick="document.querySelector('[data-tab=t1]').click()">↳ Revisit Evolution of C to C++</button></div>
+        <p>The good news you bring back to your manager: C++ was invented for exactly this situation. Bjarne Stroustrup built it as "C with Classes" because large C codebases at his own employer kept hitting the same wall Nimbus just hit. Choosing C++ is not abandoning the firmware team's forty years of C knowledge — it's adding organization on top of it.</p>
+      </div>
+      <div class="story-act">
+        <div class="story-act-head"><span class="story-act-num">ACT 3</span><h3>Name the actual problem</h3><button class="story-jump" type="button" onclick="document.querySelector('[data-tab=t2]').click()">↳ Revisit Procedural vs OOP</button></div>
+        <p>Today, every machine's slot inventory and prices live in global arrays like <code>slot[8]</code> and <code>price[8]</code>, and any function anywhere in the codebase can reach in and modify them. That is procedural thinking taken to its limit. The object-oriented alternative you propose: give each vending machine's data and the functions that are allowed to touch it a single, named home — a <code>VendingMachine</code> type, not eight loose arrays and forty loose functions hoping to stay in sync.</p>
+      </div>
+      <div class="story-act">
+        <div class="story-act-head"><span class="story-act-num">ACT 4</span><h3>The concrete differences that will bite first</h3><button class="story-jump" type="button" onclick="document.querySelector('[data-tab=t3]').click()">↳ Revisit Key Differences</button></div>
+        <p>You write the migration team a short, honest list: <code>struct</code> members default to public in both languages but <code>class</code> defaults to private in C++; <code>malloc</code>/<code>free</code> give way to <code>new</code>/<code>delete</code> (and eventually smart pointers); a firmware error that used to be a silently-ignored return code can now be an exception the caller cannot accidentally forget to check. None of this is trivia — each line is a bug Nimbus has shipped before.</p>
+      </div>
+      <div class="story-act">
+        <div class="story-act-head"><span class="story-act-num">ACT 5</span><h3>The same problem, solved twice</h3><button class="story-jump" type="button" onclick="document.querySelector('[data-tab=t5]').click()">↳ Revisit the C vs C++ comparison</button></div>
+        <p>To make the case land, you don't just talk about it — you build the same small record-keeping program twice, once in C with a <code>struct</code> and manual <code>malloc</code>, once in C++ with a <code>class</code> that protects its own data. Same output, same problem, visibly different guarantees. That side-by-side is the argument.</p>
+      </div>
+    </div>
+
+    <blockquote class="story-pullquote">C++ didn't replace C's toolbox. It gave the same toolbox drawers, labels, and locks — and Module 1 is where you start filling those drawers for real.</blockquote>
+
+    <div class="story-also">
+      <p class="story-also-title">Also seen in the wild</p>
+      <div class="story-also-grid">
+        <div class="story-also-item"><span class="story-also-domain">Automotive firmware</span>Safety-critical ECU codebases have made the same C-to-C++ move Nimbus is making, for the same encapsulation reasons.</div>
+        <div class="story-also-item"><span class="story-also-domain">Apple/NeXT</span>Objective-C took the opposite syntax path but solved the identical problem: bolting OOP discipline onto existing C code.</div>
+        <div class="story-also-item"><span class="story-also-domain">.NET/C#</span>If you know C#, you already trusted a compiler to enforce access rules like this — C++ asks you to reason about it one layer closer to the machine.</div>
+      </div>
+    </div>
+
+    <div class="callout"><strong>Bring it back:</strong> Module 1 is Nimbus's rewrite starting for real — same instinct, a live case study: a <code>BankAccount</code> class that has to get every one of these decisions right.</div>
+
+    <div class="topic-nav">
+      <button class="btn btn-ghost" onclick="document.querySelector('[data-tab=t5]').click()">← C vs C++ comparison</button>
       <a class="btn btn-primary" href="module1.html">Continue to Module 1 →</a>
     </div>
   </div>

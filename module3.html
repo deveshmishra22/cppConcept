@@ -37,6 +37,7 @@
                 <button class="nav-tab" type="button" data-tab="t2">02 Operator overloading</button>
                 <button class="nav-tab" type="button" data-tab="t3">03 Complex numbers</button>
                 <button class="nav-tab" type="button" data-tab="t4">04 Point comparison</button>
+                <button class="nav-tab" type="button" data-tab="t5">05 🎬 Story Mode</button>
               </div></div>
             </div>
           </div>
@@ -62,6 +63,7 @@
           <button class="tab" type="button" data-tab="t2">Operator overloading</button>
           <button class="tab" type="button" data-tab="t3">Complex numbers</button>
           <button class="tab" type="button" data-tab="t4">Point comparison</button>
+          <button class="tab" type="button" data-tab="t5">🎬 Story Mode</button>
         </div>
         <section class="tabpanel active" id="t1">
           <div class="section-kicker">01 · The idea</div>
@@ -107,6 +109,44 @@ if (actual == expected) {
     std::cout &lt;&lt; "Coordinates match\n";
 }</code></pre>
           <div class="callout"><strong>Design question:</strong> Before overloading an operator, write one sentence describing what the operator means for your type.</div>
+          <div class="topic-nav" style="justify-content:flex-end;"><button class="btn btn-primary" type="button" onclick="document.querySelector('[data-tab=t5]').click()">Story Mode: see it all connected →</button></div>
+        </section>
+        <section class="tabpanel" id="t5">
+          <span class="story-badge">🎬 Story Mode</span>
+          <h2 style="margin:0 0 12px;">The scoreboard problem</h2>
+          <p class="story-lede">Picture this: same studio, new problem. Nimbus Games' physics and scoring team needs three things by Friday: combo scores that can be whole numbers or decimals under one function name, knockback forces that combine the way arrows in a diagram would, and a reliable way to tell whether a player has actually reached a checkpoint. None of it needs a new runtime feature — all of it is decided before the game even starts running.</p>
+
+          <div class="story-timeline">
+            <div class="story-act">
+              <div class="story-act-head"><span class="story-act-num">ACT 1</span><h3>One scoring function, two kinds of points</h3><button class="story-jump" type="button" onclick="document.querySelector('[data-tab=t1]').click()">↳ Revisit Function Overloading</button></div>
+              <p>The scoring system awards whole-number combo points most of the time, but decimal bonus multipliers during double-score events. Writing <code>addComboScore()</code> and <code>addBonusScore()</code> as separate names would work, but it would also make every call site remember which one applies. Overloading <code>total(int, int)</code> and <code>total(double, double)</code> lets the designer-facing code just say <code>total(a, b)</code> and trust the compiler to pick correctly, every time, before the game ships.</p>
+            </div>
+            <div class="story-act">
+              <div class="story-act-head"><span class="story-act-num">ACT 2</span><h3>Forces should combine like forces, not like function calls</h3><button class="story-jump" type="button" onclick="document.querySelector('[data-tab=t2]').click()">↳ Revisit Operator Overloading</button></div>
+              <p>The physics programmer's whiteboard already draws knockback as <code>forceA + forceB</code>. Making the code say <code>combined = forceA.applyTo(forceB)</code> instead would fight that mental model on every line. Overloading <code>+</code> lets the C++ read the way the physics is actually described — as long as the team agrees, in writing, what <code>+</code> is allowed to mean for a force. It should combine components. It should never, say, also reset a cooldown timer as a side effect.</p>
+            </div>
+            <div class="story-act">
+              <div class="story-act-head"><span class="story-act-num">ACT 3</span><h3>Two numbers that move together</h3><button class="story-jump" type="button" onclick="document.querySelector('[data-tab=t3]').click()">↳ Revisit Complex Numbers</button></div>
+              <p>A <code>Complex</code> value's real and imaginary parts add component by component — and that is precisely how a 2D knockback force's horizontal and vertical components combine too. The math the course teaches through complex numbers is the same math the physics team ships: two paired values, added independently, wrapped behind one clean <code>operator+</code> so the calling code never manually juggles two components at once.</p>
+            </div>
+            <div class="story-act">
+              <div class="story-act-head"><span class="story-act-num">ACT 4</span><h3>Did the player actually reach the checkpoint?</h3><button class="story-jump" type="button" onclick="document.querySelector('[data-tab=t4]').click()">↳ Revisit Point Comparison</button></div>
+              <p>Every frame, the game asks one question: does the player's current <code>Point</code> match the checkpoint's <code>Point</code>? Without <code>operator==</code>, that check becomes a hand-written <code>x == other.x &amp;&amp; y == other.y</code> copy-pasted at every checkpoint in the game. With it, the check reads exactly like the design document: <code>player == checkpoint</code>.</p>
+            </div>
+          </div>
+
+          <blockquote class="story-pullquote">Overload resolution happens before your game even starts running — the compiler already knows which version of <code>total()</code> it's going to call, for every call site, before the first frame renders.</blockquote>
+
+          <div class="story-also">
+            <p class="story-also-title">Also seen in the wild</p>
+            <div class="story-also-grid">
+              <div class="story-also-item"><span class="story-also-domain">Finance</span>An interest calculator overloaded for <code>int</code> cents and <code>double</code> currency amounts mirrors Act 1's <code>total()</code> exactly.</div>
+              <div class="story-also-item"><span class="story-also-domain">GIS &amp; maps</span>Mapping software overloads <code>==</code> and <code>+</code> on coordinate types the same way Act 4 checks a checkpoint.</div>
+              <div class="story-also-item"><span class="story-also-domain">CAD software</span>Combining 2D/3D transforms with <code>+</code> or <code>*</code> is the same operator-overloading judgment call as Act 2's force vectors.</div>
+            </div>
+          </div>
+
+          <div class="callout"><strong>Bring it back:</strong> the geometry inspection report below is Act 1 and Act 4 running together in one small program. Module 4 moves from "the compiler picks the right thing" to "the program survives when something goes wrong."</div>
         </section>
       </div>
       <section class="try-now">

@@ -36,6 +36,8 @@ Each available module follows a simple learning loop:
 6. Change one small thing and run it again.
 7. Build the complete use-case program.
 8. Extend it through the homework task.
+9. Switch to the module's Story Mode tab to see every idea in it retold as one
+   real-world scenario.
 
 The notes include compiler commands, expected output, VS Code guidance, and
 hints rather than complete homework solutions. This keeps the focus on
