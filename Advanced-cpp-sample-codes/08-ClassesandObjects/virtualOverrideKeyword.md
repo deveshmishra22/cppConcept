@@ -32,3 +32,12 @@ A summary of C++ method resolution, virtual dispatch, signature matching, and co
 * Occurs when a derived class defines a method with the same name as a base method without dynamic dispatch (either because the base function is non-virtual or the signatures do not match).
 * Uses static binding: calling the method via a base pointer executes the base version, while calling it via a derived object executes the derived version.
 * Shadowing a method name in a derived class automatically hides all base class overloads of that name, unless explicitly brought into scope using the `using Base::method_name` directive.
+
+
+**Core Takeaway on Non-Virtual Redefinition**
+
+Static Binding Rule: When a base function is non-virtual, virtual tables do not exist. The compiler determines which function to invoke at compile time based purely on the variable's declared type, not the object's actual underlying type in memory.
+
+Pointer Execution: Calling ptr->show() on a Parent* pointer will always execute Parent::show(), even if ptr points to a Child instance.
+
+Direct Object Execution: Calling c.show() directly on a Child instance will execute Child::show() because the child class scope shadows (hides) the parent's function name.
