@@ -41,7 +41,7 @@
               </div></div>
             </div>
           </div>
-          <div class="nav-day"><a class="nav-day-toggle" href="index.html#day3" aria-expanded="false"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 3</span><span class="nav-day-subtitle">Robustness</span><span class="nav-day-chevron">›</span></a></div>
+          <div class="nav-day"><a class="nav-day-toggle" href="index.html#day3"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 3</span><span class="nav-day-subtitle">Robustness</span><span class="nav-day-chevron">›</span></a><div class="nav-day-body"><div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module4.html">Exception Handling</a></li><li class="nav-topic"><a href="module5.html">Templates &amp; Generics</a></li></ul></div></div></div>
           <div class="nav-day"><a class="nav-day-toggle" href="index.html#day4" aria-expanded="false"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 4</span><span class="nav-day-subtitle">Modern C++</span><span class="nav-day-chevron">›</span></a></div>
           <div class="nav-day"><a class="nav-day-toggle" href="index.html#day5" aria-expanded="false"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 5</span><span class="nav-day-subtitle">Networking</span><span class="nav-day-chevron">›</span></a></div>
         </nav>
@@ -66,87 +66,332 @@
           <button class="tab" type="button" data-tab="t5">🎬 Story Mode</button>
         </div>
         <section class="tabpanel active" id="t1">
-          <div class="section-kicker">01 · The idea</div>
-          <h2>One name, different parameter lists</h2>
-          <p>Function overloading lets related operations share one readable name. The compiler selects a function using the number, order, and types of arguments. The return type alone is not enough to create an overload.</p>
-          <div class="callout"><strong>Think of it like a C# method overload.</strong> The call site supplies the clue, and overload resolution happens before the program runs.</div>
-          <pre><code>int add(int left, int right);
-double add(double left, double right);
+          <p class="topic-intro">Function overloading lets you give related operations the same name and let the compiler pick the right version based on argument types — all at compile time.</p>
 
-add(2, 3);          // int version
-add(2.5, 3.5);      // double version</code></pre>
+          <div class="block">
+            <div class="block-label"><span class="tag why">WHY</span><h4>Why one name matters more than you think</h4></div>
+            <div class="content">
+              <p>When you write a function called <code>display(int)</code>, then later need <code>display(double)</code>, the choices are: rename it <code>displayDouble()</code>, or overload it. Renaming means every call site must decide which name to use — now the caller's code contains knowledge that rightly belongs inside the library.</p>
+              <p>As the number of supported types grows, the naming problem compounds. Overloading keeps the calling code clean: the right function is chosen by the compiler from the types the caller already has.</p>
+            </div>
+          </div>
+
+          <div class="block">
+            <div class="block-label"><span class="tag what">WHAT</span><h4>How the compiler selects an overload</h4></div>
+            <div class="content">
+              <ul>
+                <li><strong>overload resolution</strong> — the process the compiler runs when it sees a function call. It considers all functions with that name that are visible, ranks them by how well the argument types match, and picks the best. This happens entirely at compile time.</li>
+                <li><strong>overloading on return type alone</strong> is not allowed — two functions that differ only in what they return are ambiguous; the compiler cannot pick from a call site where the return value is discarded.</li>
+                <li><strong>default arguments</strong> are different from overloading — they provide fallback values, not type-based selection.</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="block">
+            <div class="block-label"><span class="tag how">HOW</span><h4>Three overloads of <code>add()</code> — one for each type</h4></div>
+            <div class="content"><p>The same function name works for integers, doubles, and strings. The compiler picks the correct version at compile time based solely on the argument types supplied at the call site.</p></div>
+            <div class="code-card">
+              <div class="code-head"><span class="filename">overload_demo.cpp</span></div>
+              <pre><code>#include &lt;iostream&gt;
+
+int add(int a, int b)       { return a + b; }
+double add(double a, double b) { return a + b; }
+std::string add(const std::string&amp; a, const std::string&amp; b) { return a + b; }
+
+int main() {
+    std::cout &lt;&lt; add(2, 3)            &lt;&lt; "\n";   // int overload: 5
+    std::cout &lt;&lt; add(1.5, 2.5)        &lt;&lt; "\n";   // double overload: 4
+    std::cout &lt;&lt; add("hi, ", "world") &lt;&lt; "\n";   // string overload: hi, world
+}</code></pre>
+            </div>
+            <div class="output-box"><span class="lbl">Expected output</span>5
+4
+hi, world</div>
+            <div style="background:#fff7e6;border-left:3px solid #f5a623;border-radius:0 8px 8px 0;padding:12px 16px;font-size:14px;margin:14px 0;max-width:70ch;">
+              <strong>Try:</strong>
+              <ol style="margin:8px 0 0;padding-left:20px;">
+                <li>Compile: <code>g++ -std=c++17 overload_demo.cpp -o overload_demo</code></li>
+                <li>Run on Windows: <code>overload_demo.exe</code> — Linux/macOS: <code>./overload_demo</code></li>
+                <li><strong>Experiment:</strong> Try calling <code>add(2, 2.5)</code> — one int, one double. The compiler cannot pick the best match and will report an ambiguity error. This is the compiler telling you the call is unclear.</li>
+              </ol>
+            </div>
+            <div class="callout"><strong>cppreference:</strong> <a href="https://en.cppreference.com/w/cpp/language/overload_resolution" target="_blank" rel="noopener">Overload resolution — en.cppreference.com</a></div>
+          </div>
+
+          <div class="topic-nav" style="justify-content:flex-end;">
+            <button class="btn btn-primary" type="button" onclick="document.querySelector('[data-tab=t2]').click()">Next: Operator overloading →</button>
+          </div>
         </section>
         <section class="tabpanel" id="t2">
-          <div class="section-kicker">02 · The idea</div>
-          <h2>Make domain values feel natural</h2>
-          <p>Operator overloading gives a user-defined type meaningful behavior for familiar operators such as <code>+</code>, <code>==</code>, and <code>&lt;</code>. It does not invent a new operator or change how an operator works for built-in types.</p>
-          <div class="two-column">
-            <div class="mini-card"><strong>Good fit</strong><span>Value-like types such as money, points, vectors, and complex numbers.</span></div>
-            <div class="mini-card"><strong>Guardrail</strong><span>Keep the behavior predictable. A plus operator should not secretly delete a file.</span></div>
+          <p class="topic-intro">Operator overloading gives a class meaningful behavior for built-in operators. It does not invent new operators or change how they work on built-in types.</p>
+
+          <div class="block">
+            <div class="block-label"><span class="tag why">WHY</span><h4>Why write <code>a + b</code> instead of <code>a.add(b)</code></h4></div>
+            <div class="content">
+              <p>When a type truly represents a mathematical or data-oriented value, operators make code read like the domain it models. A force vector addition written as <code>forceA + forceB</code> is immediately understandable to anyone who has read the physics specification; <code>forceA.combinedWith(forceB)</code> is longer and adds nothing.</p>
+              <p>The risk is misuse: an operator must be intuitive. If <code>operator+</code> on a file object does something unexpected, every reader of the code will be confused. The rule: overload only when the operator's meaning for your type is obvious without a comment.</p>
+            </div>
           </div>
-          <pre><code>Complex operator+(const Complex&amp; other) const;
-bool operator==(const Point&amp; other) const;</code></pre>
+
+          <div class="block">
+            <div class="block-label"><span class="tag what">WHAT</span><h4>Which operators can be overloaded and how</h4></div>
+            <div class="content">
+              <ul>
+                <li><strong>operator+, operator-, operator*, operator/</strong> — arithmetic, typically return a new value</li>
+                <li><strong>operator==, operator!=, operator&lt;</strong> — comparison, return <code>bool</code></li>
+                <li><strong>operator&lt;&lt;</strong> — typically overloaded as a free function for stream output: <code>std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, const Type&amp; t)</code></li>
+                <li><strong>operator=</strong> — assignment, already provided by the compiler if not defined; overload when your class manages a resource</li>
+                <li><strong>operators you cannot overload</strong>: <code>::</code>, <code>.*</code>, <code>.</code>, <code>?:</code> — these are built into C++ syntax itself</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="block">
+            <div class="block-label"><span class="tag how">HOW</span><h4>A 2D vector type with arithmetic and comparison operators</h4></div>
+            <div class="content"><p>This <code>Vector2D</code> struct adds <code>operator+</code> as a member function and <code>operator&lt;&lt;</code> as a free function, which is the standard pattern for stream output.</p></div>
+            <div class="code-card">
+              <div class="code-head"><span class="filename">vector2d.cpp</span></div>
+              <pre><code>#include &lt;iostream&gt;
+
+struct Vector2D {
+    double x, y;
+
+    Vector2D operator+(const Vector2D&amp; other) const {
+        return {x + other.x, y + other.y};
+    }
+
+    bool operator==(const Vector2D&amp; other) const {
+        return x == other.x &amp;&amp; y == other.y;
+    }
+};
+
+std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, const Vector2D&amp; v) {
+    return os &lt;&lt; "(" &lt;&lt; v.x &lt;&lt; ", " &lt;&lt; v.y &lt;&lt; ")";
+}
+
+int main() {
+    Vector2D a{3.0, 4.0};
+    Vector2D b{1.0, 2.0};
+    std::cout &lt;&lt; a + b &lt;&lt; "\n";
+    std::cout &lt;&lt; (a == b ? "equal" : "different") &lt;&lt; "\n";
+}</code></pre>
+            </div>
+            <div class="output-box"><span class="lbl">Expected output</span>(4, 6)
+different</div>
+            <div style="background:#fff7e6;border-left:3px solid #f5a623;border-radius:0 8px 8px 0;padding:12px 16px;font-size:14px;margin:14px 0;max-width:70ch;">
+              <strong>Try:</strong>
+              <ol style="margin:8px 0 0;padding-left:20px;">
+                <li>Compile: <code>g++ -std=c++17 vector2d.cpp -o vector2d</code></li>
+                <li>Run on Windows: <code>vector2d.exe</code> — Linux/macOS: <code>./vector2d</code></li>
+                <li><strong>Experiment:</strong> Add <code>operator-</code> for subtraction. Then try overloading <code>operator*</code> to scale a vector by a scalar double — you'll need it as a free function: <code>Vector2D operator*(const Vector2D&amp; v, double s)</code>.</li>
+              </ol>
+            </div>
+            <div class="callout"><strong>cppreference:</strong> <a href="https://en.cppreference.com/w/cpp/language/operators" target="_blank" rel="noopener">Operator overloading — en.cppreference.com</a></div>
+          </div>
+
+          <div class="topic-nav">
+            <button class="btn btn-ghost" type="button" onclick="document.querySelector('[data-tab=t1]').click()">← Function overloading</button>
+            <button class="btn btn-primary" type="button" onclick="document.querySelector('[data-tab=t3]').click()">Next: Complex numbers →</button>
+          </div>
         </section>
         <section class="tabpanel" id="t3">
-          <div class="section-kicker">03 · Worked concept</div>
-          <h2>Complex numbers as a value type</h2>
-          <p>A complex number has a real part and an imaginary part. Addition is performed component by component, which makes <code>operator+</code> a clear and useful abstraction.</p>
-          <pre><code>Complex first{2.0, 3.0};
-Complex second{1.5, 4.0};
-Complex total = first + second;
+          <p class="topic-intro">The Complex number type shows operator overloading at its most natural: two components that add independently.</p>
 
-// total is 3.5 + 7.0i</code></pre>
-          <p class="muted">The calling code expresses the problem, while the class owns the arithmetic rule.</p>
+          <div class="block">
+            <div class="block-label"><span class="tag why">WHY</span><h4>Why Complex is the textbook operator-overloading example</h4></div>
+            <div class="content">
+              <p>A complex number z = a + bi has a real part (a) and an imaginary part (b). Addition follows one rule: add each part separately. This maps so directly to <code>operator+</code> that the implementation writes itself.</p>
+              <p>More importantly, it demonstrates the value of wrapping two coupled pieces of data into one type with its own arithmetic — the same pattern used by 2D point, RGB colour, quaternion, and currency types in real codebases.</p>
+            </div>
+          </div>
+
+          <div class="block">
+            <div class="block-label"><span class="tag what">WHAT</span><h4>The member function vs free function choice</h4></div>
+            <div class="content">
+              <ul>
+                <li><strong>member operator+(const T&amp; other) const</strong> — access private members naturally; the left operand is <code>*this</code></li>
+                <li><strong>free function operator+(const T&amp; a, const T&amp; b)</strong> — allows the left operand to be any implicitly convertible type; needed for mixed arithmetic like <code>2.0 + complex</code></li>
+                <li>For symmetric operators (<code>+</code>, <code>*</code>), prefer free functions for symmetry; for assignment operators (<code>+=</code>, <code>=</code>), prefer member functions</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="block">
+            <div class="block-label"><span class="tag how">HOW</span><h4>Complete Complex class with addition, multiplication, and stream output</h4></div>
+            <div class="content"><p>Private real and imaginary members, arithmetic operators implemented as member functions, and <code>operator&lt;&lt;</code> as a free function so the class can be printed naturally with <code>std::cout</code>.</p></div>
+            <div class="code-card">
+              <div class="code-head"><span class="filename">complex_number.cpp</span></div>
+              <pre><code>#include &lt;iostream&gt;
+
+class Complex {
+    double real_;
+    double imag_;
+public:
+    Complex(double r, double i) : real_(r), imag_(i) {}
+
+    Complex operator+(const Complex&amp; other) const {
+        return {real_ + other.real_, imag_ + other.imag_};
+    }
+
+    Complex operator*(const Complex&amp; other) const {
+        return {real_ * other.real_ - imag_ * other.imag_,
+                real_ * other.imag_ + imag_ * other.real_};
+    }
+
+    bool operator==(const Complex&amp; other) const {
+        return real_ == other.real_ &amp;&amp; imag_ == other.imag_;
+    }
+
+    double real() const { return real_; }
+    double imag() const { return imag_; }
+};
+
+std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, const Complex&amp; c) {
+    return os &lt;&lt; c.real() &lt;&lt; " + " &lt;&lt; c.imag() &lt;&lt; "i";
+}
+
+int main() {
+    Complex a{2.0, 3.0};
+    Complex b{1.5, 4.0};
+
+    std::cout &lt;&lt; "Sum:     " &lt;&lt; a + b &lt;&lt; "\n";
+    std::cout &lt;&lt; "Product: " &lt;&lt; a * b &lt;&lt; "\n";
+    std::cout &lt;&lt; "Equal:   " &lt;&lt; (a == b ? "yes" : "no") &lt;&lt; "\n";
+}</code></pre>
+            </div>
+            <div class="output-box"><span class="lbl">Expected output</span>Sum:     3.5 + 7i
+Product: -9 + 12.5i
+Equal:   no</div>
+            <div style="background:#fff7e6;border-left:3px solid #f5a623;border-radius:0 8px 8px 0;padding:12px 16px;font-size:14px;margin:14px 0;max-width:70ch;">
+              <strong>Try:</strong>
+              <ol style="margin:8px 0 0;padding-left:20px;">
+                <li>Compile: <code>g++ -std=c++17 complex_number.cpp -o complex_number</code></li>
+                <li>Run on Windows: <code>complex_number.exe</code> — Linux/macOS: <code>./complex_number</code></li>
+                <li><strong>Experiment:</strong> Add <code>operator-</code> for subtraction and <code>operator*(double scalar)</code> to scale a complex number. Then try <code>Complex{0, 1} * Complex{0, 1}</code> — this should give <code>-1 + 0i</code> (imaginary unit squared equals -1).</li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="topic-nav">
+            <button class="btn btn-ghost" type="button" onclick="document.querySelector('[data-tab=t2]').click()">← Operator overloading</button>
+            <button class="btn btn-primary" type="button" onclick="document.querySelector('[data-tab=t4]').click()">Next: Point comparison →</button>
+          </div>
         </section>
         <section class="tabpanel" id="t4">
-          <div class="section-kicker">04 · Worked concept</div>
-          <h2>Comparing points safely</h2>
-          <p>A point comparison can mean different things. Here, equality means both coordinates match exactly. In production geometry code, decide explicitly whether floating-point tolerance is required.</p>
-          <pre><code>Point expected{10, 20};
-Point actual{10, 20};
+          <p class="topic-intro">Point comparison shows the most common use of operator overloading: making equality behave correctly for domain types.</p>
 
-if (actual == expected) {
-    std::cout &lt;&lt; "Coordinates match\n";
+          <div class="block">
+            <div class="block-label"><span class="tag why">WHY</span><h4>Why struct comparison doesn't work by default</h4></div>
+            <div class="content">
+              <p>C++ structs do not automatically support <code>==</code>. Writing <code>if (p1 == p2)</code> without overloading fails to compile — the compiler has no idea whether "equal" means same pointer, same x, same x-and-y, or same coordinate within a tolerance.</p>
+              <p>This is deliberate: equality for domain types requires a domain decision. Is a GPS coordinate equal if it's within 1 metre? Within 1 millimetre? Exactly? The answer depends on the application.</p>
+            </div>
+          </div>
+
+          <div class="block">
+            <div class="block-label"><span class="tag what">WHAT</span><h4>Design questions before writing operator==</h4></div>
+            <div class="content">
+              <ul>
+                <li>What does equality mean for this type? Write it in one sentence before you write any code.</li>
+                <li>For floating-point types, exact equality is often wrong — prefer a tolerance comparison: <code>std::abs(x - other.x) &lt; 1e-9</code></li>
+                <li>Provide <code>operator!=</code> too (in C++17 you can derive it from <code>operator==</code>; in C++20 use <code>= default</code> to generate it automatically)</li>
+                <li>If you overload <code>operator&lt;</code>, consider providing a full set: <code>&lt;</code>, <code>&lt;=</code>, <code>&gt;</code>, <code>&gt;=</code>, or use C++20 spaceship <code>&lt;=&gt;</code> to generate them all</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="block">
+            <div class="block-label"><span class="tag how">HOW</span><h4>Point with epsilon equality and lexicographic ordering</h4></div>
+            <div class="content"><p>Floating-point <code>operator==</code> uses an epsilon tolerance so that coordinates differing by less than 1e-9 still compare equal. <code>operator&lt;</code> enables sorting: sort by x first, then by y.</p></div>
+            <div class="code-card">
+              <div class="code-head"><span class="filename">point_comparison.cpp</span></div>
+              <pre><code>#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+
+struct Point {
+    double x, y;
+
+    bool operator==(const Point&amp; other) const {
+        const double eps = 1e-9;
+        return std::abs(x - other.x) &lt; eps &amp;&amp;
+               std::abs(y - other.y) &lt; eps;
+    }
+
+    bool operator!=(const Point&amp; other) const { return !(*this == other); }
+
+    bool operator&lt;(const Point&amp; other) const {
+        if (x != other.x) return x &lt; other.x;
+        return y &lt; other.y;
+    }
+};
+
+std::ostream&amp; operator&lt;&lt;(std::ostream&amp; os, const Point&amp; p) {
+    return os &lt;&lt; "(" &lt;&lt; p.x &lt;&lt; ", " &lt;&lt; p.y &lt;&lt; ")";
+}
+
+int main() {
+    Point checkpoint{10.0, 20.0};
+    Point player{10.0, 20.0};
+    Point enemy{5.0, 15.0};
+
+    std::cout &lt;&lt; "Player at checkpoint: " &lt;&lt; (player == checkpoint ? "YES" : "NO") &lt;&lt; "\n";
+    std::cout &lt;&lt; "Enemy at checkpoint:  " &lt;&lt; (enemy  == checkpoint ? "YES" : "NO") &lt;&lt; "\n";
+    std::cout &lt;&lt; "Sorted order: " &lt;&lt; enemy &lt;&lt; " comes before " &lt;&lt; checkpoint
+              &lt;&lt; ": " &lt;&lt; (enemy &lt; checkpoint ? "true" : "false") &lt;&lt; "\n";
 }</code></pre>
-          <div class="callout"><strong>Design question:</strong> Before overloading an operator, write one sentence describing what the operator means for your type.</div>
-          <div class="topic-nav" style="justify-content:flex-end;"><button class="btn btn-primary" type="button" onclick="document.querySelector('[data-tab=t5]').click()">Story Mode: see it all connected →</button></div>
+            </div>
+            <div class="output-box"><span class="lbl">Expected output</span>Player at checkpoint: YES
+Enemy at checkpoint:  NO
+Sorted order: (5, 15) comes before (10, 20): true</div>
+            <div style="background:#fff7e6;border-left:3px solid #f5a623;border-radius:0 8px 8px 0;padding:12px 16px;font-size:14px;margin:14px 0;max-width:70ch;">
+              <strong>Try:</strong>
+              <ol style="margin:8px 0 0;padding-left:20px;">
+                <li>Compile: <code>g++ -std=c++17 point_comparison.cpp -o point_comparison</code></li>
+                <li>Run on Windows: <code>point_comparison.exe</code> — Linux/macOS: <code>./point_comparison</code></li>
+                <li><strong>Experiment:</strong> Change the player position to <code>{10.0, 20.000000001}</code> and rerun — with exact equality it would fail, but with the epsilon tolerance it still passes. This is why floating-point comparison is a design decision, not a technical default.</li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="topic-nav" style="justify-content:flex-end;">
+            <button class="btn btn-primary" type="button" onclick="document.querySelector('[data-tab=t5]').click()">Story Mode: see it all connected →</button>
+          </div>
         </section>
         <section class="tabpanel" id="t5">
           <span class="story-badge">🎬 Story Mode</span>
-          <h2 style="margin:0 0 12px;">The scoreboard problem</h2>
-          <p class="story-lede">Picture this: same studio, new problem. Nimbus Games' physics and scoring team needs three things by Friday: combo scores that can be whole numbers or decimals under one function name, knockback forces that combine the way arrows in a diagram would, and a reliable way to tell whether a player has actually reached a checkpoint. None of it needs a new runtime feature — all of it is decided before the game even starts running.</p>
+          <h2 style="margin:0 0 12px;">Three problems, one Friday afternoon</h2>
+          <p class="story-lede">The Nimbus Games scoring and physics team had three features due by end of day. Combo scores that work with whole numbers and decimals. Knockback forces that combine the way arrows do on a whiteboard. Checkpoint detection that reads like plain English. None of it needs a new runtime feature — all of it is resolved by the compiler before the game even starts running.</p>
 
-          <div class="story-timeline">
-            <div class="story-act">
-              <div class="story-act-head"><span class="story-act-num">ACT 1</span><h3>One scoring function, two kinds of points</h3><button class="story-jump" type="button" onclick="document.querySelector('[data-tab=t1]').click()">↳ Revisit Function Overloading</button></div>
-              <p>The scoring system awards whole-number combo points most of the time, but decimal bonus multipliers during double-score events. Writing <code>addComboScore()</code> and <code>addBonusScore()</code> as separate names would work, but it would also make every call site remember which one applies. Overloading <code>total(int, int)</code> and <code>total(double, double)</code> lets the designer-facing code just say <code>total(a, b)</code> and trust the compiler to pick correctly, every time, before the game ships.</p>
-            </div>
-            <div class="story-act">
-              <div class="story-act-head"><span class="story-act-num">ACT 2</span><h3>Forces should combine like forces, not like function calls</h3><button class="story-jump" type="button" onclick="document.querySelector('[data-tab=t2]').click()">↳ Revisit Operator Overloading</button></div>
-              <p>The physics programmer's whiteboard already draws knockback as <code>forceA + forceB</code>. Making the code say <code>combined = forceA.applyTo(forceB)</code> instead would fight that mental model on every line. Overloading <code>+</code> lets the C++ read the way the physics is actually described — as long as the team agrees, in writing, what <code>+</code> is allowed to mean for a force. It should combine components. It should never, say, also reset a cooldown timer as a side effect.</p>
-            </div>
-            <div class="story-act">
-              <div class="story-act-head"><span class="story-act-num">ACT 3</span><h3>Two numbers that move together</h3><button class="story-jump" type="button" onclick="document.querySelector('[data-tab=t3]').click()">↳ Revisit Complex Numbers</button></div>
-              <p>A <code>Complex</code> value's real and imaginary parts add component by component — and that is precisely how a 2D knockback force's horizontal and vertical components combine too. The math the course teaches through complex numbers is the same math the physics team ships: two paired values, added independently, wrapped behind one clean <code>operator+</code> so the calling code never manually juggles two components at once.</p>
-            </div>
-            <div class="story-act">
-              <div class="story-act-head"><span class="story-act-num">ACT 4</span><h3>Did the player actually reach the checkpoint?</h3><button class="story-jump" type="button" onclick="document.querySelector('[data-tab=t4]').click()">↳ Revisit Point Comparison</button></div>
-              <p>Every frame, the game asks one question: does the player's current <code>Point</code> match the checkpoint's <code>Point</code>? Without <code>operator==</code>, that check becomes a hand-written <code>x == other.x &amp;&amp; y == other.y</code> copy-pasted at every checkpoint in the game. With it, the check reads exactly like the design document: <code>player == checkpoint</code>.</p>
-            </div>
+          <p>The scoring system awards whole-number combo points during normal play, but decimal bonus multipliers during double-score events. Writing two different function names — <code>addComboScore()</code> and <code>addBonusMultiplier()</code> — would work, but every call site would have to remember which name applied when. <strong>Function overloading</strong> lets you write <code>total(int, int)</code> and <code>total(double, double)</code> under the same name. The compiler reads the argument types at each call site and picks the right version automatically, at compile time, before the game ships. One name. Two implementations. Zero confusion at the call site.</p>
+
+          <p>The physics programmer had drawn knockback on the whiteboard as <code>forceA + forceB</code> for six months. Making the code say <code>combined = forceA.applyTo(forceB)</code> instead would fight that mental model on every single line. <strong>Operator overloading</strong> lets you give the <code>+</code> operator a meaning for your own types. <code>Vector2D operator+(const Vector2D&amp; b)</code> makes the C++ read exactly like the physics diagram. One rule: an overloaded operator must do what it looks like it does — combine vector components, nothing else. No hidden side effects, no surprises for the reader.</p>
+
+          <p>To teach how overloading works on paired values, the course uses complex numbers — and for good reason. A <code>Complex</code> value has a real part and an imaginary part. When you add two complex numbers, the real parts add independently and the imaginary parts add independently: <code>(3 + 2i) + (1 + 4i) = (4 + 6i)</code>. That is exactly how a 2D physics force adds: horizontal plus horizontal, vertical plus vertical. The math is identical. Wrapping it behind <code>operator+</code> means the calling code never manually juggles two components at once.</p>
+
+          <p>Every frame, the game checks one question for every checkpoint: is the player there? Without <code>operator==</code>, that check is <code>p.x == cp.x &amp;&amp; p.y == cp.y</code> — copy-pasted at every checkpoint in the codebase, and wrong the day someone adds a <code>z</code> coordinate and forgets to update one copy. With operator overloading, the check reads: <code>player == checkpoint</code>. One line. It lives in one place. When the type changes, you fix the operator once and every call site is automatically correct.</p>
+
+          <blockquote class="story-pullquote">Overload resolution is decided before the game runs a single frame. The compiler already knows which version of <code>total()</code> it is calling, at every call site, before the first player connects.</blockquote>
+
+          <div class="callout" style="margin-top:24px;">
+            <p style="margin:0 0 8px;"><strong>What we just learned</strong></p>
+            <ul style="margin:0; padding-left:20px; line-height:1.9;">
+              <li><strong>Function overloading</strong> — same function name, different parameter types; the compiler picks the right version at compile time based on argument types</li>
+              <li><strong>Operator overloading</strong> — give a built-in operator a meaning for your own type; it must always do what the symbol looks like it does</li>
+              <li><strong>Complex number addition</strong> — real parts add independently, imaginary parts add independently; the same pattern as any 2D paired value</li>
+              <li><strong>operator==</strong> — centralizes equality logic in one place; prevents copy-paste bugs when the type grows or changes later</li>
+            </ul>
           </div>
-
-          <blockquote class="story-pullquote">Overload resolution happens before your game even starts running — the compiler already knows which version of <code>total()</code> it's going to call, for every call site, before the first frame renders.</blockquote>
 
           <div class="story-also">
             <p class="story-also-title">Also seen in the wild</p>
             <div class="story-also-grid">
-              <div class="story-also-item"><span class="story-also-domain">Finance</span>An interest calculator overloaded for <code>int</code> cents and <code>double</code> currency amounts mirrors Act 1's <code>total()</code> exactly.</div>
-              <div class="story-also-item"><span class="story-also-domain">GIS &amp; maps</span>Mapping software overloads <code>==</code> and <code>+</code> on coordinate types the same way Act 4 checks a checkpoint.</div>
-              <div class="story-also-item"><span class="story-also-domain">CAD software</span>Combining 2D/3D transforms with <code>+</code> or <code>*</code> is the same operator-overloading judgment call as Act 2's force vectors.</div>
+              <div class="story-also-item"><span class="story-also-domain">Finance</span>An interest calculator overloaded for <code>int</code> cents and <code>double</code> currency amounts uses the same function-overloading idea as the scoring system.</div>
+              <div class="story-also-item"><span class="story-also-domain">GIS &amp; maps</span>Mapping software overloads <code>==</code> and <code>+</code> on coordinate types the same way the game checks checkpoint position.</div>
+              <div class="story-also-item"><span class="story-also-domain">CAD software</span>Combining 2D/3D transforms with <code>+</code> or <code>*</code> is the same operator-overloading judgment call as the force-vector problem.</div>
             </div>
           </div>
 
-          <div class="callout"><strong>Bring it back:</strong> the geometry inspection report below is Act 1 and Act 4 running together in one small program. Module 4 moves from "the compiler picks the right thing" to "the program survives when something goes wrong."</div>
+          <div class="callout"><strong>Continue:</strong> the practice exercises below run the scoring and checkpoint logic you just read about — same idea, compilable right now. Module 4 moves from compile-time decisions to runtime robustness.</div>
         </section>
       </div>
       <section class="try-now">
@@ -341,5 +586,6 @@ int main() {
     initTabs();
     initCopyButtons();
   </script>
+<script src="search.js"></script>
 </body>
 </html>

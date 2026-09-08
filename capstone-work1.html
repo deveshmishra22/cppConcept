@@ -251,5 +251,6 @@ function initNavModules(){document.querySelectorAll('.nav-module').forEach(modul
 function initCopyButtons(){document.querySelectorAll('.copy-btn').forEach(btn=>btn.addEventListener('click',async()=>{const code=btn.closest('.code-card').querySelector('code').innerText;try{await navigator.clipboard.writeText(code);}catch(e){const ta=document.createElement('textarea');ta.value=code;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();}btn.textContent='Copied';setTimeout(()=>btn.textContent='Copy',1200);}));}
 document.addEventListener('DOMContentLoaded',()=>{initSidebar();initNavGroups();initNavModules();initCopyButtons();});
 </script>
+<script src="search.js"></script>
 </body>
 </html>

@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 4: Exception Handling &amp; Robustness - Enterprise C++ Handbook</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-left">
+    <button class="sidebar-toggle" type="button" aria-label="Toggle course navigation" aria-expanded="true">☰</button>
+    <a href="index.html" class="brand"><span class="brand-mark">C++</span><span class="brand-text">Enterprise C++ Handbook<small>Personal notes by Raushan Ranjan</small></span></a>
+  </div>
+  <div class="topbar-center"><label class="search-bar"><span class="search-icon">⌕</span><input class="search-input" type="search" placeholder="Search the handbook" aria-label="Search the handbook"><kbd class="search-kbd">⌘ K</kbd></label></div>
+  <div class="topbar-right"><a href="index.html">All modules</a><a href="index.html#day3">Curriculum</a><a class="btn-notes" href="index.html#day3">Robustness</a></div>
+</div>
+
+<div class="app-layout">
+<aside class="sidebar-left">
+  <div class="sidebar-content">
+    <div class="sidebar-section-title">Course map</div>
+    <nav class="nav-tree" aria-label="Course navigation">
+      <div class="nav-day">
+        <a class="nav-day-toggle" href="index.html#day1" aria-expanded="false"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 1</span><span class="nav-day-subtitle">Foundations</span><span class="nav-day-chevron">›</span></a>
+        <div class="nav-day-body">
+          <div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module0.html">Foundation Enhancer</a></li><li class="nav-topic"><a href="module1.html">C++ Basics</a></li></ul></div>
+        </div>
+      </div>
+      <div class="nav-day">
+        <a class="nav-day-toggle" href="index.html#day2" aria-expanded="false"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 2</span><span class="nav-day-subtitle">Polymorphism</span><span class="nav-day-chevron">›</span></a>
+        <div class="nav-day-body">
+          <div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module2.html">Inheritance &amp; Polymorphism</a></li><li class="nav-topic"><a href="module3.html">Compile-time Polymorphism</a></li></ul></div>
+        </div>
+      </div>
+      <div class="nav-day" data-open="true">
+        <a class="nav-day-toggle" href="index.html#day3"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 3</span><span class="nav-day-subtitle">Robustness</span><span class="nav-day-chevron">›</span></a>
+        <div class="nav-day-body">
+          <div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a class="active" href="module4.html">Exception Handling</a></li><li class="nav-topic"><a href="module5.html">Templates &amp; Generics</a></li></ul></div>
+          <div class="nav-module"><div class="nav-module-label">Topics</div><div class="nav-tabs">
+            <button class="nav-tab active" data-tab="t1">01 try/catch basics</button>
+            <button class="nav-tab" data-tab="t2">02 Catch by type</button>
+            <button class="nav-tab" data-tab="t3">03 Custom exceptions</button>
+            <button class="nav-tab" data-tab="t4">04 RAII</button>
+            <button class="nav-tab" data-tab="t5">05 🎬 Story Mode</button>
+          </div></div>
+        </div>
+      </div>
+      <div class="nav-day"><a class="nav-day-toggle" href="index.html#day4"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 4</span><span class="nav-day-subtitle">Modern C++</span><span class="nav-day-chevron">›</span></a></div>
+      <div class="nav-day"><a class="nav-day-toggle" href="index.html#day5"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 5</span><span class="nav-day-subtitle">Networking</span><span class="nav-day-chevron">›</span></a></div>
+    </nav>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section-title">Resources</div>
+    <ul class="sidebar-resources"><li><a href="https://github.com/raushan1107/Advanced-cpp-sample-codes" target="_blank" rel="noopener">↗ Source code</a></li><li><a href="index.html#day3">▣ Course overview</a></li></ul>
+  </div>
+</aside>
+
+<main class="main-content">
+<div class="module-header">
+  <div class="breadcrumb"><a href="index.html">Robustness</a> / Module 4</div>
+  <h1>Exception Handling &amp; Robustness</h1>
+  <p class="sub">When a function cannot complete its job, C++ exceptions propagate the failure automatically — no silent return codes, no forgotten checks. RAII guarantees resources are released even when exceptions interrupt the flow.</p>
+  <div class="module-meta"><span><b>Day:</b> 3 of 6</span><span><b>Topics:</b> 4 + Story Mode</span><span><b>Case study:</b> Robust payment processor</span><span><b>Repo folder:</b> <code>10-ExceptionHandling/</code></span></div>
+</div>
+
+<div class="tabs-wrap">
+  <div class="tabbar"><button data-tab="t1" class="active">01 try/catch basics</button><button data-tab="t2">02 Catch by type</button><button data-tab="t3">03 Custom exceptions</button><button data-tab="t4">04 RAII</button><button data-tab="t5">05 🎬 Story Mode</button></div>
+
+  <!-- TAB 1: try/catch basics -->
+  <div class="tabpanel active" id="t1">
+    <p class="topic-intro">An exception separates the normal code path from the error path — and unlike a return code, it cannot be accidentally ignored.</p>
+
+    <div class="block">
+      <div class="block-label"><span class="tag why">WHY</span><h4>The return-code trap</h4></div>
+      <div class="content">
+        <p>Before exceptions, functions signalled failure by returning a special value — <code>-1</code> for error, <code>0</code> for not-found, <code>NULL</code> for no result. The compiler never forces you to check, so one forgotten <code>if</code>-statement lets the program silently proceed in a broken state, perhaps corrupting data or crashing twenty calls later at a location that has nothing to do with the actual bug.</p>
+        <p>C++ exceptions offer three guarantees that error codes don't. First, an unhandled exception terminates the program rather than silently continuing. Second, the normal code path and the error path are visually separated — the <code>try</code> block is the optimistic scenario, the <code>catch</code> block is the failure handler. Third, when an exception propagates out of a function, every local object's destructor is called in reverse order — this is <strong>stack unwinding</strong>, and it is what makes the RAII pattern in Topic 4 safe.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag what">WHAT</span><h4>try, throw, and catch defined</h4></div>
+      <div class="content">
+        <ul>
+          <li><strong>try</strong> — marks a block of code where a <code>throw</code> might occur. Execution enters the block and runs until it completes normally or a <code>throw</code> is reached.</li>
+          <li><strong>throw expression</strong> — immediately exits the current function and every calling function on the call stack until a matching <code>catch</code> is found. Local object destructors run as each frame exits (stack unwinding). If no <code>catch</code> matches anywhere, <code>std::terminate()</code> is called and the program aborts.</li>
+          <li><strong>catch (Type&amp; name)</strong> — handles exceptions of the specified type. Only runs when a matching <code>throw</code> occurred inside the corresponding <code>try</code>. <code>catch (...)</code> catches any type but provides no access to the exception object.</li>
+          <li><strong>Key guarantee:</strong> code inside the <code>try</code> block after the <code>throw</code> site does <em>not</em> run — execution jumps directly to the matching <code>catch</code>. Code after the entire <code>try/catch</code> construct runs normally whether the exception was caught or not.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag how">HOW</span><h4>A safe division with exception handling</h4></div>
+      <div class="content"><p>Adapted from <code>10-ExceptionHandling/Prog1.cpp</code> in the course repo — notice how the normal output (5) and the error message appear in separate code paths, and the program survives both:</p></div>
+      <div class="code-card">
+        <div class="code-head"><span class="filename">step1_trycatch.cpp</span><button class="copy-btn">Copy</button></div>
+        <pre><code>#include &lt;iostream&gt;
+#include &lt;stdexcept&gt;
+
+double divide(double numerator, double denominator) {
+    if (denominator == 0.0)
+        throw std::runtime_error("Division by zero");
+    return numerator / denominator;
+}
+
+int main() {
+    try {
+        std::cout &lt;&lt; divide(10, 2) &lt;&lt; "\n";    // prints 5
+        std::cout &lt;&lt; divide(10, 0) &lt;&lt; "\n";    // throws here
+        std::cout &lt;&lt; "This line never runs\n"; // skipped
+    }
+    catch (const std::runtime_error&amp; e) {
+        std::cout &lt;&lt; "Caught: " &lt;&lt; e.what() &lt;&lt; "\n";
+    }
+    std::cout &lt;&lt; "Program continues safely\n";
+}</code></pre>
+      </div>
+      <div class="output-box"><span class="lbl">Expected output</span>5
+Caught: Division by zero
+Program continues safely</div>
+      <div class="quickguide">
+        <p class="qg-title">Run it and experiment</p>
+        <ol>
+          <li>Save as <code>step1_trycatch.cpp</code>, compile: <code>g++ -std=c++17 step1_trycatch.cpp -o step1</code></li>
+          <li>Run: <code>step1.exe</code> (Windows) or <code>./step1</code> (Linux/macOS)</li>
+          <li><strong>Experiment 1:</strong> Remove the <code>try { }</code> and <code>catch</code> blocks entirely — <code>divide(10, 0)</code> now terminates the program with an unhandled exception message instead of printing "Program continues safely".</li>
+          <li><strong>Experiment 2:</strong> Swap the two <code>divide()</code> calls so the zero-denominator comes first. The output of the first call never appears — the throw fires immediately and jumps to the catch.</li>
+          <li><strong>Experiment 3:</strong> Add a second <code>try/catch</code> block below the first that calls <code>divide(6, 3)</code> — prove that a caught exception doesn't prevent subsequent code from running.</li>
+        </ol>
+      </div>
+      <div class="callout"><strong>Reference:</strong> <a href="https://en.cppreference.com/w/cpp/language/try" target="_blank" rel="noopener">cppreference: try-block</a> — complete syntax including function try-blocks and exception specifications.</div>
+    </div>
+
+    <div class="topic-nav">
+      <span></span>
+      <button class="btn btn-primary" onclick="document.querySelector('[data-tab=t2]').click()">Next: Catch by type →</button>
+    </div>
+  </div>
+
+  <!-- TAB 2: Catch by type -->
+  <div class="tabpanel" id="t2">
+    <p class="topic-intro">Different failures carry different information. Multiple catch clauses let each error type reach the handler that knows what to do with it.</p>
+
+    <div class="block">
+      <div class="block-label"><span class="tag why">WHY</span><h4>One catch-all loses context</h4></div>
+      <div class="content">
+        <p>A <code>catch(...)</code> clause catches everything but gives you nothing to work with — you cannot call <code>.what()</code>, you cannot report which rule was violated, you cannot make a recovery decision. Typed exceptions exist so each class of failure carries its own context and reaches code that specifically understands it.</p>
+        <p>A missing file is not the same as an out-of-range index, and the correct response is different. Typed catch clauses make that distinction explicit in the code instead of hiding it behind a generic error message.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag what">WHAT</span><h4>The std::exception hierarchy</h4></div>
+      <div class="content">
+        <ul>
+          <li><strong>std::exception</strong> — the common base class in <code>&lt;exception&gt;</code>. Provides <code>virtual const char* what() const noexcept</code>. Your own custom exceptions should inherit from it.</li>
+          <li><strong>std::runtime_error</strong> — for errors detectable only at runtime: file not found, network timeout, format mismatch. Constructor takes a string message.</li>
+          <li><strong>std::logic_error</strong> — for programming bugs: invalid argument, precondition violation. Should indicate the caller did something wrong.</li>
+          <li><strong>std::invalid_argument</strong> — derived from logic_error; an argument value that makes no sense for the function.</li>
+          <li><strong>std::out_of_range</strong> — derived from logic_error; a value outside an acceptable range.</li>
+          <li><strong>Catch order matters:</strong> clauses are tested top-to-bottom, first match wins. Put specific types before general ones — <code>catch(std::out_of_range&amp;)</code> before <code>catch(std::logic_error&amp;)</code> before <code>catch(std::exception&amp;)</code>.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag how">HOW</span><h4>Multiple catch clauses in action</h4></div>
+      <div class="content"><p>The same <code>try</code> block, three different outcomes depending on which exception fires:</p></div>
+      <div class="code-card">
+        <div class="code-head"><span class="filename">step2_catch_types.cpp</span><button class="copy-btn">Copy</button></div>
+        <pre><code>#include &lt;iostream&gt;
+#include &lt;stdexcept&gt;
+
+void validateAge(int age) {
+    if (age &lt; 0)
+        throw std::invalid_argument("Age cannot be negative");
+    if (age &gt; 150)
+        throw std::out_of_range("Age exceeds known human lifespan");
+    std::cout &lt;&lt; "Valid age: " &lt;&lt; age &lt;&lt; "\n";
+}
+
+int main() {
+    int testAges[] = {25, -3, 200};
+    for (int age : testAges) {
+        try {
+            validateAge(age);
+        }
+        catch (const std::invalid_argument&amp; e) {
+            std::cout &lt;&lt; "Validation error: " &lt;&lt; e.what() &lt;&lt; "\n";
+        }
+        catch (const std::out_of_range&amp; e) {
+            std::cout &lt;&lt; "Range error: " &lt;&lt; e.what() &lt;&lt; "\n";
+        }
+        catch (const std::exception&amp; e) {
+            std::cout &lt;&lt; "Unexpected: " &lt;&lt; e.what() &lt;&lt; "\n";
+        }
+    }
+}</code></pre>
+      </div>
+      <div class="output-box"><span class="lbl">Expected output</span>Valid age: 25
+Validation error: Age cannot be negative
+Range error: Age exceeds known human lifespan</div>
+      <div class="quickguide">
+        <p class="qg-title">Run it and experiment</p>
+        <ol>
+          <li>Compile: <code>g++ -std=c++17 step2_catch_types.cpp -o step2</code>, run.</li>
+          <li><strong>Experiment 1:</strong> Move <code>catch(std::exception&amp;)</code> to be the <em>first</em> catch clause. It now catches everything — the more specific handlers below never run. The compiler doesn't warn you; the order is silently wrong.</li>
+          <li><strong>Experiment 2:</strong> Throw a raw <code>int</code> from <code>validateAge</code> (<code>throw 42;</code>) and add <code>catch(int e)</code>. Non-exception types can be thrown, but they don't carry a <code>what()</code> message — which is exactly why the <code>std::exception</code> hierarchy exists.</li>
+        </ol>
+      </div>
+      <div class="callout"><strong>Reference:</strong> <a href="https://en.cppreference.com/w/cpp/error/exception" target="_blank" rel="noopener">cppreference: std::exception</a> — the full standard exception hierarchy and their intended usage.</div>
+    </div>
+
+    <div class="topic-nav">
+      <button class="btn btn-ghost" onclick="document.querySelector('[data-tab=t1]').click()">← try/catch basics</button>
+      <button class="btn btn-primary" onclick="document.querySelector('[data-tab=t3]').click()">Next: Custom exceptions →</button>
+    </div>
+  </div>
+
+  <!-- TAB 3: Custom exceptions -->
+  <div class="tabpanel" id="t3">
+    <p class="topic-intro">Standard exceptions report what went wrong. Custom exceptions also report the domain context — which account, which amount, which rule was violated.</p>
+
+    <div class="block">
+      <div class="block-label"><span class="tag why">WHY</span><h4>What a string message can't tell you</h4></div>
+      <div class="content">
+        <p>When a withdrawal fails, the message "Insufficient funds" tells the catcher <em>something</em> happened. But it doesn't tell the catcher the balance, the requested amount, or the account ID — information that recovery code, audit logs, and user-facing messages need. Encoding context into a string and parsing it back at the catch site is fragile. A custom exception class stores each piece of context as a typed member, making it available directly without string parsing.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag what">WHAT</span><h4>Inheriting from std::exception</h4></div>
+      <div class="content">
+        <ul>
+          <li>Inherit publicly from <code>std::exception</code> or a more specific standard class like <code>std::runtime_error</code>.</li>
+          <li>Override <code>what() const noexcept</code> to return <code>const char*</code> — a pointer to a string that lives at least as long as the exception object. Use a <code>std::string</code> member and return <code>.c_str()</code>.</li>
+          <li>Mark <code>what()</code> as <code>noexcept</code> — it must not throw (it may be called during stack unwinding where a new exception would cause immediate termination).</li>
+          <li>Store domain context as typed members in the constructor — the catcher can access them directly without parsing the message string.</li>
+        </ul>
+        <p>From the course repo: <code>10-ExceptionHandling/customexceptionProgram.cpp</code> shows the same pattern applied to a bank withdrawal scenario.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag how">HOW</span><h4>A custom exception with typed context fields</h4></div>
+      <div class="code-card">
+        <div class="code-head"><span class="filename">step3_custom_exception.cpp</span><button class="copy-btn">Copy</button></div>
+        <pre><code>#include &lt;iostream&gt;
+#include &lt;exception&gt;
+#include &lt;string&gt;
+
+class InsufficientFundsError : public std::exception {
+    std::string message_;
+    double balance_;
+    double requested_;
+public:
+    InsufficientFundsError(double balance, double requested)
+        : balance_(balance), requested_(requested) {
+        message_ = "Need " + std::to_string(requested) +
+                   ", only " + std::to_string(balance) + " available";
+    }
+
+    const char* what() const noexcept override { return message_.c_str(); }
+    double balance()   const { return balance_;   }
+    double requested() const { return requested_; }
+};
+
+void withdraw(double&amp; balance, double amount) {
+    if (amount &lt;= 0)
+        throw std::invalid_argument("Withdrawal amount must be positive");
+    if (amount &gt; balance)
+        throw InsufficientFundsError(balance, amount);
+    balance -= amount;
+    std::cout &lt;&lt; "Withdrawn: " &lt;&lt; amount
+              &lt;&lt; "  |  Remaining: " &lt;&lt; balance &lt;&lt; "\n";
+}
+
+int main() {
+    double balance = 500.0;
+    try {
+        withdraw(balance, 200.0);   // succeeds
+        withdraw(balance, 400.0);   // throws InsufficientFundsError
+    }
+    catch (const InsufficientFundsError&amp; e) {
+        std::cout &lt;&lt; "Transaction failed: " &lt;&lt; e.what() &lt;&lt; "\n";
+        std::cout &lt;&lt; "Shortfall: " &lt;&lt; (e.requested() - e.balance()) &lt;&lt; "\n";
+    }
+    catch (const std::invalid_argument&amp; e) {
+        std::cout &lt;&lt; "Bad request: " &lt;&lt; e.what() &lt;&lt; "\n";
+    }
+}</code></pre>
+      </div>
+      <div class="output-box"><span class="lbl">Expected output</span>Withdrawn: 200  |  Remaining: 300
+Transaction failed: Need 400.000000, only 300.000000 available
+Shortfall: 100</div>
+      <div class="quickguide">
+        <p class="qg-title">Run it and experiment</p>
+        <ol>
+          <li>Compile: <code>g++ -std=c++17 step3_custom_exception.cpp -o step3</code>, run.</li>
+          <li><strong>Experiment 1:</strong> Add an <code>accountId</code> string member to <code>InsufficientFundsError</code> and pass it in the constructor — the catcher can then log exactly which account triggered the error without parsing the message.</li>
+          <li><strong>Experiment 2:</strong> Call <code>withdraw(balance, -50.0)</code> to trigger the <code>invalid_argument</code> path — the second catch clause fires instead.</li>
+          <li><strong>Experiment 3:</strong> Inherit from <code>std::runtime_error</code> instead of <code>std::exception</code> directly — pass the message string to <code>std::runtime_error::runtime_error()</code> in the initialiser list and remove the manual <code>message_</code> member and <code>what()</code> override.</li>
+        </ol>
+      </div>
+      <div class="callout"><strong>Reference:</strong> <a href="https://en.cppreference.com/w/cpp/error/exception" target="_blank" rel="noopener">cppreference: std::exception</a> — the virtual <code>what()</code> interface and how to inherit from it.</div>
+    </div>
+
+    <div class="topic-nav">
+      <button class="btn btn-ghost" onclick="document.querySelector('[data-tab=t2]').click()">← Catch by type</button>
+      <button class="btn btn-primary" onclick="document.querySelector('[data-tab=t4]').click()">Next: RAII →</button>
+    </div>
+  </div>
+
+  <!-- TAB 4: RAII -->
+  <div class="tabpanel" id="t4">
+    <p class="topic-intro">RAII (Resource Acquisition Is Initialization) is the pattern that makes exception-safe C++ possible — without a finally block in sight.</p>
+
+    <div class="block">
+      <div class="block-label"><span class="tag why">WHY</span><h4>The gap between acquire and release</h4></div>
+      <div class="content">
+        <p>In languages with <code>finally</code> blocks, you write: acquire the resource in <code>try</code>, release it in <code>finally</code>. In C++, there is no <code>finally</code>. If an exception fires between <code>fopen()</code> and <code>fclose()</code>, the file never closes. Adding every resource to every <code>catch</code> block becomes unmaintainable as functions grow. And if you add a new early-return path, you'll forget to add the cleanup there too.</p>
+        <p>RAII closes this gap permanently: tie the resource's lifetime to an object's lifetime. The constructor acquires; the destructor releases. Since destructors always run when an object goes out of scope — including during stack unwinding from an exception — the resource is always released. You write the cleanup once, in one place, and it works for every exit path.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag what">WHAT</span><h4>RAII defined and standard RAII types</h4></div>
+      <div class="content">
+        <ul>
+          <li><strong>RAII</strong> — Resource Acquisition Is Initialization. The invariant: every resource (file handle, mutex lock, network socket, heap memory) is owned by an object. Constructor acquires; destructor releases. The object's lifetime <em>is</em> the resource's lifetime.</li>
+          <li><strong>Why it works with exceptions:</strong> when an exception unwinds the stack, every local object's destructor runs in reverse-construction order. An RAII wrapper's destructor runs just like any other — regardless of whether the scope exited normally or via an exception.</li>
+          <li><strong>std::ifstream / std::ofstream</strong> — RAII file handles. The file closes when the stream object is destroyed. From the course repo: <code>11-FStream/raii.cpp</code> shows this pattern.</li>
+          <li><strong>std::unique_ptr&lt;T&gt;</strong> — RAII heap memory. The pointed-to object is deleted when the pointer goes out of scope.</li>
+          <li><strong>std::lock_guard&lt;Mutex&gt;</strong> — RAII mutex lock. The mutex is released when the guard is destroyed — even if an exception fires inside the locked section.</li>
+          <li><strong>When to write your own:</strong> wrap any C API handle (socket fd, database connection, OS resource) that requires explicit cleanup into a class with acquire-in-constructor, release-in-destructor.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag how">HOW</span><h4>A RAII FileReader that always closes</h4></div>
+      <div class="content"><p>The <code>FileReader</code> class guarantees its file handle closes whether the function returns normally, throws an exception, or the program exits — because the destructor always runs:</p></div>
+      <div class="code-card">
+        <div class="code-head"><span class="filename">step4_raii.cpp</span><button class="copy-btn">Copy</button></div>
+        <pre><code>#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+#include &lt;stdexcept&gt;
+#include &lt;string&gt;
+
+class FileReader {
+    std::ifstream file_;
+    std::string   path_;
+public:
+    explicit FileReader(const std::string&amp; path) : path_(path), file_(path) {
+        if (!file_.is_open())
+            throw std::runtime_error("Cannot open: " + path);
+        std::cout &lt;&lt; "[FileReader] Opened: " &lt;&lt; path &lt;&lt; "\n";
+    }
+
+    ~FileReader() {
+        // Runs whether the scope exits normally or via exception
+        std::cout &lt;&lt; "[FileReader] Closed: " &lt;&lt; path_ &lt;&lt; "\n";
+    }
+
+    std::string readLine() {
+        std::string line;
+        if (!std::getline(file_, line))
+            throw std::runtime_error("No more lines in: " + path_);
+        return line;
+    }
+};
+
+int main() {
+    // Scenario 1: file does not exist — constructor throws,
+    //             destructor does NOT run (resource never acquired)
+    std::cout &lt;&lt; "--- Scenario 1: missing file ---\n";
+    try {
+        FileReader reader("nonexistent.txt");
+        std::cout &lt;&lt; reader.readLine() &lt;&lt; "\n";
+    }
+    catch (const std::runtime_error&amp; e) {
+        std::cout &lt;&lt; "Error: " &lt;&lt; e.what() &lt;&lt; "\n";
+    }
+
+    // Scenario 2: create file, then read it
+    std::cout &lt;&lt; "\n--- Scenario 2: existing file ---\n";
+    {
+        std::ofstream out("sample.txt");
+        out &lt;&lt; "Hello from RAII\nSecond line\n";
+    }  // out destroyed here — file flushed and closed automatically
+
+    try {
+        FileReader reader("sample.txt");
+        std::cout &lt;&lt; reader.readLine() &lt;&lt; "\n";
+    }  // reader destroyed here — file closed automatically
+    catch (const std::runtime_error&amp; e) {
+        std::cout &lt;&lt; "Error: " &lt;&lt; e.what() &lt;&lt; "\n";
+    }
+}</code></pre>
+      </div>
+      <div class="output-box"><span class="lbl">Expected output</span>--- Scenario 1: missing file ---
+Error: Cannot open: nonexistent.txt
+
+--- Scenario 2: existing file ---
+[FileReader] Opened: sample.txt
+Hello from RAII
+[FileReader] Closed: sample.txt</div>
+      <div class="quickguide">
+        <p class="qg-title">Run it and experiment</p>
+        <ol>
+          <li>Save as <code>step4_raii.cpp</code>, compile: <code>g++ -std=c++17 step4_raii.cpp -o step4</code>, run.</li>
+          <li><strong>Experiment 1:</strong> Inside the Scenario 2 try block, add <code>throw std::runtime_error("simulated failure");</code> after constructing <code>reader</code> but before the catch. Confirm that "[FileReader] Closed" still prints — the destructor ran during stack unwinding.</li>
+          <li><strong>Experiment 2:</strong> Add a method <code>countLines()</code> that reads all remaining lines. Throw partway through counting — the file still closes.</li>
+          <li><strong>Experiment 3:</strong> Replace <code>FileReader</code> with a plain <code>std::ifstream</code> — it's already RAII. <code>std::ifstream</code> is the standard library's own file-handle wrapper.</li>
+        </ol>
+      </div>
+      <div class="callout"><strong>Reference:</strong> <a href="https://en.cppreference.com/w/cpp/language/raii" target="_blank" rel="noopener">cppreference: RAII</a> — the pattern, its relation to destructors, and the standard library types that implement it.</div>
+    </div>
+
+    <div class="topic-nav" style="justify-content:flex-end;">
+      <button class="btn btn-primary" onclick="document.querySelector('[data-tab=t5]').click()">Story Mode: see it all connected →</button>
+    </div>
+  </div>
+
+  <!-- TAB 5: Story Mode -->
+  <div class="tabpanel" id="t5">
+    <span class="story-badge">🎬 Story Mode</span>
+    <h2 style="margin:0 0 12px;">The overnight job that woke everyone up</h2>
+    <p class="story-lede">Every night at 2 AM, Nimbus Payments ran a batch job that processed thousands of withdrawals. For six months it worked. Then one night it crashed halfway through — no rollback, no error log, just a half-processed batch and a panicked 6 AM phone call. Half the transactions had gone through and half had not, and nobody could tell which half. This module is how the team made sure that morning never happened again.</p>
+
+    <p>The original batch processor returned error codes — when it remembered to. When a transaction hit a divide-by-zero inside an interest calculation, the code just kept running with garbage data and produced silently wrong results that nobody noticed for three days. The fix was to wrap the processing loop in a <code>try</code> block. An <strong>exception</strong> is an object that gets thrown when something goes wrong and travels up the call stack until something catches it. <code>catch (const std::runtime_error&amp; e)</code> is that something. The happy path and the failure path are now in separate blocks. The bad transaction logs an error and the batch moves on to the next one — nothing silently corrupts.</p>
+
+    <p>But not every failure should be handled the same way. A missing account number is a data problem — skip and flag for review. A network timeout is a temporary problem — retry. A disk-full error is a system problem — stop everything immediately. Three different problems need three different <code>catch</code> clauses. C++ tests them in order from top to bottom and runs the first one that matches. This is called <strong>catching by type</strong>. The key rule: specific exception types must come before general ones. If you put <code>catch (std::exception&amp;)</code> first, it matches everything and the specific handlers below it never run.</p>
+
+    <p>After the fix, the overnight log showed: <code>runtime_error: Insufficient funds</code>. At 3 AM that is useless. Which account? Short by how much? Nobody knew without digging through the database by hand. The team built <code>InsufficientFundsError</code> — a <strong>custom exception</strong> that inherits from <code>std::exception</code> and carries typed fields: account ID, current balance, requested amount. The <code>what()</code> function returns a human-readable message. The catch block now has everything it needs to write a complete audit entry and send the exact customer notification — without parsing strings or storing state in globals.</p>
+
+    <p>There was still one more problem. Every transaction opened a database connection and closed it before returning — except when an exception fired between open and close. Over a long weekend, 200 transactions had thrown mid-processing and 200 connections were still sitting open. The pool exhausted. The fix: a <code>DatabaseConnection</code> class whose constructor opens the connection and whose destructor closes it. This pattern is called <strong>RAII</strong> — Resource Acquisition Is Initialization. Tie the lifetime of a resource to the lifetime of an object. The destructor runs whether the function returned normally, threw an exception, or was interrupted. The connection always closes. The pool never exhausts again.</p>
+
+    <blockquote class="story-pullquote">An exception is not an error message. It is a signal that travels up the call stack until someone is ready to handle it. RAII makes sure all the resources below it close cleanly on the way out.</blockquote>
+
+    <div class="callout" style="margin-top:24px;">
+      <p style="margin:0 0 8px;"><strong>What we just learned</strong></p>
+      <ul style="margin:0; padding-left:20px; line-height:1.9;">
+        <li><strong>Exception</strong> — an object thrown when something goes wrong; travels up the call stack until a matching <code>catch</code> handles it</li>
+        <li><strong>try / catch</strong> — <code>try</code> wraps the code that might fail; <code>catch</code> handles specific error types; separates the happy path from failure handling</li>
+        <li><strong>Catching by type</strong> — C++ tests catch clauses top to bottom; specific types must come before general ones or the general clause swallows everything</li>
+        <li><strong>Custom exception</strong> — a class inheriting from <code>std::exception</code> with typed context fields and <code>what()</code> overridden for a readable message</li>
+        <li><strong>RAII</strong> — Resource Acquisition Is Initialization; acquire in the constructor, release in the destructor; the resource closes whether the function returns normally or throws</li>
+      </ul>
+    </div>
+
+    <div class="story-also">
+      <p class="story-also-title">Also seen in the wild</p>
+      <div class="story-also-grid">
+        <div class="story-also-item"><span class="story-also-domain">File systems</span><code>std::ifstream</code> closes its file handle in the destructor — RAII shipped as a standard library type you use every day.</div>
+        <div class="story-also-item"><span class="story-also-domain">Concurrency</span><code>std::lock_guard</code> acquires a mutex on construction and releases on destruction — prevents deadlocks the same way <code>DatabaseConnection</code> prevents exhausted pools.</div>
+        <div class="story-also-item"><span class="story-also-domain">Graphics APIs</span>Vulkan and DirectX resource wrappers in game engines follow RAII — GPU handles acquired in constructor, released in destructor, regardless of how rendering exits.</div>
+        <div class="story-also-item"><span class="story-also-domain">Web servers</span>HTTP connection objects wrap socket file descriptors in RAII wrappers — the socket closes when the object is destroyed, even if request handling throws.</div>
+      </div>
+    </div>
+
+    <div class="callout"><strong>Continue:</strong> the complete program below is a miniature version of the Nimbus Payments batch processor — it processes a list of transactions, uses a custom exception for detailed errors, and logs exactly what went wrong without crashing on the first failure.</div>
+
+    <div class="topic-nav">
+      <button class="btn btn-ghost" onclick="document.querySelector('[data-tab=t4]').click()">← RAII</button>
+      <a class="btn btn-primary" href="module5.html">Continue to Module 5 →</a>
+    </div>
+  </div>
+
+  <section class="try-now" id="try-now">
+    <div class="try-now-header"><div><div class="section-kicker">Learn by doing</div><h2>Try now: build a robust transaction processor</h2><p>Build the exception handling layer step by step, then combine everything into one resilient program.</p></div><span class="try-badge">25 minutes</span></div>
+    <div class="build-ladder">
+      <div class="build-step"><div class="build-step-title"><span>Step 1</span><strong>A safe divide with try/catch</strong></div><p>Basic exception flow — one throw, one catch, program survives.</p><div class="code-card"><div class="code-head"><span class="filename">step1_trycatch.cpp</span><button class="copy-btn">Copy</button></div><pre><code>#include &lt;iostream&gt;
+#include &lt;stdexcept&gt;
+
+double divide(double a, double b) {
+    if (b == 0.0) throw std::runtime_error("Division by zero");
+    return a / b;
+}
+int main() {
+    try { std::cout &lt;&lt; divide(10, 0) &lt;&lt; "\n"; }
+    catch (const std::runtime_error&amp; e) { std::cout &lt;&lt; "Caught: " &lt;&lt; e.what() &lt;&lt; "\n"; }
+    std::cout &lt;&lt; "Program continues\n";
+}</code></pre></div><p class="run-line"><b>Run:</b> <code>g++ -std=c++17 step1_trycatch.cpp -o step1</code>, then <code>step1.exe</code> or <code>./step1</code></p><p class="mini-output"><b>See:</b> <code>Caught: Division by zero</code> then <code>Program continues</code></p></div>
+      <div class="build-step"><div class="build-step-title"><span>Step 2</span><strong>Multiple catch clauses</strong></div><p>Different exception types → different handlers.</p><div class="code-card"><div class="code-head"><span class="filename">step2_catch_types.cpp</span><button class="copy-btn">Copy</button></div><pre><code>#include &lt;iostream&gt;
+#include &lt;stdexcept&gt;
+
+void validateAge(int age) {
+    if (age &lt; 0) throw std::invalid_argument("Negative age");
+    if (age &gt; 150) throw std::out_of_range("Age too large");
+    std::cout &lt;&lt; "OK: " &lt;&lt; age &lt;&lt; "\n";
+}
+int main() {
+    for (int a : {25, -1, 200}) {
+        try { validateAge(a); }
+        catch (const std::invalid_argument&amp; e) { std::cout &lt;&lt; "Validation: " &lt;&lt; e.what() &lt;&lt; "\n"; }
+        catch (const std::out_of_range&amp; e)     { std::cout &lt;&lt; "Range: " &lt;&lt; e.what() &lt;&lt; "\n"; }
+    }
+}</code></pre></div><p class="run-line"><b>Run:</b> <code>g++ -std=c++17 step2_catch_types.cpp -o step2</code></p><p class="mini-output"><b>See:</b> <code>OK: 25</code>, <code>Validation: Negative age</code>, <code>Range: Age too large</code></p></div>
+      <div class="build-step"><div class="build-step-title"><span>Step 3</span><strong>Custom exception with context</strong></div><p>The catcher gets typed fields, not just a string.</p><div class="code-card"><div class="code-head"><span class="filename">step3_custom_exception.cpp</span><button class="copy-btn">Copy</button></div><pre><code>#include &lt;iostream&gt;
+#include &lt;exception&gt;
+#include &lt;string&gt;
+
+class InsufficientFundsError : public std::exception {
+    std::string msg_;
+    double shortfall_;
+public:
+    InsufficientFundsError(double bal, double req)
+        : shortfall_(req - bal),
+          msg_("Short by " + std::to_string(req - bal)) {}
+    const char* what() const noexcept override { return msg_.c_str(); }
+    double shortfall() const { return shortfall_; }
+};
+
+void withdraw(double&amp; bal, double amt) {
+    if (amt &gt; bal) throw InsufficientFundsError(bal, amt);
+    bal -= amt;
+    std::cout &lt;&lt; "OK, balance: " &lt;&lt; bal &lt;&lt; "\n";
+}
+int main() {
+    double bal = 300.0;
+    try { withdraw(bal, 500.0); }
+    catch (const InsufficientFundsError&amp; e) {
+        std::cout &lt;&lt; e.what() &lt;&lt; " (shortfall: " &lt;&lt; e.shortfall() &lt;&lt; ")\n";
+    }
+}</code></pre></div><p class="run-line"><b>Run:</b> <code>g++ -std=c++17 step3_custom_exception.cpp -o step3</code></p><p class="mini-output"><b>See:</b> <code>Short by 200 (shortfall: 200)</code></p></div>
+    </div>
+    <div class="build-divider"><span>Now combine the pieces into the complete use case</span></div>
+    <div class="try-step"><span>01</span><div><strong>Robust payment batch processor</strong><p>One loop, multiple transaction types, typed exceptions, program never crashes.</p></div></div>
+    <div class="code-card"><div class="code-head"><span class="filename">program.cpp — complete use case</span><button class="copy-btn">Copy</button></div><pre><code>#include &lt;iostream&gt;
+#include &lt;stdexcept&gt;
+#include &lt;vector&gt;
+#include &lt;string&gt;
+
+class PaymentError : public std::exception {
+    std::string msg_;
+public:
+    PaymentError(const std::string&amp; account, double balance, double amount)
+        : msg_("Account " + account + ": need " + std::to_string(amount) +
+               ", have " + std::to_string(balance)) {}
+    const char* what() const noexcept override { return msg_.c_str(); }
+};
+
+struct Transaction {
+    std::string accountId;
+    double balance;
+    double amount;
+};
+
+void processTransaction(const Transaction&amp; t) {
+    if (t.amount &lt;= 0)
+        throw std::invalid_argument("Amount must be positive");
+    if (t.amount &gt; t.balance)
+        throw PaymentError(t.accountId, t.balance, t.amount);
+    std::cout &lt;&lt; "[OK]   " &lt;&lt; t.accountId &lt;&lt; " paid " &lt;&lt; t.amount
+              &lt;&lt; "  |  balance: " &lt;&lt; (t.balance - t.amount) &lt;&lt; "\n";
+}
+
+int main() {
+    std::vector&lt;Transaction&gt; batch = {
+        {"ACC001", 500.0,   200.0},
+        {"ACC002", 100.0,   300.0},
+        {"ACC003", 750.0,   -50.0},
+        {"ACC004", 1000.0,  400.0},
+    };
+
+    int ok = 0, failed = 0;
+    for (const auto&amp; t : batch) {
+        try {
+            processTransaction(t);
+            ++ok;
+        }
+        catch (const PaymentError&amp; e) {
+            std::cout &lt;&lt; "[FAIL] Insufficient — " &lt;&lt; e.what() &lt;&lt; "\n";
+            ++failed;
+        }
+        catch (const std::invalid_argument&amp; e) {
+            std::cout &lt;&lt; "[FAIL] Invalid — " &lt;&lt; e.what() &lt;&lt; "\n";
+            ++failed;
+        }
+    }
+    std::cout &lt;&lt; "\nBatch done. OK: " &lt;&lt; ok &lt;&lt; "  Failed: " &lt;&lt; failed &lt;&lt; "\n";
+}</code></pre></div>
+    <div class="output-box"><span class="lbl">Expected output</span>[OK]   ACC001 paid 200  |  balance: 300
+[FAIL] Insufficient — Account ACC002: need 300.000000, have 100.000000
+[FAIL] Invalid — Amount must be positive
+[OK]   ACC004 paid 400  |  balance: 600
+
+Batch done. OK: 2  Failed: 2</div>
+    <div class="quickguide"><p class="qg-title">Run it in VS Code</p><ol><li>Create a folder <code>module4-try-now</code> and open it in VS Code.</li><li>Save the code above as <code>program.cpp</code>.</li><li>Compile: <code>g++ -std=c++17 program.cpp -o program</code></li><li>Run: <code>program.exe</code> on Windows or <code>./program</code> on Linux/macOS.</li><li>Try: add a 5th transaction that throws <code>std::runtime_error</code> and add a third catch clause for it.</li></ol></div>
+    <div class="task-card"><div class="task-label">Homework / assessment</div><h3>Add an AccountFrozenError</h3><p>Add an <code>AccountFrozenError</code> custom exception class and a <code>frozen</code> flag to the <code>Transaction</code> struct. Transactions targeting a frozen account should throw <code>AccountFrozenError</code> with the account ID.</p><p class="hint-title">Hints, not the answer</p><ul class="hint-list"><li>Inherit from <code>std::exception</code> and store the account ID as a member string.</li><li>Check the <code>frozen</code> flag before the balance check in <code>processTransaction</code>.</li><li>Add a third <code>catch</code> clause specifically for <code>AccountFrozenError</code> — try putting it before and after <code>PaymentError</code> to understand catch ordering.</li></ul></div>
+    <div class="submission-card"><strong>Submit for evaluation</strong><p>Send your finished <code>program.cpp</code> to the trainer's cohort email.</p><div><b>Subject:</b> <code>Module 4 Task - Your Name - program.cpp</code></div><div><b>Body:</b> <code>Your Name | Module 4 | compiler used | result you observed</code></div><p>Attach the exact file you compiled and mention which exception types you added.</p></div>
+  </section>
+</div>
+</main>
+</div>
+<footer>Module 4 of 11 · Enterprise C++ Training Programme · Personal notes by <strong>Raushan Ranjan</strong></footer>
+<script>
+function initSidebar(){const toggle=document.querySelector('.sidebar-toggle'),sidebar=document.querySelector('.sidebar-left');if(!toggle||!sidebar)return;const desktop=window.matchMedia('(min-width: 861px)');toggle.addEventListener('click',()=>{if(desktop.matches){const collapsed=document.body.classList.toggle('sidebar-collapsed');toggle.setAttribute('aria-expanded',String(!collapsed));}else sidebar.classList.toggle('open');});sidebar.querySelectorAll('a:not(.nav-day-toggle)').forEach(link=>link.addEventListener('click',()=>sidebar.classList.remove('open')));}
+function initNavGroups(){document.querySelectorAll('.nav-day').forEach(day=>{const toggle=day.querySelector(':scope > .nav-day-toggle'),body=day.querySelector(':scope > .nav-day-body');if(!toggle||!body)return;toggle.setAttribute('aria-expanded',String(day.dataset.open==='true'));toggle.addEventListener('click',event=>{event.preventDefault();const open=day.dataset.open==='true';day.dataset.open=String(!open);toggle.setAttribute('aria-expanded',String(!open));});});}
+function initNavModules(){document.querySelectorAll('.nav-module').forEach(module=>{const label=module.querySelector(':scope > .nav-module-label'),content=module.querySelector(':scope > .nav-topics, :scope > .nav-tabs');if(!label||!content)return;module.dataset.open=module.dataset.open||'true';label.setAttribute('role','button');label.setAttribute('tabindex','0');label.setAttribute('aria-expanded',String(module.dataset.open==='true'));const toggle=()=>{const open=module.dataset.open==='true';module.dataset.open=String(!open);label.setAttribute('aria-expanded',String(!open));};label.addEventListener('click',toggle);label.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle();}});});}
+function initTabs(){const bar=document.querySelector('.tabbar');if(!bar)return;const buttons=[...document.querySelectorAll('.tabbar button,.nav-tab')],panels=[...document.querySelectorAll('.tabpanel')];function activate(id,updateHash){buttons.forEach(b=>b.classList.toggle('active',b.dataset.tab===id));panels.forEach(p=>p.classList.toggle('active',p.id===id));if(updateHash)history.replaceState(null,'','#'+id);}buttons.forEach(b=>b.addEventListener('click',()=>activate(b.dataset.tab,true)));const requested=location.hash.slice(1);activate(buttons.some(b=>b.dataset.tab===requested)?requested:(buttons.find(b=>b.classList.contains('active'))||buttons[0]).dataset.tab,false);}
+function initCopyButtons(){document.querySelectorAll('.copy-btn').forEach(btn=>btn.addEventListener('click',async()=>{const code=btn.closest('.code-card').querySelector('code').innerText;try{await navigator.clipboard.writeText(code);}catch(e){const ta=document.createElement('textarea');ta.value=code;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();}btn.textContent='Copied';setTimeout(()=>btn.textContent='Copy',1200);}));}
+document.addEventListener('DOMContentLoaded',()=>{initSidebar();initNavGroups();initNavModules();initTabs();initCopyButtons();});
+</script>
+<script src="search.js"></script>
+</body>
+</html>

@@ -350,7 +350,7 @@ footer a{color:var(--cyan); text-decoration:none;}
         </div>
       </div>
       <div class="nav-day" data-open="true"><a class="nav-day-toggle" href="index.html#day2"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 2</span><span class="nav-day-subtitle">Polymorphism</span><span class="nav-day-chevron">›</span></a><div class="nav-day-body"><div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module2.html">Inheritance &amp; Polymorphism</a></li><li class="nav-topic"><a href="module3.html">Compile-time Polymorphism</a></li></ul></div></div></div>
-      <div class="nav-day"><a class="nav-day-toggle" href="index.html#day3"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 3</span><span class="nav-day-subtitle">Robustness</span><span class="nav-day-chevron">›</span></a></div>
+      <div class="nav-day" data-open="true"><a class="nav-day-toggle" href="index.html#day3"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 3</span><span class="nav-day-subtitle">Robustness</span><span class="nav-day-chevron">›</span></a><div class="nav-day-body"><div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module4.html">Exception Handling</a></li><li class="nav-topic"><a href="module5.html">Templates &amp; Generics</a></li></ul></div></div></div>
       <div class="nav-day"><a class="nav-day-toggle" href="index.html#day4"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 4</span><span class="nav-day-subtitle">Modern C++</span><span class="nav-day-chevron">›</span></a></div>
       <div class="nav-day"><a class="nav-day-toggle" href="index.html#day5"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 5</span><span class="nav-day-subtitle">Networking</span><span class="nav-day-chevron">›</span></a></div>
     </nav>
@@ -982,44 +982,42 @@ int main() {
   <!-- TAB 6: Story Mode -->
   <div class="tabpanel" id="t6">
     <span class="story-badge">🎬 Story Mode</span>
-    <h2 style="font-family:var(--head); font-size:26px; margin:0 0 12px;">From one toolbox to a whole workshop</h2>
-    <p class="story-lede">Picture this: Nimbus Vending has run the same coin-and-snack machines on plain C firmware since 1998. It works, mostly — until a new machine type needs its own pricing rules, and nobody can tell which of forty procedural functions is safe to touch without breaking three other machine types. You are the engineer sent in to plan the rewrite. This module is that planning conversation.</p>
+    <h2 style="font-family:var(--head); font-size:26px; margin:0 0 12px;">The firmware nobody wanted to touch</h2>
+    <p class="story-lede">Arjun had worked at Nimbus Vending for three years. His job one afternoon: add a new premium machine type to the existing C firmware. He opened the codebase and found forty functions and eight global arrays — <code>slot[8]</code>, <code>price[8]</code> — with nothing saying which function was allowed to touch which array. He changed one price, ran the build, and broke two machine types he had never touched. He told his manager: this code is not broken. It is just very easy to break by accident.</p>
 
-    <div class="story-timeline">
-      <div class="story-act">
-        <div class="story-act-head"><span class="story-act-num">ACT 1</span><h3>Learn the workshop before touching the machines</h3><button class="story-jump" type="button" onclick="document.querySelector('[data-tab=t0]').click()">↳ Revisit Syntax, tools &amp; execution</button></div>
-        <p>Before changing a single business rule, you need to be able to open the firmware project, compile it, run it, and rebuild it after one small change — on your own machine, without guessing. That is the whole point of the toolchain walkthrough: an editor is not a compiler, and neither of them is the thing that actually runs on the vending machine's hardware.</p>
-      </div>
-      <div class="story-act">
-        <div class="story-act-head"><span class="story-act-num">ACT 2</span><h3>Nimbus didn't choose a foreign language</h3><button class="story-jump" type="button" onclick="document.querySelector('[data-tab=t1]').click()">↳ Revisit Evolution of C to C++</button></div>
-        <p>The good news you bring back to your manager: C++ was invented for exactly this situation. Bjarne Stroustrup built it as "C with Classes" because large C codebases at his own employer kept hitting the same wall Nimbus just hit. Choosing C++ is not abandoning the firmware team's forty years of C knowledge — it's adding organization on top of it.</p>
-      </div>
-      <div class="story-act">
-        <div class="story-act-head"><span class="story-act-num">ACT 3</span><h3>Name the actual problem</h3><button class="story-jump" type="button" onclick="document.querySelector('[data-tab=t2]').click()">↳ Revisit Procedural vs OOP</button></div>
-        <p>Today, every machine's slot inventory and prices live in global arrays like <code>slot[8]</code> and <code>price[8]</code>, and any function anywhere in the codebase can reach in and modify them. That is procedural thinking taken to its limit. The object-oriented alternative you propose: give each vending machine's data and the functions that are allowed to touch it a single, named home — a <code>VendingMachine</code> type, not eight loose arrays and forty loose functions hoping to stay in sync.</p>
-      </div>
-      <div class="story-act">
-        <div class="story-act-head"><span class="story-act-num">ACT 4</span><h3>The concrete differences that will bite first</h3><button class="story-jump" type="button" onclick="document.querySelector('[data-tab=t3]').click()">↳ Revisit Key Differences</button></div>
-        <p>You write the migration team a short, honest list: <code>struct</code> members default to public in both languages but <code>class</code> defaults to private in C++; <code>malloc</code>/<code>free</code> give way to <code>new</code>/<code>delete</code> (and eventually smart pointers); a firmware error that used to be a silently-ignored return code can now be an exception the caller cannot accidentally forget to check. None of this is trivia — each line is a bug Nimbus has shipped before.</p>
-      </div>
-      <div class="story-act">
-        <div class="story-act-head"><span class="story-act-num">ACT 5</span><h3>The same problem, solved twice</h3><button class="story-jump" type="button" onclick="document.querySelector('[data-tab=t5]').click()">↳ Revisit the C vs C++ comparison</button></div>
-        <p>To make the case land, you don't just talk about it — you build the same small record-keeping program twice, once in C with a <code>struct</code> and manual <code>malloc</code>, once in C++ with a <code>class</code> that protects its own data. Same output, same problem, visibly different guarantees. That side-by-side is the argument.</p>
-      </div>
+    <p>Before Arjun could even begin to fix anything, he had to be able to run the code. This sounds obvious, but a lot of beginners mix up three different things. An <strong>editor</strong> is just where you write text. A <strong>compiler</strong> — <code>g++</code> or <code>clang++</code> in C++ — reads that text and produces a binary file. The binary is what actually runs on the vending machine hardware. These are three separate tools. Getting comfortable with the compile command and the output file is the very first skill — not because it is interesting, but because nothing else works without it.</p>
+
+    <p>Arjun's manager asked the obvious question: why switch to C++ at all? Can't we keep the firmware in plain C? Arjun had one answer. C++ was invented by Bjarne Stroustrup in the 1980s specifically for large C codebases that hit exactly this wall. His early name for it was <strong>"C with Classes."</strong> The idea was not to replace C — the team's decades of C knowledge stay completely valid. The idea was to add one thing C does not have: a way to say that this data and these functions belong together in one named place.</p>
+
+    <p>That missing thing is the whole difference between <strong>procedural programming</strong> and <strong>object-oriented programming</strong>. In Arjun's firmware, <code>slot[8]</code> is just memory. Any function anywhere can walk up and change it — nobody owns it. In OOP you give data a home. A <code>VendingMachine</code> class holds its own slots and prices, and only the code inside that class can change them. The machine owns its own state. Nothing reaches in from outside without permission.</p>
+
+    <p>Arjun wrote the migration team a short list of concrete differences. In C, a <code>struct</code> is only fields — no rules about who reads or writes them. In C++, a <code>class</code> adds access control: you decide what is visible to the outside. <code>malloc</code>/<code>free</code> give way to constructors and destructors that run at the right time automatically. Return codes — the ones the team kept forgetting to check — give way to exceptions that callers cannot silently ignore. Every item on that list is a category of bug Nimbus had already shipped.</p>
+
+    <p>To make the argument concrete, Arjun built the same small record-keeping program twice: once in C with a <code>struct</code> and <code>malloc</code>, once in C++ with a <code>class</code> that protects its own data. Same output on screen, clearly different guarantees in code. His manager approved the rewrite the same afternoon.</p>
+
+    <blockquote class="story-pullquote">C++ did not replace C's toolbox. It gave the same tools drawers, labels, and locks.</blockquote>
+
+    <div class="callout" style="margin-top:24px;">
+      <p style="margin:0 0 8px;"><strong>What we just learned</strong></p>
+      <ul style="margin:0; padding-left:20px; line-height:1.9;">
+        <li><strong>Toolchain</strong> — editor writes code, compiler turns it into a binary, the binary runs; three separate tools</li>
+        <li><strong>C to C++</strong> — C++ is C extended with classes; "C with Classes" was Stroustrup's original name; your C knowledge transfers completely</li>
+        <li><strong>Procedural vs OOP</strong> — procedural separates data from functions; OOP puts data and the functions that own it together inside one class</li>
+        <li><strong>class vs struct</strong> — a C++ class adds access control and member functions to what a plain C struct can do</li>
+        <li><strong>Exceptions</strong> — unlike return codes, C++ exceptions cannot be silently ignored by the caller</li>
+      </ul>
     </div>
-
-    <blockquote class="story-pullquote">C++ didn't replace C's toolbox. It gave the same toolbox drawers, labels, and locks — and Module 1 is where you start filling those drawers for real.</blockquote>
 
     <div class="story-also">
       <p class="story-also-title">Also seen in the wild</p>
       <div class="story-also-grid">
-        <div class="story-also-item"><span class="story-also-domain">Automotive firmware</span>Safety-critical ECU codebases have made the same C-to-C++ move Nimbus is making, for the same encapsulation reasons.</div>
-        <div class="story-also-item"><span class="story-also-domain">Apple/NeXT</span>Objective-C took the opposite syntax path but solved the identical problem: bolting OOP discipline onto existing C code.</div>
-        <div class="story-also-item"><span class="story-also-domain">.NET/C#</span>If you know C#, you already trusted a compiler to enforce access rules like this — C++ asks you to reason about it one layer closer to the machine.</div>
+        <div class="story-also-item"><span class="story-also-domain">Automotive firmware</span>Safety-critical ECU codebases have made the same C-to-C++ move for the same encapsulation reasons Arjun described.</div>
+        <div class="story-also-item"><span class="story-also-domain">Apple/NeXT</span>Objective-C took the opposite syntax path but solved the identical problem: adding OOP discipline on top of existing C code.</div>
+        <div class="story-also-item"><span class="story-also-domain">.NET / C#</span>C# enforces access rules the same way — C++ just asks you to reason about it one layer closer to the hardware.</div>
       </div>
     </div>
 
-    <div class="callout"><strong>Bring it back:</strong> Module 1 is Nimbus's rewrite starting for real — same instinct, a live case study: a <code>BankAccount</code> class that has to get every one of these decisions right.</div>
+    <div class="callout"><strong>Continue:</strong> Module 1 is where the rewrite starts for real — a <code>BankAccount</code> class that has to get every one of these decisions right.</div>
 
     <div class="topic-nav">
       <button class="btn btn-ghost" onclick="document.querySelector('[data-tab=t5]').click()">← C vs C++ comparison</button>
@@ -1364,5 +1362,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 </script>
+<script src="search.js"></script>
 </body>
 </html>

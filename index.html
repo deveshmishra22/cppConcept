@@ -300,7 +300,7 @@ footer a{color:var(--cyan); text-decoration:none;}
     <nav class="nav-tree" aria-label="Course navigation">
       <div class="nav-day" data-open="true"><a class="nav-day-toggle" href="#day1"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 1</span><span class="nav-day-subtitle">Foundations</span><span class="nav-day-chevron">›</span></a><div class="nav-day-body"><div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module0.html">Foundation Enhancer</a></li><li class="nav-topic"><a href="module1.html">C++ Basics</a></li></ul></div></div></div>
       <div class="nav-day" data-open="true"><a class="nav-day-toggle" href="#day2"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 2</span><span class="nav-day-subtitle">Polymorphism</span><span class="nav-day-chevron">›</span></a><div class="nav-day-body"><div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module2.html">Inheritance &amp; Polymorphism</a></li><li class="nav-topic"><a href="module3.html">Compile-time Polymorphism</a></li></ul></div></div></div>
-      <div class="nav-day"><a class="nav-day-toggle" href="#day3"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 3</span><span class="nav-day-subtitle">Robustness</span><span class="nav-day-chevron">›</span></a></div>
+      <div class="nav-day" data-open="true"><a class="nav-day-toggle" href="#day3"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 3</span><span class="nav-day-subtitle">Robustness</span><span class="nav-day-chevron">›</span></a><div class="nav-day-body"><div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module4.html">Exception Handling</a></li><li class="nav-topic"><a href="module5.html">Templates &amp; Generics</a></li></ul></div></div></div>
       <div class="nav-day"><a class="nav-day-toggle" href="#day4"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 4</span><span class="nav-day-subtitle">Modern C++</span><span class="nav-day-chevron">›</span></a></div>
       <div class="nav-day"><a class="nav-day-toggle" href="#day5"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 5</span><span class="nav-day-subtitle">Networking</span><span class="nav-day-chevron">›</span></a></div>
     </nav>
@@ -467,22 +467,50 @@ footer a{color:var(--cyan); text-decoration:none;}
 
   <div class="day-heading" id="day3">
     <h2>Robustness &amp; generic programming</h2>
-    <span class="day-status">coming soon</span>
+    <span class="day-status">available now</span>
   </div>
   <div class="card-grid">
-    <div class="card locked">
+    <div class="card">
       <div class="module-tag">MODULE 4</div>
       <h3>Exception Handling &amp; Robustness</h3>
-      <p>try/catch/throw, custom exception classes, RAII, and a robust file-reader case study.</p>
-      <ul class="topic-list"><li>Resource Acquisition Is Initialization</li><li>Build a robust file reader</li></ul>
-      <div class="card-footer"><button class="btn btn-ghost" disabled>Coming soon</button></div>
+      <p>try/catch/throw, multiple catch clauses, custom exception classes with typed context, RAII, and a robust payment processor case study.</p>
+      <ul class="topic-list">
+        <li>try/catch/throw — the error path separated from normal flow</li>
+        <li>Catch by type — std::exception hierarchy</li>
+        <li>Custom exceptions with domain context fields</li>
+        <li>RAII — resource always released, even on exception</li>
+        <li>🎬 Story Mode: the transaction that crashed</li>
+      </ul>
+      <div class="card-footer">
+        <a class="btn btn-primary" href="module4.html">View module →</a>
+        <div>
+          <div class="stars" data-module="module4">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+          </div>
+          <div class="rating-note">Rate this module</div>
+        </div>
+      </div>
     </div>
-    <div class="card locked">
+    <div class="card">
       <div class="module-tag">MODULE 5</div>
       <h3>Templates &amp; Generics</h3>
-      <p>Function templates, class templates, and a generic stack implementation case study.</p>
-      <ul class="topic-list"><li>Reusable type-independent code</li><li>Implement a generic stack</li></ul>
-      <div class="card-footer"><button class="btn btn-ghost" disabled>Coming soon</button></div>
+      <p>Function templates, class templates, the STL as applied template design, and a generic inventory stack case study.</p>
+      <ul class="topic-list">
+        <li>Why templates replace copy-paste code duplication</li>
+        <li>Function templates — type deduction and explicit arguments</li>
+        <li>Class templates — generic Stack&lt;T&gt; with exception safety</li>
+        <li>STL as templates — vector, map, optional, unique_ptr</li>
+        <li>🎬 Story Mode: the analytics pipeline that copied itself</li>
+      </ul>
+      <div class="card-footer">
+        <a class="btn btn-primary" href="module5.html">View module →</a>
+        <div>
+          <div class="stars" data-module="module5">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+          </div>
+          <div class="rating-note">Rate this module</div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -739,5 +767,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 </script>
+<script src="search.js"></script>
 </body>
 </html>
