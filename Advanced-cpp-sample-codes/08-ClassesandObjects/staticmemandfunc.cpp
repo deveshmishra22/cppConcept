@@ -75,3 +75,8 @@ int main()
 
     // return 0;  
 }
+
+// Email: raushan.ranjan@koenig-solutions.com
+//Assessment
+// Extend the shape report
+// Add a Triangle class and report the total area of all three shapes.

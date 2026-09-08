@@ -5,12 +5,16 @@ constexpr int square(int x) {
     return x * x;
 }
 
+//what is constexpr function in c++?
+// A constexpr function is a function that can be evaluated at compile time. It allows the compiler to perform computations during compilation, resulting in faster execution at runtime. The function must meet certain criteria, such as having a return type that is a literal type and containing only a single return statement.
+
 int main() {
     constexpr int result = square(5);
-    cout << "The square of 5 is: " << result << endl;
-    
+    cout << "The square of 5 is: " << result << endl; // This will be evaluated at compile time, and the value of result 
+    // will be known at compile time.
     cout<< "Calling square func temp: " << endl;
-    cout<< "The square of 10 is: " << square(10) << endl;
+    cout<< "The square of 10 is: " << square(10) << endl; // This will be evaluated at compile time as well, 
+    // since the argument is a constant expression.
     return 0;
 }
 

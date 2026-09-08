@@ -48,13 +48,10 @@ public:
     }
 };
 int main() {
-
+    
     // Demonstrating Vtable Mechanism
-    VideoPlugin vp;
-    AudioPlugin ap;
-
-    Plugin* p1 = &vp;
-    Plugin* p2 = &ap;
+    Plugin* p1 = new VideoPlugin();
+    Plugin* p2 = new AudioPlugin();
 
     runPlugin(p1);
     runPlugin(p2);

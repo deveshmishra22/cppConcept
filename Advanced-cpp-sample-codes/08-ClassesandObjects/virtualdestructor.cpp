@@ -52,10 +52,10 @@ class B : public A
 };
 
 int main() {
-    cout << "Creating Derived class object using Base class pointer." << endl;
-    Base* obj = new Derived();
-    cout << "Deleting Base class pointer pointing to Derived class object." << endl;
-    delete obj; // Undefined behavior: Derived destructor won't be called
+    // cout << "Creating Derived class object using Base class pointer." << endl;
+    // Base* obj = new Derived();
+    // cout << "Deleting Base class pointer pointing to Derived class object." << endl;
+    // delete obj; // Undefined behavior: Derived destructor won't be called
 
     cout << "\nCreating CorrectDerived class object using CorrectBase class pointer." << endl;
     CorrectBase* correctObj = new CorrectDerived();
@@ -63,9 +63,9 @@ int main() {
     delete correctObj; // Correct behavior: CorrectDerived destructor will be called
     
     // Demonstrating constructor calls in inheritance
-    cout << "\nCreating object of class B which inherits from A." << endl;
-    A* newObjwithoutDestructor = new B();
-    delete newObjwithoutDestructor;
+    // cout << "\nCreating object of class B which inherits from A." << endl;
+    // A* newObjwithoutDestructor = new B();
+    // delete newObjwithoutDestructor;
 
     // Note: In this case, since there are no destructors defined in classes A and B,
     // the default destructors will be called, and there won't be any output related to destruct

@@ -9,6 +9,9 @@ using namespace std;
 class Parent
 {
 public:
+    Parent() {
+        cout << "Parent Constructor called!" << endl;
+    }
     void showParentMessage() {
         cout << "Hello from Parent class!" << endl;
     }
@@ -17,6 +20,9 @@ public:
 class Child : public Parent // Inheritance
 {
 public:
+    Child() {
+        cout << "Child Constructor is called!"<< endl;
+    }
     void display() {
         cout << "Hello from Child class!" << endl;
     }
@@ -119,26 +125,26 @@ public:
 int main()
 {
     Child c;
-    c.display();
-    c.ShowChildMessage();
-    c.showParentMessage(); // Accessing Parent class method
+    // c.display();
+    // c.ShowChildMessage();
+    // c.showParentMessage(); // Accessing Parent class method
 
-    //Example of Multiple Inheritance
-    Professor p;
-    p.Teach();      // From Teacher class
-    p.Research();   // From Researcher class
-    p.Guide();      // From Professor class
+    // //Example of Multiple Inheritance
+    // Professor p;
+    // p.Teach();      // From Teacher class
+    // p.Research();   // From Researcher class
+    // p.Guide();      // From Professor class
 
-    //Example of Multi-Level Inheritance
-    Child1 c1;
-    c1.showChild1Message();       // From Child1 class
-    c1.showParent1Message();      // From Parent1 class
-    c1.showGrandParentMessage();  // From GrandParent class
+    // //Example of Multi-Level Inheritance
+    // Child1 c1;
+    // c1.showChild1Message();       // From Child1 class
+    // c1.showParent1Message();      // From Parent1 class
+    // c1.showGrandParentMessage();  // From GrandParent class
 
-    //Example of Multi-Level Inheritance with Employee classes
-    Employee e1("Pratibha");
-    Manager m1("Raushan");
-    SeniorManager sm("Vatan");
-    sm.display();
+    // //Example of Multi-Level Inheritance with Employee classes
+    // Employee e1("Pratibha");
+    // Manager m1("Raushan");
+    // SeniorManager sm("Vatan");
+    // sm.display();
     return 0;
 }

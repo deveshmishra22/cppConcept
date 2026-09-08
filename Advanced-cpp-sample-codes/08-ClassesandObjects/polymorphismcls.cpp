@@ -86,34 +86,36 @@ int main() {
     
     for(int i = 0; i < 2; i++) {
         accountPtr[i]->calculateInterest(); // Calls respective version
-        accountPtr[i]->calculateInterest();   // Calls respective version
+        // accountPtr[i]->calculateInterest();   // Calls respective version
     }
 
     delete accountPtr[0];
     delete accountPtr[1];
 
-    Account* accPtr = new SavingsAccount();
-    accPtr->displayAccountType(); // Calls SavingsAccount version
+    cout << "End of Polymorphism Example-01!" << endl;
 
-    accPtr = new CurrentAccount();
-    accPtr->displayAccountType(); // Calls CurrentAccount version
+    // Account* accPtr = new SavingsAccount();
+    // accPtr->displayAccountType(); // Calls SavingsAccount version
 
-    delete accPtr; // Free allocated memory
+    // accPtr = new CurrentAccount();
+    // accPtr->displayAccountType(); // Calls CurrentAccount version
 
-    Base b;
-    Derived d;
+    // delete accPtr; // Free allocated memory
 
-    // Compile Time Polymorphism
-    b.show(); // Calls Base class show
-    d.show(); // Calls Derived class show
+    // Base b;
+    // Derived d;
 
-    // Run Time Polymorphism
-    Base* basePtr;
-    basePtr = &b;
-    basePtr->display(); // Calls Base class display
+    // // Compile Time Polymorphism
+    // b.show(); // Calls Base class show
+    // d.show(); // Calls Derived class show
 
-    basePtr = &d;
-    basePtr->display(); // Calls Derived class display due to virtual function
+    // // Run Time Polymorphism
+    // Base* basePtr;
+    // basePtr = &b;
+    // basePtr->display(); // Calls Base class display
+
+    // basePtr = &d;
+    // basePtr->display(); // Calls Derived class display due to virtual function
 
     return 0;
 }
