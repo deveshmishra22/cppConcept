@@ -1,3 +1,5 @@
+** constexpr vs consteval vs #define **
+
 | Feature | `#define` (Legacy C) | `constexpr` (C++11) | `consteval` (C++20) |
 | :--- | :--- | :--- | :--- |
 | **Type Safety** | None (raw text substitution) | Full C++ type safety | Full C++ type safety |
