@@ -1,4 +1,4 @@
-**Polymorphim**
+# **Polymorphism** 
 
 A summary of C++ method resolution, virtual dispatch, signature matching, and compile-time safety rules:
 
@@ -47,7 +47,9 @@ Deleting a derived object via a base pointer requires a `virtual` destructor so 
 
 
 **------------------------------------------------------------------------------------------------------------------------**
-**Destructor Resolution Breakdown**
+
+
+## **Destructor Resolution Breakdown**
 
 | Scenario | Binding Type | Executed Destructors | Result |
 | --- | --- | --- | --- |
