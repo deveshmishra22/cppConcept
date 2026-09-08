@@ -1,3 +1,5 @@
+**Polymorphim**
+
 A summary of C++ method resolution, virtual dispatch, signature matching, and compile-time safety rules:
 
 **C++ Function Overriding and Hiding Matrix**
@@ -41,3 +43,18 @@ A summary of C++ method resolution, virtual dispatch, signature matching, and co
 * Pointer Execution: Calling ptr->show() on a Parent* pointer will always execute Parent::show(), even if ptr points to a Child instance.
 
 * Direct Object Execution: Calling c.show() directly on a Child instance will execute Child::show() because the child class scope shadows (hides) the parent's function name.
+Deleting a derived object via a base pointer requires a `virtual` destructor so C++ can resolve the proper cleanup sequence at runtime using the `vtable`.
+
+
+**------------------------------------------------------------------------------------------------------------------------**
+**Destructor Resolution Breakdown**
+
+| Scenario | Binding Type | Executed Destructors | Result |
+| --- | --- | --- | --- |
+| **Non-Virtual Base Destructor** | **Static** (Compile-time) | `Base::~Base()` only | **Undefined Behavior:** Derived destructor is bypassed, leading to resource leaks. |
+| **Virtual Base Destructor** | **Dynamic** (Runtime `vtable`) | `Derived::~Derived()` $\rightarrow$ `Base::~Base()` | **Safe Cleanup:** Destructors execute in exact reverse order of construction. |
+
+**Core Mechanics**
+
+* **Execution Order:** Construction builds from the bottom up (`Base` $\rightarrow$ `Derived`); Destruction tears down from the top down (`Derived` $\rightarrow$ `Base`).
+* **The Rule of Thumb:** If a class declares any `virtual` functions, its destructor must also be declared `virtual` to prevent undefined behavior when using base class pointers.
