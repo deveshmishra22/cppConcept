@@ -1,4 +1,4 @@
-** constexpr vs consteval vs #define **
+** 'constexpr' vs 'consteval' vs '#define' **
 
 | Feature | `#define` (Legacy C) | `constexpr` (C++11) | `consteval` (C++20) |
 | :--- | :--- | :--- | :--- |
