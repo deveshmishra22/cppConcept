@@ -36,8 +36,8 @@ A summary of C++ method resolution, virtual dispatch, signature matching, and co
 
 **Core Takeaway on Non-Virtual Redefinition**
 
-Static Binding Rule: When a base function is non-virtual, virtual tables do not exist. The compiler determines which function to invoke at compile time based purely on the variable's declared type, not the object's actual underlying type in memory.
+* Static Binding Rule: When a base function is non-virtual, virtual tables do not exist. The compiler determines which function to invoke at compile time based purely on the variable's declared type, not the object's actual underlying type in memory.
 
-Pointer Execution: Calling ptr->show() on a Parent* pointer will always execute Parent::show(), even if ptr points to a Child instance.
+* Pointer Execution: Calling ptr->show() on a Parent* pointer will always execute Parent::show(), even if ptr points to a Child instance.
 
-Direct Object Execution: Calling c.show() directly on a Child instance will execute Child::show() because the child class scope shadows (hides) the parent's function name.
+* Direct Object Execution: Calling c.show() directly on a Child instance will execute Child::show() because the child class scope shadows (hides) the parent's function name.
