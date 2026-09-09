@@ -63,3 +63,49 @@ public:
     }
 };
 ```
+
+## 2. Accessing Member Functions via `const` References
+
+When an object is accessed through a `const` reference (`const T&`), C++ enforces a strict rule:
+**you can ONLY call member functions that are explicitly marked as `const`.**
+
+---
+
+### The Core Rule
+
+If an object is accessed via a `const` reference, calling a non-`const` member function causes a **compile-time error** because non-`const` functions reserve the right to mutate the object.
+
+```cpp
+#include <iostream>
+
+class Counter {
+private:
+    int count = 0;
+
+public:
+    // 1. Non-const member function (modifies state)
+    void increment() {
+        count++;
+    }
+
+    // 2. Const member function (read-only guarantee)
+    int getValue() const {
+        return count;
+    }
+};
+
+void inspectCounter(const Counter& c) {
+    // ✅ ALLOWED: getValue() is a const member function
+    std::cout << "Count: " << c.getValue() << '\n';
+
+    // ❌ COMPILE ERROR: increment() is non-const!
+    // c.increment(); 
+}
+
+int main() {
+    Counter myCounter;
+    myCounter.increment();  // ✅ Allowed on non-const instance
+    inspectCounter(myCounter);
+    return 0;
+}
+```
