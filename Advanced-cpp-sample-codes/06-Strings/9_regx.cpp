@@ -50,3 +50,33 @@ int main() {
 
     return 0;
 }
+
+
+// Let's understand what is Regex in C++17 and how to use it with examples. 
+// Regular expressions (regex) are a powerful tool for pattern matching and text manipulation. 
+// In C++, the `<regex>` library provides support for regex operations, allowing you to search, match, 
+// and replace patterns in strings.
+
+// For example, in the code above, we demonstrate various regex operations:
+// 1. We use `regex_replace` to format a phone number in a specific pattern
+// 2. We use `regex_search` to find a specific pattern in a string and extract captured groups
+// 3. We use `regex_replace` again to replace occurrences of a specific word in a string
+// 4. We use `sregex_iterator` to find all occurrences of a pattern in a string
+// 5. We use `regex_match` to validate an email address against a regex pattern
+
+// How to write regex in C++17:
+// 1. Include the `<regex>` header file
+// 2. Create a `regex` object with the desired pattern
+// 3. Use functions like `regex_search`, `regex_match`, and `regex_replace` to perform operations on strings
+
+// How to write patterns in regex:
+// - Use `\d` to match digits, `\w` to match word characters
+// - Use quantifiers like `{n}` to specify the number of occurrences
+// - Use parentheses `()` to create capturing groups
+// - Use `|` for alternation (OR) and `^` and `$` for start and end of string anchors
+// for example, the pattern `(\d{3})-(\d{3})-(\d{4})` matches a phone number format like "123-456-7890" and 
+// captures the three groups of digits.
+// for email validation, the pattern `(\w+)(\.?)(\w*)@(\w+)\.(\w+)` matches a typical email format and 
+// captures the username, domain, and top-level domain.
+// if domain is fixed to "rrskillverse.com", then the pattern can be simplified to `(\w+)(\.?)(\w*)@rrskillverse\.com` to 
+// match only emails from that domain.

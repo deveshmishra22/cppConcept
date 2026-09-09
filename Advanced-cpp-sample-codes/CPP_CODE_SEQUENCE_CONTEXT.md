@@ -1,4 +1,10 @@
 # Enterprise C++ Sample Code Sequence
+
+> **Filename convention:** each C++ sample is now prefixed with its teaching
+> order, for example `1_Program1.cpp` and `2_namespaceprog1.cpp`. The concept
+> names below retain their original basenames for readability; compile the
+> corresponding prefixed file.
+
 ## One-Time Setup
 
 Open the repository in VS Code:
