@@ -14,11 +14,12 @@ void printSquare(const int number) {
     // number *= number; // ❌ Compile Error: read-only parameter
     std::cout << number * number << '\n';
 }
-'''
+```
 
 ### Pass-by-Const-Reference (const T&)
 Avoids object copying while guaranteeing read-only access. Accepts both lvalues (variables) and temporary rvalues.
 
+```cpp
 #include <iostream>
 #include <string>
 
@@ -32,6 +33,7 @@ int main() {
     printMessage(text);          // Binds to lvalue
     printMessage("Direct Text"); // Binds to temporary rvalue
 }
+```
 
 Syntax,Description,Modifies Data?,Rebinds Pointer/Ref?
 const T* ptr,Pointer to constant data,❌ No,✅ Yes
