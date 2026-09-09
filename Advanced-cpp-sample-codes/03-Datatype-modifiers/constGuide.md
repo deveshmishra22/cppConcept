@@ -35,8 +35,3 @@ int main() {
 }
 ```
 
-Syntax,Description,Modifies Data?,Rebinds Pointer/Ref?
-const T* ptr,Pointer to constant data,❌ No,✅ Yes
-T* const ptr,Constant pointer to mutable data,✅ Yes,❌ No
-const T* const ptr,Constant pointer to constant data,❌ No,❌ No
-const T& ref,Reference to constant data,❌ No,❌ No
