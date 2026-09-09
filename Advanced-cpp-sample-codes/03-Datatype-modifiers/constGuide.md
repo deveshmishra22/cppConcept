@@ -14,6 +14,7 @@ void printSquare(const int number) {
     // number *= number; // ❌ Compile Error: read-only parameter
     std::cout << number * number << '\n';
 }
+'''
 
 ### Pass-by-Const-Reference (const T&)
 Avoids object copying while guaranteeing read-only access. Accepts both lvalues (variables) and temporary rvalues.
