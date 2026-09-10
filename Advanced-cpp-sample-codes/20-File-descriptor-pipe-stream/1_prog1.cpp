@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstring>   // for strlen()
 #include <fcntl.h>   // for _open(), _O_CREAT, _O_WRONLY, etc.
 #include <io.h>      // for _write(), _close()
 #include <sys/stat.h> // for _S_IREAD, _S_IWRITE
@@ -16,10 +17,11 @@ int main() {
  
     // Write to the file
     const char* message = "Hello from file descriptor!\n";
-    _write(fd, message, 30);
+    _write(fd, message, (unsigned)strlen(message));
  
     // Write to STDOUT (file descriptor = 1)
-    _write(1, "This goes to STDOUT\n", 21);
+    const char* stdoutMsg = "This goes to STDOUT\n";
+    _write(1, stdoutMsg, (unsigned)strlen(stdoutMsg));
  
     // Close the file
     _close(fd);

@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 8: Systems Programming & Advanced C++ Internals - Enterprise C++ Handbook</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-left">
+    <button class="sidebar-toggle" type="button" aria-label="Toggle course navigation" aria-expanded="true">☰</button>
+    <a href="index.html" class="brand"><span class="brand-mark">C++</span><span class="brand-text">Enterprise C++ Handbook<small>Personal notes by Raushan Ranjan</small></span></a>
+  </div>
+  <div class="topbar-center"><label class="search-bar"><span class="search-icon">⌕</span><input class="search-input" type="search" placeholder="Search the handbook" aria-label="Search the handbook"><kbd class="search-kbd">⌘ K</kbd></label></div>
+  <div class="topbar-right"><a href="index.html">All modules</a><a href="index.html#day5">Curriculum</a><a class="btn-notes" href="index.html#day5">Systems &amp; Internals</a></div>
+</div>
+
+<div class="app-layout">
+<aside class="sidebar-left">
+  <div class="sidebar-content">
+    <div class="sidebar-section-title">Course map</div>
+    <nav class="nav-tree" aria-label="Course navigation">
+      <div class="nav-day">
+        <a class="nav-day-toggle" href="index.html#day1" aria-expanded="false"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 1</span><span class="nav-day-subtitle">Foundations</span><span class="nav-day-chevron">›</span></a>
+        <div class="nav-day-body">
+          <div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module0.html">Foundation Enhancer</a></li><li class="nav-topic"><a href="module1.html">C++ Basics</a></li></ul></div>
+        </div>
+      </div>
+      <div class="nav-day">
+        <a class="nav-day-toggle" href="index.html#day2" aria-expanded="false"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 2</span><span class="nav-day-subtitle">Polymorphism</span><span class="nav-day-chevron">›</span></a>
+        <div class="nav-day-body">
+          <div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module2.html">Inheritance &amp; Polymorphism</a></li><li class="nav-topic"><a href="module3.html">Compile-time Polymorphism</a></li></ul></div>
+        </div>
+      </div>
+      <div class="nav-day">
+        <a class="nav-day-toggle" href="index.html#day3" aria-expanded="false"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 3</span><span class="nav-day-subtitle">Robustness</span><span class="nav-day-chevron">›</span></a>
+        <div class="nav-day-body">
+          <div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module4.html">Exception Handling</a></li><li class="nav-topic"><a href="module5.html">Templates &amp; Generics</a></li></ul></div>
+        </div>
+      </div>
+      <div class="nav-day">
+        <a class="nav-day-toggle" href="index.html#day4" aria-expanded="false"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 4</span><span class="nav-day-subtitle">Modern C++</span><span class="nav-day-chevron">›</span></a>
+        <div class="nav-day-body">
+          <div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module6.html">STL &amp; Containers</a></li><li class="nav-topic"><a href="module7.html">Advanced C++</a></li></ul></div>
+        </div>
+      </div>
+      <div class="nav-day" data-open="true">
+        <a class="nav-day-toggle" href="index.html#day5"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 5</span><span class="nav-day-subtitle">Systems &amp; Internals</span><span class="nav-day-chevron">›</span></a>
+        <div class="nav-day-body">
+          <div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a class="active" href="module8.html">Systems Programming &amp; Advanced C++ Internals</a></li></ul></div>
+          <div class="nav-module"><div class="nav-module-label">Topics</div><div class="nav-tabs">
+            <button class="nav-tab active" data-tab="t1">01 Networking</button>
+            <button class="nav-tab" data-tab="t2">02 Move semantics</button>
+            <button class="nav-tab" data-tab="t3">03 Pipes &amp; FDs</button>
+            <button class="nav-tab" data-tab="t4">04 Linking</button>
+            <button class="nav-tab" data-tab="t5">05 System info</button>
+            <button class="nav-tab" data-tab="t6">06 Additional topics</button>
+            <button class="nav-tab" data-tab="t7">07 🎬 Story Mode</button>
+          </div></div>
+        </div>
+      </div>
+      <div class="nav-day"><a class="nav-day-toggle" href="index.html#day6"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 6</span><span class="nav-day-subtitle">Qt &amp; Capstone</span><span class="nav-day-chevron">›</span></a></div>
+    </nav>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section-title">Resources</div>
+    <ul class="sidebar-resources"><li><a href="https://github.com/raushan1107/Advanced-cpp-sample-codes" target="_blank" rel="noopener">↗ Source code</a></li><li><a href="index.html#day5">▣ Course overview</a></li></ul>
+  </div>
+</aside>
+
+<main class="main-content">
+<div class="module-header">
+  <div class="breadcrumb"><a href="index.html#day5">Systems &amp; Internals</a> / Module 8</div>
+  <h1>Systems Programming &amp; Advanced C++ Internals</h1>
+  <p class="sub">Sockets, move semantics, inter-process communication, linking, system diagnostics, and runtime type identification — the systems-level skills underneath every enterprise C++ application that isn't just business logic.</p>
+  <div class="module-meta"><span><b>Day:</b> 5 of 6</span><span><b>Topics:</b> 6 + Story Mode</span><span><b>Case study:</b> Fleet diagnostics relay agent</span><span><b>Repo folder:</b> <code>19-Server-Client/, 18-Multi-threaded-nw/, 16-MoveSemantics/, 20-File-descriptor-pipe-stream/, 21-StaticvsDynamicLinking/, 23-ReadingsystemInfo/, 27-RTTI/</code></span></div>
+</div>
+
+<div class="tabs-wrap">
+  <div class="tabbar"><button data-tab="t1" class="active">01 Networking</button><button data-tab="t2">02 Move semantics</button><button data-tab="t3">03 Pipes &amp; FDs</button><button data-tab="t4">04 Linking</button><button data-tab="t5">05 System info</button><button data-tab="t6">06 Additional topics</button><button data-tab="t7">07 🎬 Story Mode</button></div>
+
+  <!-- TAB 1: Networking & Sockets -->
+  <div class="tabpanel active" id="t1">
+    <p class="topic-intro">Every distributed system — a chat app, a monitoring agent, a microservice — starts with the same primitive: two processes exchanging bytes over a socket. TCP and UDP are the two transport choices, and picking the wrong one costs you either reliability or latency.</p>
+
+    <div class="block">
+      <div class="block-label"><span class="tag why">WHY</span><h4>Two transport protocols, not one</h4></div>
+      <div class="content">
+        <p><strong>TCP</strong> (Transmission Control Protocol) is like registered mail with tracking: it guarantees ordered, reliable, byte-stream delivery — lost packets are retransmitted automatically. That reliability costs a connection setup (the "three-way handshake") and some latency.</p>
+        <p><strong>UDP</strong> (User Datagram Protocol) is like a postcard: fire it and forget it. No ordering guarantee, no retransmission, no connection to set up — but almost zero overhead. It's the right choice when an occasional lost packet is acceptable but added delay is not (video frames, telemetry pings, DNS lookups).</p>
+        <p>Enterprise systems pick per use case: a payment API uses TCP because losing a byte of a transaction is unacceptable; a live sensor dashboard might use UDP because the next reading is only a second away anyway.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag what">WHAT</span><h4>The Berkeley sockets vocabulary (Winsock on Windows)</h4></div>
+      <div class="content">
+        <ul>
+          <li><code>WSAStartup(MAKEWORD(2,2), &amp;wsaData)</code> — Windows-only: initializes the Winsock library before any socket call. Every Winsock program needs it once, and <code>WSACleanup()</code> at the end.</li>
+          <li><code>socket(AF_INET, SOCK_STREAM, 0)</code> — creates an endpoint. <code>AF_INET</code> means IPv4; <code>SOCK_STREAM</code> means TCP, <code>SOCK_DGRAM</code> would mean UDP.</li>
+          <li><code>bind()</code> — (server) attaches the socket to a local address and port so clients know where to find it.</li>
+          <li><code>listen()</code> / <code>accept()</code> — (server, TCP only) <code>listen</code> marks the socket as willing to accept connections; <code>accept</code> blocks until a client connects and returns a brand-new socket dedicated to that one client.</li>
+          <li><code>connect()</code> — (client, TCP) attempts the three-way handshake to a server's address and port.</li>
+          <li><code>send()</code> / <code>recv()</code> — write and read bytes on a connected TCP socket. UDP uses <code>sendto()</code> / <code>recvfrom()</code> instead, since there's no persistent connection to address.</li>
+          <li><code>closesocket()</code> — releases the socket (Linux/macOS use the plain <code>close()</code> used for any file descriptor — see the Pipes tab for why sockets and files share that concept).</li>
+          <li>Linking: Windows socket programs need <code>-lws2_32</code> on the compile line — the Winsock functions live in that import library, not in the standard runtime.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag how">HOW</span><h4>A minimal TCP server and client exchanging one message</h4></div>
+      <div class="code-card">
+        <div class="code-head"><span class="filename">net_server_step.cpp</span><button class="copy-btn">Copy</button></div>
+        <pre><code>#include &lt;iostream&gt;
+#include &lt;winsock2.h&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    WSADATA wsaData;
+    WSAStartup(MAKEWORD(2, 2), &amp;wsaData);
+
+    SOCKET serverSocket = socket(AF_INET, SOCK_STREAM, 0);
+    sockaddr_in addr{};
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(8080);
+    addr.sin_addr.s_addr = INADDR_ANY;
+    bind(serverSocket, (sockaddr*)&amp;addr, sizeof(addr));
+    listen(serverSocket, 1);
+
+    cout &lt;&lt; "(Server) waiting for a connection on port 8080...\n";
+    sockaddr_in clientAddr;
+    int clientSize = sizeof(clientAddr);
+    SOCKET clientSocket = accept(serverSocket, (sockaddr*)&amp;clientAddr, &amp;clientSize);
+    cout &lt;&lt; "(Server) client connected.\n";
+
+    char buffer[1024] = {0};
+    int bytes = recv(clientSocket, buffer, sizeof(buffer) - 1, 0);
+    buffer[bytes] = '\0';
+    cout &lt;&lt; "(Server) received: " &lt;&lt; buffer &lt;&lt; "\n";
+
+    string reply = "Message received, over.";
+    send(clientSocket, reply.c_str(), (int)reply.size(), 0);
+    cout &lt;&lt; "(Server) sent reply.\n";
+
+    closesocket(clientSocket);
+    closesocket(serverSocket);
+    WSACleanup();
+}</code></pre>
+      </div>
+      <div class="code-card">
+        <div class="code-head"><span class="filename">net_client_step.cpp</span><button class="copy-btn">Copy</button></div>
+        <pre><code>#include &lt;iostream&gt;
+#include &lt;winsock2.h&gt;
+#include &lt;string&gt;
+using namespace std;
+
+int main() {
+    WSADATA wsaData;
+    WSAStartup(MAKEWORD(2, 2), &amp;wsaData);
+
+    SOCKET clientSocket = socket(AF_INET, SOCK_STREAM, 0);
+    sockaddr_in serverAddr{};
+    serverAddr.sin_family = AF_INET;
+    serverAddr.sin_port = htons(8080);
+    serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+
+    connect(clientSocket, (sockaddr*)&amp;serverAddr, sizeof(serverAddr));
+    cout &lt;&lt; "(Client) connected to server.\n";
+
+    string message = "Rack-A temperature nominal.";
+    send(clientSocket, message.c_str(), (int)message.size(), 0);
+    cout &lt;&lt; "(Client) sent: " &lt;&lt; message &lt;&lt; "\n";
+
+    char buffer[1024] = {0};
+    int bytes = recv(clientSocket, buffer, sizeof(buffer) - 1, 0);
+    buffer[bytes] = '\0';
+    cout &lt;&lt; "(Client) server replied: " &lt;&lt; buffer &lt;&lt; "\n";
+
+    closesocket(clientSocket);
+    WSACleanup();
+}</code></pre>
+      </div>
+      <div class="output-box"><span class="lbl">Expected output</span>Server terminal:
+(Server) waiting for a connection on port 8080...
+(Server) client connected.
+(Server) received: Rack-A temperature nominal.
+(Server) sent reply.
+
+Client terminal:
+(Client) connected to server.
+(Client) sent: Rack-A temperature nominal.
+(Client) server replied: Message received, over.</div>
+      <div class="quickguide">
+        <p class="qg-title">Run it and experiment</p>
+        <ol>
+          <li>Compile both: <code>g++ -std=c++17 net_server_step.cpp -o net_server_step -lws2_32</code> and <code>g++ -std=c++17 net_client_step.cpp -o net_client_step -lws2_32</code>.</li>
+          <li>Open two terminals. Start the server first (<code>net_server_step.exe</code>), then the client (<code>net_client_step.exe</code>) — a client that connects before the server is listening will fail to connect.</li>
+          <li><strong>Experiment 1:</strong> Change the port in both files to <code>9090</code> and confirm the exchange still works.</li>
+          <li><strong>Experiment 2:</strong> Look at <code>19-Server-Client/2_server.cpp</code> and <code>3_client.cpp</code> in the repo — the full interactive, two-way chat loop this demo was simplified from.</li>
+          <li><strong>Experiment 3 (UDP):</strong> Change <code>SOCK_STREAM</code> to <code>SOCK_DGRAM</code> and swap <code>send</code>/<code>recv</code> for <code>sendto</code>/<code>recvfrom</code> — notice you no longer need <code>listen</code>/<code>accept</code>/<code>connect</code> at all, because UDP has no connection.</li>
+          <li><strong>Experiment 4 (multiple clients at once):</strong> The server above serves exactly one client, then exits. A real server has to keep listening and handle many clients at the same time — that's Module 7's <code>std::thread</code> applied to Module 8's sockets. See <code>18-Multi-threaded-nw/3_server.cpp</code>: it loops on <code>accept()</code> forever, and spawns a detached <code>std::thread</code> per connection so one slow client can never block another. Pair it with <code>18-Multi-threaded-nw/4_client.cpp</code> and run the client two or three times (even from different terminals at once) against the same running server.</li>
+        </ol>
+      </div>
+      <div class="callout"><strong>Note:</strong> Winsock is Windows-specific; on Linux/macOS the same ideas use <code>&lt;sys/socket.h&gt;</code> with near-identical function names but no <code>WSAStartup</code>/<code>WSACleanup</code> step. The socket vocabulary (bind, listen, accept, connect, send, recv) is the part that transfers across platforms.</div>
+    </div>
+
+    <div class="topic-nav">
+      <span></span>
+      <button class="btn btn-primary" onclick="document.querySelector('[data-tab=t2]').click()">Next: Move semantics →</button>
+    </div>
+  </div>
+
+  <!-- TAB 2: Move Semantics -->
+  <div class="tabpanel" id="t2">
+    <p class="topic-intro">Copying a vector of ten million elements takes real time and real memory. Move semantics let the compiler transfer ownership of a temporary's internal buffer instead of copying it — turning an expensive deep copy into a handful of pointer swaps.</p>
+
+    <div class="block">
+      <div class="block-label"><span class="tag why">WHY</span><h4>lvalues, rvalues, and the cost of "just in case" copies</h4></div>
+      <div class="content">
+        <p>An <strong>lvalue</strong> is an expression with a name and a persistent address — a variable you could take the address of. An <strong>rvalue</strong> is a temporary — the result of <code>a + b</code>, a function's return value, a literal — about to be destroyed the moment the current statement finishes.</p>
+        <p>Before C++11, a function returning a large object by value always risked a full deep copy: build the object locally, then copy every byte of it into the caller's variable. But if the source is a temporary that's about to disappear anyway, why copy it at all? Nobody will ever read that temporary again — its resources can simply be handed over.</p>
+        <p>Move semantics formalizes that idea: a <strong>move constructor</strong> steals the internal pointers/buffers from a soon-to-be-destroyed object instead of duplicating them, leaving the source in a valid-but-empty state.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag what">WHAT</span><h4>Rvalue references and std::move</h4></div>
+      <div class="content">
+        <ul>
+          <li><code>T&amp;</code> — an lvalue reference; binds only to named, addressable objects.</li>
+          <li><code>T&amp;&amp;</code> — an rvalue reference; binds only to temporaries (rvalues). A function overloaded on both lets the compiler pick the cheap move path automatically for temporaries.</li>
+          <li><code>std::move(x)</code> — does not move anything by itself. It's a <em>cast</em> that says "treat <code>x</code> as an rvalue" — permission for the next constructor or assignment to steal from it. <code>#include &lt;utility&gt;</code>.</li>
+          <li><strong>Move constructor</strong> / <strong>move assignment operator</strong> — special members that take a <code>T&amp;&amp;</code> and transfer ownership (pointer copy + null out the source) instead of deep-copying. The compiler generates them automatically for a class whose members are all movable, as long as you haven't declared your own copy constructor/destructor/copy-assignment.</li>
+          <li><strong>Moved-from state</strong> — after <code>std::move(x)</code> is used to construct or assign into something else, <code>x</code> is left "valid but unspecified": safe to destroy or reassign, but you must not assume its old contents are still there (a moved-from <code>std::vector</code> is typically empty, but that's not a language guarantee for every type).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag how">HOW</span><h4>Overload resolution on lvalue vs rvalue, and an explicit std::move</h4></div>
+      <div class="code-card">
+        <div class="code-head"><span class="filename">move_step.cpp</span><button class="copy-btn">Copy</button></div>
+        <pre><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+using namespace std;
+
+void processVector(vector&lt;int&gt;&amp; vec) {
+    cout &lt;&lt; "lvalue overload, size=" &lt;&lt; vec.size() &lt;&lt; "\n";
+}
+void processVector(vector&lt;int&gt;&amp;&amp; vec) {
+    cout &lt;&lt; "rvalue overload, size=" &lt;&lt; vec.size() &lt;&lt; "\n";
+}
+
+vector&lt;int&gt; createLarge() {
+    vector&lt;int&gt; temp(1000000, 7);
+    return temp; // moved (or elided) on return, never copied
+}
+
+int main() {
+    vector&lt;int&gt; a = {1, 2, 3, 4, 5};
+    processVector(a);                    // a is named -&gt; lvalue overload
+    processVector(vector&lt;int&gt;{6, 7, 8}); // temporary -&gt; rvalue overload
+
+    cout &lt;&lt; "before move, a.size()=" &lt;&lt; a.size() &lt;&lt; "\n";
+    vector&lt;int&gt; b = std::move(a);        // steal a's buffer instead of copying it
+    cout &lt;&lt; "after move,  a.size()=" &lt;&lt; a.size() &lt;&lt; " (moved-from)\n";
+    cout &lt;&lt; "after move,  b.size()=" &lt;&lt; b.size() &lt;&lt; "\n";
+
+    vector&lt;int&gt; big = createLarge();
+    cout &lt;&lt; "big.size()=" &lt;&lt; big.size() &lt;&lt; "\n";
+}</code></pre>
+      </div>
+      <div class="output-box"><span class="lbl">Expected output</span>lvalue overload, size=5
+rvalue overload, size=3
+before move, a.size()=5
+after move,  a.size()=0 (moved-from)
+after move,  b.size()=5
+big.size()=1000000</div>
+      <div class="quickguide">
+        <p class="qg-title">Run it and experiment</p>
+        <ol>
+          <li>Compile: <code>g++ -std=c++17 move_step.cpp -o move_step</code>, run.</li>
+          <li><strong>Experiment 1:</strong> Replace <code>vector&lt;int&gt; b = std::move(a);</code> with a plain copy <code>vector&lt;int&gt; b = a;</code> — <code>a.size()</code> stays 5 afterward, proving the copy left the source untouched.</li>
+          <li><strong>Experiment 2:</strong> <code>std::vector</code>'s own move constructor is silent, so you never directly "see" it fire. Wrap a small class with your own <code>MyBuffer(MyBuffer&amp;&amp; other)</code> constructor that prints <code>"moved!"</code>, and watch it print when the class is returned by value or passed through <code>std::move</code>.</li>
+          <li><strong>Experiment 3:</strong> See <code>16-MoveSemantics/1_movesemantics1.cpp</code> in the repo for a longer, heavily-annotated walkthrough of the same ideas including a 10-million-element vector.</li>
+        </ol>
+      </div>
+      <div class="callout"><strong>Reference:</strong> <a href="https://en.cppreference.com/w/cpp/utility/move" target="_blank" rel="noopener">cppreference: std::move</a></div>
+    </div>
+
+    <div class="topic-nav">
+      <button class="btn btn-ghost" onclick="document.querySelector('[data-tab=t1]').click()">← Networking</button>
+      <button class="btn btn-primary" onclick="document.querySelector('[data-tab=t3]').click()">Next: Pipes &amp; FDs →</button>
+    </div>
+  </div>
+
+  <!-- TAB 3: Pipes & File Descriptors -->
+  <div class="tabpanel" id="t3">
+    <p class="topic-intro">Two processes on the same machine that need to hand data to each other don't always need a network socket — a pipe is a simpler, faster channel for exactly that. And every open file, socket, or console in a program is identified by the same underlying idea: a handle into the operating system's table of open resources.</p>
+
+    <div class="block">
+      <div class="block-label"><span class="tag why">WHY</span><h4>When you need a second process, not just a second thread</h4></div>
+      <div class="content">
+        <p><code>std::thread</code> (Module 7) runs work inside the same process, sharing memory directly. Sometimes that's the wrong isolation level: a flaky third-party parser, a plugin you don't fully trust, or a task that needs its own address space so a crash there doesn't take down your whole service. For that, you spawn a separate <strong>process</strong> — and processes don't share memory, so they need an explicit channel to exchange data. A <strong>pipe</strong> is the simplest such channel: a unidirectional byte stream with a write end and a read end.</p>
+        <p>Every open resource — a file, a socket, a pipe, the console — is tracked by the operating system as a <strong>file descriptor</strong> on POSIX systems (Linux/macOS), or a <strong>HANDLE</strong> on Windows. That's why closing a socket and closing a pipe both eventually reduce to "release this handle" — they're the same underlying OS concept wearing different C++ wrapper types.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag what">WHAT</span><h4>Windows anonymous pipes and process creation</h4></div>
+      <div class="content">
+        <ul>
+          <li><code>CreatePipe(&amp;hRead, &amp;hWrite, &amp;sa, 0)</code> — creates one unidirectional pipe, returning a read <code>HANDLE</code> and a write <code>HANDLE</code>.</li>
+          <li><code>SetHandleInformation(hWrite, HANDLE_FLAG_INHERIT, 0)</code> — the child process should inherit only the read end; this call stops the write end from leaking into the child too.</li>
+          <li><code>CreateProcess(...)</code> with <code>STARTUPINFO.hStdInput = hRead</code> and <code>dwFlags = STARTF_USESTDHANDLES</code> — launches a new process and redirects its standard input to the pipe's read end, so the child can simply read from <code>std::cin</code>.</li>
+          <li><code>WriteFile</code> / <code>ReadFile</code> — raw byte I/O on a <code>HANDLE</code>, the Windows equivalent of POSIX <code>write()</code>/<code>read()</code> on a file descriptor.</li>
+          <li>Closing the write handle signals end-of-file to whatever is reading — exactly like closing a file makes further reads return "no more data."</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag how">HOW</span><h4>Parent writes to a pipe, a child process launched from the same exe reads it</h4></div>
+      <div class="code-card">
+        <div class="code-head"><span class="filename">ipc_pipe_step.cpp</span><button class="copy-btn">Copy</button></div>
+        <pre><code>#include &lt;windows.h&gt;
+#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+void Fail(const char* msg) {
+    cerr &lt;&lt; msg &lt;&lt; " (err=" &lt;&lt; GetLastError() &lt;&lt; ")\n";
+    ExitProcess(1);
+}
+
+int child_main() {
+    string line;
+    if (getline(cin, line))
+        cout &lt;&lt; "[Child] Received message: " &lt;&lt; line &lt;&lt; "\n";
+    else
+        cerr &lt;&lt; "[Child] No data read from stdin.\n";
+    return 0;
+}
+
+int main(int argc, char* argv[]) {
+    if (argc &gt;= 2 &amp;&amp; string(argv[1]) == "child")
+        return child_main();
+
+    SECURITY_ATTRIBUTES sa;
+    sa.nLength = sizeof(SECURITY_ATTRIBUTES);
+    sa.lpSecurityDescriptor = nullptr;
+    sa.bInheritHandle = TRUE;
+    HANDLE hRead = nullptr, hWrite = nullptr;
+    if (!CreatePipe(&amp;hRead, &amp;hWrite, &amp;sa, 0)) Fail("CreatePipe failed");
+
+    // Only the read end should be inherited by the child
+    if (!SetHandleInformation(hWrite, HANDLE_FLAG_INHERIT, 0)) Fail("SetHandleInformation failed");
+
+    char exePath[MAX_PATH];
+    GetModuleFileNameA(nullptr, exePath, MAX_PATH);
+    string cmd = string("\"") + exePath + "\" child";
+
+    STARTUPINFOA si; PROCESS_INFORMATION pi;
+    ZeroMemory(&amp;si, sizeof(si)); ZeroMemory(&amp;pi, sizeof(pi));
+    si.cb = sizeof(si);
+    si.dwFlags |= STARTF_USESTDHANDLES;
+    si.hStdInput = hRead;                              // child's stdin = pipe's read end
+    si.hStdOutput = GetStdHandle(STD_OUTPUT_HANDLE);
+    si.hStdError  = GetStdHandle(STD_ERROR_HANDLE);
+
+    if (!CreateProcessA(nullptr, &amp;cmd[0], nullptr, nullptr, TRUE, 0, nullptr, nullptr, &amp;si, &amp;pi))
+        Fail("CreateProcess failed");
+
+    CloseHandle(hRead); // parent doesn't need the read end
+
+    const char* msg = "Hello from parent via pipe!\n";
+    DWORD written = 0;
+    WriteFile(hWrite, msg, (DWORD)strlen(msg), &amp;written, nullptr);
+    cout &lt;&lt; "[Parent] Wrote " &lt;&lt; written &lt;&lt; " bytes to pipe.\n";
+    CloseHandle(hWrite); // closing signals EOF to the child
+
+    WaitForSingleObject(pi.hProcess, INFINITE);
+    DWORD exitCode = 0;
+    GetExitCodeProcess(pi.hProcess, &amp;exitCode);
+    cout &lt;&lt; "[Parent] Child exited with code: " &lt;&lt; exitCode &lt;&lt; "\n";
+
+    CloseHandle(pi.hProcess);
+    CloseHandle(pi.hThread);
+}</code></pre>
+      </div>
+      <div class="output-box"><span class="lbl">Expected output</span>[Child] Received message: Hello from parent via pipe!
+[Parent] Wrote 28 bytes to pipe.
+[Parent] Child exited with code: 0</div>
+      <p style="font-size:0.88rem; color:var(--text-muted, #888); margin:4px 0 16px;">Note: this program launches itself again with a "child" argument, so a single .exe plays both roles — the "[Child]" line may appear before or after "[Parent] Wrote..." depending on process scheduling.</p>
+      <div class="quickguide">
+        <p class="qg-title">Run it and experiment</p>
+        <ol>
+          <li>Compile: <code>g++ -std=c++17 ipc_pipe_step.cpp -o ipc_pipe_step</code>, run <code>ipc_pipe_step.exe</code> (no arguments — it launches its own child).</li>
+          <li><strong>Experiment 1:</strong> Change the message text and re-run — confirm the byte count printed by the parent matches the new message's length.</li>
+          <li><strong>Experiment 2:</strong> Remove the <code>SetHandleInformation</code> call and observe that the program still runs — then read why it's still good practice: without it, the write handle could leak into the child and keep the pipe open longer than intended.</li>
+          <li><strong>Experiment 3:</strong> Compare with <code>20-File-descriptor-pipe-stream/1_prog1.cpp</code> in the repo, which shows plain file descriptor operations without the child-process piece.</li>
+        </ol>
+      </div>
+      <div class="callout"><strong>Note:</strong> This demo is Windows-specific (<code>CreatePipe</code>/<code>CreateProcess</code>). On Linux/macOS, the equivalent uses POSIX <code>pipe()</code> to get a pair of file descriptors and <code>fork()</code> to create the child — conceptually identical (write end, read end, EOF on close) but a different API surface.</div>
+    </div>
+
+    <div class="topic-nav">
+      <button class="btn btn-ghost" onclick="document.querySelector('[data-tab=t2]').click()">← Move semantics</button>
+      <button class="btn btn-primary" onclick="document.querySelector('[data-tab=t4]').click()">Next: Linking →</button>
+    </div>
+  </div>
+
+  <!-- TAB 4: Linking: Static vs Dynamic -->
+  <div class="tabpanel" id="t4">
+    <p class="topic-intro">A finished <code>.cpp</code> file becomes an object file, and object files only become a runnable executable after a linker pulls in every function they call from somewhere — your other <code>.cpp</code> files, or a library. Static linking copies that code into your executable; dynamic linking leaves it in a separate file loaded when the program starts.</p>
+
+    <div class="block">
+      <div class="block-label"><span class="tag why">WHY</span><h4>The build pipeline, and why the choice matters</h4></div>
+      <div class="content">
+        <p>Compiling <code>main.cpp</code> alone doesn't produce a program — it produces an <strong>object file</strong> (<code>.o</code>) full of machine code and a list of names it still needs (like <code>add</code> or <code>divide</code>) that it didn't define itself. The <strong>linker</strong>'s job is to find those names somewhere else and stitch everything into one executable.</p>
+        <p><strong>Static linking</strong> copies the library's object code directly into your executable at link time. The result is one self-contained file — nothing else needs to be present on the target machine — at the cost of a larger executable, and every program that statically links the same library duplicates that code.</p>
+        <p><strong>Dynamic linking</strong> leaves the library's code in a separate <code>.dll</code> (Windows) or <code>.so</code> (Linux) file. Your executable just stores a reference to it; the OS loader resolves and loads the actual code when the program starts. Multiple programs can share one copy of the library in memory, and the library can be updated (a security patch, say) without recompiling every program that uses it — but the <code>.dll</code>/<code>.so</code> must be present and compatible at runtime, or the program refuses to start.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag what">WHAT</span><h4>Header, object file, static archive, and shared library</h4></div>
+      <div class="content">
+        <ul>
+          <li><strong>Header file (<code>.h</code>)</strong> — declares function signatures so the compiler can check calls without seeing the implementation yet.</li>
+          <li><strong>Translation unit → object file (<code>.o</code>)</strong> — the compiled-but-not-yet-linked result of one <code>.cpp</code> file.</li>
+          <li><strong>Static library (<code>.a</code> on GCC/MinGW, <code>.lib</code> on MSVC)</strong> — an archive of <code>.o</code> files, built with the <code>ar</code> tool. The linker copies only the object files it actually needs from the archive into your executable.</li>
+          <li><strong>Shared/dynamic library (<code>.dll</code> on Windows, <code>.so</code> on Linux)</strong> — built with the compiler's <code>-shared</code> flag; contains code that is loaded at runtime rather than copied at link time.</li>
+          <li><code>-L.</code> tells the linker to also search the current directory for libraries; <code>-lname</code> links against <code>libname.a</code>/<code>libname.so</code> (the <code>lib</code> prefix and extension are added automatically).</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag how">HOW</span><h4>Build the same library both ways and see both executables behave identically</h4></div>
+      <div class="code-card">
+        <div class="code-head"><span class="filename">rrmathlib.h</span><button class="copy-btn">Copy</button></div>
+        <pre><code>int add(int a, int b);
+int subtract(int a, int b);
+int multiply(int a, int b);
+double divide(int a, int b);</code></pre>
+      </div>
+      <div class="code-card">
+        <div class="code-head"><span class="filename">rrmathlib.cpp</span><button class="copy-btn">Copy</button></div>
+        <pre><code>#include "rrmathlib.h"
+int add(int a, int b) { return a + b; }
+int subtract(int a, int b) { return a - b; }
+int multiply(int a, int b) { return a * b; }
+double divide(int a, int b) {
+    if (b == 0) throw "Division by zero error!";
+    return static_cast&lt;double&gt;(a) / b;
+}</code></pre>
+      </div>
+      <div class="code-card">
+        <div class="code-head"><span class="filename">main.cpp</span><button class="copy-btn">Copy</button></div>
+        <pre><code>#include "rrmathlib.h"
+#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int a = 20, b = 10;
+    cout &lt;&lt; "Addition: " &lt;&lt; add(a, b) &lt;&lt; endl;
+    cout &lt;&lt; "Subtraction: " &lt;&lt; subtract(a, b) &lt;&lt; endl;
+    cout &lt;&lt; "Multiplication: " &lt;&lt; multiply(a, b) &lt;&lt; endl;
+    cout &lt;&lt; "Division: " &lt;&lt; divide(a, b) &lt;&lt; endl;
+}</code></pre>
+      </div>
+      <div class="output-box"><span class="lbl">Expected output (identical for both builds)</span>Addition: 30
+Subtraction: 10
+Multiplication: 200
+Division: 2</div>
+      <div class="quickguide">
+        <p class="qg-title">Build it three ways</p>
+        <ol>
+          <li><strong>Whole-source build (no separate linking step visible):</strong> <code>g++ -std=c++17 main.cpp rrmathlib.cpp -o main_combined</code></li>
+          <li><strong>Static library:</strong> <code>g++ -std=c++17 -c rrmathlib.cpp -o rrmathlib.o</code>, then <code>ar rcs librrmathlib.a rrmathlib.o</code>, then <code>g++ -std=c++17 main.cpp -L. -lrrmathlib -o main_static</code>. Run <code>main_static.exe</code> anywhere — the math code travelled inside it.</li>
+          <li><strong>Dynamic library:</strong> <code>g++ -shared -o rrmathlib.dll rrmathlib.cpp -Wl,--out-implib,librrmathlib.dll.a</code>, then <code>g++ -std=c++17 main.cpp -L. -lrrmathlib.dll -o main_dynamic</code>. <code>rrmathlib.dll</code> must sit next to <code>main_dynamic.exe</code> at runtime, or the program fails to start.</li>
+          <li><strong>Experiment:</strong> Move or rename <code>rrmathlib.dll</code> after building the dynamic version, then try to run <code>main_dynamic.exe</code> — observe the loader error, and contrast it with <code>main_static.exe</code>, which keeps working because nothing external is needed.</li>
+        </ol>
+      </div>
+      <div class="callout"><strong>Note:</strong> All three builds were verified on this handbook's MinGW/g++ toolchain. See <code>21-StaticvsDynamicLinking/</code> for the original files. <code>22-LinkingMulModule/</code> shows the same idea split across separate <code>header/</code>, <code>src/</code>, and <code>main/</code> folders — build it with <code>g++ -std=c++17 -Iheader main/1_main.cpp src/1_rrmathlib.cpp -o main</code>, where <code>-Iheader</code> tells the compiler where to find <code>rrmathlib.h</code> since it no longer sits next to the <code>.cpp</code> files.</div>
+    </div>
+
+    <div class="topic-nav">
+      <button class="btn btn-ghost" onclick="document.querySelector('[data-tab=t3]').click()">← Pipes &amp; FDs</button>
+      <button class="btn btn-primary" onclick="document.querySelector('[data-tab=t5]').click()">Next: System info →</button>
+    </div>
+  </div>
+
+  <!-- TAB 5: Reading System Info -->
+  <div class="tabpanel" id="t5">
+    <p class="topic-intro">Production services often need to know their own execution environment — how many cores are available, how much memory is free — to size thread pools, caches, or self-reported diagnostics. Unlike file or console I/O, there is no single portable standard-library API for this; you talk to the operating system directly.</p>
+
+    <div class="block">
+      <div class="block-label"><span class="tag why">WHY</span><h4>Why this isn't in &lt;iostream&gt;</h4></div>
+      <div class="content">
+        <p>How many CPU cores exist, how much RAM is installed, what the page size is — these are properties of the operating system and hardware, not of the C++ language. Each OS exposes them through its own API: Windows through the Win32 API (<code>&lt;windows.h&gt;</code>), Linux through virtual files under <code>/proc</code> (<code>/proc/cpuinfo</code>, <code>/proc/meminfo</code>) that look like regular files but are generated on the fly by the kernel.</p>
+        <p>Enterprise codebases almost always wrap whichever platform API is in play behind their own small <code>SystemInfo</code> abstraction, so the rest of the codebase calls one portable-looking function instead of scattering <code>#ifdef _WIN32</code> guards everywhere.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag what">WHAT</span><h4>Win32 system and memory queries, and the one portable exception</h4></div>
+      <div class="content">
+        <ul>
+          <li><code>SYSTEM_INFO</code> + <code>GetSystemInfo(&amp;sysInfo)</code> — fills a struct with <code>dwNumberOfProcessors</code>, <code>dwPageSize</code>, processor architecture, and the addressable memory range.</li>
+          <li><code>MEMORYSTATUSEX</code> + <code>GlobalMemoryStatusEx(&amp;memStatus)</code> — fills <code>ullTotalPhys</code> / <code>ullAvailPhys</code> (physical RAM) and the virtual-memory equivalents, in bytes.</li>
+          <li><code>std::thread::hardware_concurrency()</code> — the one genuinely portable equivalent in the standard library. It returns a <em>hint</em> at the number of concurrent threads the hardware can usefully run (0 if it can't determine one) — useful for sizing a thread pool without any platform-specific code.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag how">HOW</span><h4>Query processor and memory info, then compare with the portable hint</h4></div>
+      <div class="code-card">
+        <div class="code-head"><span class="filename">sysinfo_step.cpp</span><button class="copy-btn">Copy</button></div>
+        <pre><code>#include &lt;iostream&gt;
+#include &lt;windows.h&gt;
+#include &lt;sysinfoapi.h&gt;
+#include &lt;thread&gt;
+using namespace std;
+
+int main() {
+    SYSTEM_INFO sysInfo;
+    GetSystemInfo(&amp;sysInfo);
+    cout &lt;&lt; "Number of processors: " &lt;&lt; sysInfo.dwNumberOfProcessors &lt;&lt; "\n";
+    cout &lt;&lt; "Page size: " &lt;&lt; sysInfo.dwPageSize &lt;&lt; " bytes\n";
+
+    MEMORYSTATUSEX memStatus;
+    memStatus.dwLength = sizeof(memStatus);
+    GlobalMemoryStatusEx(&amp;memStatus);
+    cout &lt;&lt; "Total physical memory: " &lt;&lt; memStatus.ullTotalPhys / (1024 * 1024) &lt;&lt; " MB\n";
+    cout &lt;&lt; "Available physical memory: " &lt;&lt; memStatus.ullAvailPhys / (1024 * 1024) &lt;&lt; " MB\n";
+
+    // The one genuinely portable equivalent from the standard library:
+    cout &lt;&lt; "std::thread::hardware_concurrency() = " &lt;&lt; thread::hardware_concurrency() &lt;&lt; "\n";
+}</code></pre>
+      </div>
+      <div class="output-box"><span class="lbl">Expected output (your numbers will differ by machine)</span>Number of processors: 12
+Page size: 4096 bytes
+Total physical memory: 16052 MB
+Available physical memory: 3086 MB
+std::thread::hardware_concurrency() = 12</div>
+      <div class="quickguide">
+        <p class="qg-title">Run it and experiment</p>
+        <ol>
+          <li>Compile: <code>g++ -std=c++17 sysinfo_step.cpp -o sysinfo_step</code>, run.</li>
+          <li><strong>Experiment 1:</strong> Run it again while a memory-heavy application is open — <code>Available physical memory</code> should drop noticeably; <code>Total physical memory</code> never changes.</li>
+          <li><strong>Experiment 2:</strong> Confirm <code>dwNumberOfProcessors</code> and <code>hardware_concurrency()</code> report the same number on your machine — they're answering the same underlying question through two different doors.</li>
+          <li><strong>Experiment 3:</strong> Look at <code>23-ReadingsystemInfo/1_prog1.cpp</code> in the repo — it also attempts to read <code>/proc/cpuinfo</code> and <code>/proc/meminfo</code>, which only exist on Linux. Wrap that part in <code>#ifdef __linux__</code> so the program doesn't print a spurious "failed to open" message on Windows.</li>
+        </ol>
+      </div>
+      <div class="callout"><strong>Note:</strong> This is Windows-specific Win32 API code. On Linux, the equivalent data comes from reading <code>/proc/cpuinfo</code> and <code>/proc/meminfo</code> as plain text files with <code>std::ifstream</code> — same standard-library file-reading skills from Module 7, applied to a virtual filesystem instead of a real disk file.</div>
+    </div>
+
+    <div class="topic-nav">
+      <button class="btn btn-ghost" onclick="document.querySelector('[data-tab=t4]').click()">← Linking</button>
+      <button class="btn btn-primary" onclick="document.querySelector('[data-tab=t6]').click()">Next: Additional topics →</button>
+    </div>
+  </div>
+
+  <!-- TAB 6: Additional Topics — RTTI -->
+  <div class="tabpanel" id="t6">
+    <p class="topic-intro">Most polymorphism never needs to ask "what type is this, really?" — a virtual function already routes the call to the right override. But at certain boundaries — a heterogeneous queue of events, a plugin you didn't write, a legacy interface — you need to identify an object's concrete type while the program is running. That's Run-Time Type Information (RTTI).</p>
+
+    <div class="block">
+      <div class="block-label"><span class="tag why">WHY</span><h4>The unsafe alternative, and what RTTI protects against</h4></div>
+      <div class="content">
+        <p>A <strong>C-style cast</strong> from a base pointer to a derived pointer — <code>(Circle*)shapePtr</code> — compiles and runs even if <code>shapePtr</code> doesn't actually point at a <code>Circle</code>. Nothing checks. The program silently reads memory as if it were a <code>Circle</code>'s layout, producing garbage values or a crash somewhere unrelated and hard to trace back.</p>
+        <p><code>dynamic_cast</code> is the safe alternative: it consults the same v-table-linked type data the compiler already generates for virtual dispatch, checks whether the conversion is actually valid, and only then hands back a usable pointer or reference. <code>typeid</code> reads that same type data to answer "what is this object's real, most-derived type?" — both require <code>#include &lt;typeinfo&gt;</code> and both only give a run-time answer for <strong>polymorphic</strong> types (a hierarchy with at least one virtual function, usually the destructor).</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag what">WHAT</span><h4>typeid, dynamic_cast, and when to actually reach for them</h4></div>
+      <div class="content">
+        <ul>
+          <li><code>typeid(expr)</code> — returns a <code>const std::type_info&amp;</code> describing <code>expr</code>'s type. On a non-polymorphic type it's a compile-time answer (the declared type); on a polymorphic type (via <code>*pointer</code> or a reference) it's a genuine run-time lookup of the object's actual type.</li>
+          <li><code>typeid(a) == typeid(b)</code> — compares two types for equality; <code>.name()</code> gives an implementation-defined, often compiler-mangled string — useful for logging, not for user-facing text.</li>
+          <li><code>dynamic_cast&lt;Derived*&gt;(basePtr)</code> — returns a valid <code>Derived*</code> if the object really is (or derives from) <code>Derived</code>, otherwise <code>nullptr</code>. Check the result before dereferencing.</li>
+          <li><code>dynamic_cast&lt;Derived&amp;&gt;(baseRef)</code> — the reference form; since a reference can't be null, an impossible cast throws <code>std::bad_cast</code> instead.</li>
+          <li><strong>Polymorphic type identification</strong> — using <code>dynamic_cast</code> or <code>typeid</code> at one call site to branch on an object's concrete type, when adding a virtual method to the base class for that one caller's need would leak an unrelated concern into every subtype.</li>
+          <li><strong>Rule of thumb:</strong> reach for a virtual function first — it scales better as new subtypes are added. Reach for RTTI only at boundaries you don't fully control, and only for a handful of known types, not as a general substitute for polymorphism.</li>
+          <li>RTTI has a small runtime/binary-size cost and can be disabled with <code>-fno-rtti</code> in performance- or size-sensitive builds (embedded, some game engines) — <code>typeid</code>/<code>dynamic_cast</code> then become compile errors, so this is a deliberate, project-wide decision, not a casual flag.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag how">HOW</span><h4>Safe downcasting with dynamic_cast, pointer and reference forms</h4></div>
+      <div class="code-card">
+        <div class="code-head"><span class="filename">rtti_step.cpp</span><button class="copy-btn">Copy</button></div>
+        <pre><code>#include &lt;iostream&gt;
+#include &lt;typeinfo&gt;
+using namespace std;
+
+struct Shape {
+    virtual ~Shape() {}
+    virtual double area() const = 0;
+};
+struct Circle : Shape {
+    double radius;
+    Circle(double r) : radius(r) {}
+    double area() const override { return 3.14159 * radius * radius; }
+    void spin() const { cout &lt;&lt; "Circle spins in place\n"; }
+};
+struct Rectangle : Shape {
+    double w, h;
+    Rectangle(double w_, double h_) : w(w_), h(h_) {}
+    double area() const override { return w * h; }
+    void stretch() const { cout &lt;&lt; "Rectangle stretches its width\n"; }
+};
+
+int main() {
+    Shape* shapes[] = { new Circle(4.0), new Rectangle(3.0, 5.0) };
+
+    for (Shape* s : shapes) {
+        cout &lt;&lt; "area = " &lt;&lt; s-&gt;area() &lt;&lt; " -&gt; ";
+        if (Circle* c = dynamic_cast&lt;Circle*&gt;(s)) {
+            c-&gt;spin();
+        } else if (Rectangle* r = dynamic_cast&lt;Rectangle*&gt;(s)) {
+            r-&gt;stretch();
+        }
+    }
+
+    Circle onlyCircle(2.0);
+    Shape&amp; shapeRef = onlyCircle;
+    try {
+        Circle&amp; c = dynamic_cast&lt;Circle&amp;&gt;(shapeRef);      // succeeds
+        cout &lt;&lt; "Reference cast succeeded, radius = " &lt;&lt; c.radius &lt;&lt; "\n";
+        Rectangle&amp; r = dynamic_cast&lt;Rectangle&amp;&gt;(shapeRef); // impossible - throws
+        cout &lt;&lt; r.w;
+    } catch (const bad_cast&amp; e) {
+        cout &lt;&lt; "Caught std::bad_cast: " &lt;&lt; e.what() &lt;&lt; "\n";
+    }
+
+    for (Shape* s2 : shapes) delete s2;
+}</code></pre>
+      </div>
+      <div class="output-box"><span class="lbl">Expected output</span>area = 50.2654 -> Circle spins in place
+area = 15 -> Rectangle stretches its width
+Reference cast succeeded, radius = 2
+Caught std::bad_cast: std::bad_cast</div>
+      <div class="quickguide">
+        <p class="qg-title">Run it and experiment</p>
+        <ol>
+          <li>Compile: <code>g++ -std=c++17 rtti_step.cpp -o rtti_step</code>, run.</li>
+          <li><strong>Experiment 1:</strong> Add <code>cout &lt;&lt; typeid(*s).name();</code> inside the loop and compare it against the dynamic_cast branch each shape takes — they always agree.</li>
+          <li><strong>Experiment 2:</strong> Remove the virtual destructor from <code>Shape</code> — the program now fails to compile wherever <code>dynamic_cast</code> or a polymorphic <code>typeid</code> is used, because the hierarchy is no longer polymorphic.</li>
+          <li><strong>Experiment 3 — a realistic use case:</strong> open <code>27-RTTI/3_rtti_usecase.cpp</code> in the repo — a heterogeneous queue of <code>TempEvent</code>/<code>DiskEvent</code>/<code>NetworkEvent</code> objects where a small <code>dynamic_cast</code> chain decides which are critical, without forcing every event type to know about the others' thresholds.</li>
+          <li><strong>Experiment 4 — build it up from scratch:</strong> <code>27-RTTI/4_progressive_rtti_walkthrough.cpp</code> walks through <code>typeid</code> on a plain type, then a polymorphic type, then pointer-form <code>dynamic_cast</code>, then reference-form, then a mixed-collection identification loop — one printed STEP at a time, in a single file.</li>
+        </ol>
+      </div>
+      <div class="callout"><strong>Reference:</strong> <a href="https://en.cppreference.com/w/cpp/language/dynamic_cast" target="_blank" rel="noopener">cppreference: dynamic_cast</a> · <a href="https://en.cppreference.com/w/cpp/language/typeid" target="_blank" rel="noopener">cppreference: typeid</a></div>
+    </div>
+
+    <div class="topic-nav" style="justify-content:flex-end;">
+      <button class="btn btn-primary" onclick="document.querySelector('[data-tab=t7]').click()">Story Mode: see it all connected →</button>
+    </div>
+  </div>
+
+  <!-- TAB 7: Story Mode -->
+  <div class="tabpanel" id="t7">
+    <span class="story-badge">🎬 Story Mode</span>
+    <h2 style="margin:0 0 12px;">The on-call page that came from the wrong data center</h2>
+    <p class="story-lede">Nimbus Systems' factory-floor sensor rig from Module 7 grew up. It's no longer one batch job on one machine — it's a fleet of diagnostics agents running across a dozen server racks, each one collecting readings, deciding what's urgent, and phoning home to a central relay. The night everything went sideways, an agent's report reached the relay eleven minutes late, formatted wrong, and missing the one line that mattered. Here's every piece of this module, in the order the team added it to make sure that never happened again.</p>
+
+    <div class="story-timeline">
+      <div class="story-act">
+        <div class="story-act-head">
+          <span class="story-act-num">ACT 1</span>
+          <h3>"Phone home, reliably"</h3>
+          <button class="story-jump" type="button" onclick="document.querySelector('[data-tab=t1]').click()">↳ Revisit Networking</button>
+        </div>
+        <p>The first version of the relay used UDP because it was simpler to write. It worked fine in testing — then, on a congested night, three agents' reports vanished into the network with no error, no retry, nothing. The team switched the relay link to TCP: slightly more setup cost per connection, but every report is now acknowledged or the agent knows it failed and can retry. UDP stayed in use for a different, lower-stakes channel — a once-a-second "still alive" heartbeat where losing an occasional ping is fine.</p>
+      </div>
+      <div class="story-act">
+        <div class="story-act-head">
+          <span class="story-act-num">ACT 2</span>
+          <h3>"Eleven minutes started here"</h3>
+          <button class="story-jump" type="button" onclick="document.querySelector('[data-tab=t2]').click()">↳ Revisit Move semantics</button>
+        </div>
+        <p>Each agent builds its readings into a buffer, then hands it to the formatter, then to the network layer — three function boundaries. The original code copied that buffer at every handoff. On a quiet rack that was invisible; on the rack with 40,000 readings queued up during an incident, three unnecessary deep copies of a multi-megabyte buffer were exactly where those eleven minutes went. Returning the buffer by value and letting the compiler move it, plus one explicit <code>std::move</code> at the formatter handoff, took that cost to nearly zero.</p>
+      </div>
+      <div class="story-act">
+        <div class="story-act-head">
+          <span class="story-act-num">ACT 3</span>
+          <h3>"Isolating the log-rotation helper"</h3>
+          <button class="story-jump" type="button" onclick="document.querySelector('[data-tab=t3]').click()">↳ Revisit Pipes &amp; FDs</button>
+        </div>
+        <p>Each agent's disk-log rotation was handled by a small helper that occasionally hung on a locked file. Running it as a thread meant a hang there could stall the whole agent. The fix: spawn it as a separate child process and hand it its work over a pipe. If the helper hangs now, the parent agent notices the pipe never gets an EOF, kills the child, and keeps reporting — the crash (or hang) is contained to a process boundary instead of taking down the reporting loop with it.</p>
+      </div>
+      <div class="story-act">
+        <div class="story-act-head">
+          <span class="story-act-num">ACT 4</span>
+          <h3>"The rack still running last month's binary"</h3>
+          <button class="story-jump" type="button" onclick="document.querySelector('[data-tab=t4]').click()">↳ Revisit Linking</button>
+        </div>
+        <p>The agent statically linked its math and formatting helpers, so a bug fix in the formatting library meant rebuilding and redeploying every single agent binary across every rack — including the rack that turned out to still be running a build from three releases ago, because nobody had a clean way to tell. Splitting the shared formatting code into a dynamically linked library meant one file could be pushed to every rack and picked up on next restart, without touching the agent binary itself — and a version-stamped <code>.dll</code> made "which build is this rack running?" a one-line check instead of a mystery.</p>
+      </div>
+      <div class="story-act">
+        <div class="story-act-head">
+          <span class="story-act-num">ACT 5</span>
+          <h3>"Was it actually out of memory, or just slow?"</h3>
+          <button class="story-jump" type="button" onclick="document.querySelector('[data-tab=t5]').click()">↳ Revisit System info</button>
+        </div>
+        <p>The incident report that started this whole rewrite blamed "memory pressure" on the slow rack — but nobody had actually checked. The team added a one-line system snapshot (processor count, available physical memory, <code>hardware_concurrency()</code>) to every report the agent sends. The next time a rack looked slow, the diagnostic answer took five seconds to read instead of a guess: it wasn't memory at all, it was the network switch on that one rack running half-duplex.</p>
+      </div>
+      <div class="story-act">
+        <div class="story-act-head">
+          <span class="story-act-num">ACT 6</span>
+          <h3>"Not every alert deserves the same threshold"</h3>
+          <button class="story-jump" type="button" onclick="document.querySelector('[data-tab=t6]').click()">↳ Revisit Additional topics</button>
+        </div>
+        <p>The diagnostics queue mixes temperature, disk, and network events in one <code>vector&lt;unique_ptr&lt;DiagnosticEvent&gt;&gt;</code>, because they all need the same <code>describe()</code> and the same transport. But "is this one critical?" depends on completely different thresholds per event kind — and adding a <code>virtual isCritical()</code> to the base class would force every future event type to invent a threshold rule whether it has one or not. A short <code>dynamic_cast</code> chain at the one place that actually needs it — the alert gate right before sending — kept each event class focused on its own data.</p>
+      </div>
+    </div>
+
+    <blockquote class="story-pullquote">Sockets get the bytes there. Move semantics make sure getting them there doesn't cost more than it has to. Pipes contain the parts you don't trust. Linking decides how fast a fix reaches every machine. System info turns "it feels slow" into a number. And RTTI, used sparingly, lets one honest exception to "just use a virtual function" through the door without breaking the rule for everyone else.</blockquote>
+
+    <div class="story-also">
+      <p class="story-also-title">Also seen in the wild</p>
+      <div class="story-also-grid">
+        <div class="story-also-item"><span class="story-also-domain">Finance</span>Trading gateways dynamically link their FIX protocol library so a protocol patch ships without recompiling every trading strategy binary.</div>
+        <div class="story-also-item"><span class="story-also-domain">Game engines</span>Asset pipelines spawn a separate texture-compression process over a pipe, so a malformed asset crashes the compressor, not the editor.</div>
+        <div class="story-also-item"><span class="story-also-domain">Browsers</span>A renderer process reports its own memory footprint to the browser's process manager, which decides whether to throttle or kill a runaway tab.</div>
+        <div class="story-also-item"><span class="story-also-domain">Plugin systems</span>A host application receiving third-party <code>Plugin*</code> objects uses <code>dynamic_cast</code> to check for optional capability interfaces (e.g. <code>IConfigurable</code>) a given plugin may or may not implement.</div>
+      </div>
+    </div>
+
+    <div class="callout"><strong>Bring it back:</strong> the complete program below is the Nimbus fleet diagnostics agent — it builds its readings and moves them ownership-first, identifies each event's real type to decide what's critical, and sends the finished report to a relay server over TCP. Pipes, linking, and system info stay as their own dedicated systems-level exercises in this module, because in real deployments they live at the process and build-pipeline level, not inside one client's send loop.</div>
+
+    <div class="topic-nav">
+      <button class="btn btn-ghost" onclick="document.querySelector('[data-tab=t6]').click()">← Additional topics</button>
+      <a class="btn btn-primary" href="index.html#day6">Day 6: Qt/QML &amp; Capstone →</a>
+    </div>
+  </div>
+
+  <section class="try-now" id="try-now">
+    <div class="try-now-header"><div><div class="section-kicker">Learn by doing</div><h2>Try now: build a fleet diagnostics relay agent</h2><p>Build the moving pieces step by step — an ownership-moved reading buffer, run-time type identification for alerts, and a TCP report handoff — then combine them into one agent that talks to a relay server.</p></div><span class="try-badge">40 minutes</span></div>
+    <div class="build-ladder">
+      <div class="build-step"><div class="build-step-title"><span>Step 1</span><strong>Collect readings and move them out, ownership-first</strong></div><p>The buffer is built once inside <code>collectReadings()</code> and returned by value — moved into the caller, never deep-copied.</p><div class="code-card"><div class="code-head"><span class="filename">step1_collect.cpp</span><button class="copy-btn">Copy</button></div><pre><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;string&gt;
+using namespace std;
+
+vector&lt;string&gt; collectReadings() {
+    vector&lt;string&gt; readings;
+    readings.push_back("Rack-A temp 94.5C");
+    readings.push_back("Rack-B disk 42%");
+    readings.push_back("Rack-D disk 97%");
+    return readings; // moved out, not copied
+}
+
+int main() {
+    vector&lt;string&gt; readings = collectReadings();
+    cout &lt;&lt; "Collected " &lt;&lt; readings.size() &lt;&lt; " readings:\n";
+    for (const auto&amp; r : readings) cout &lt;&lt; "  " &lt;&lt; r &lt;&lt; "\n";
+}</code></pre></div><p class="run-line"><b>Run:</b> <code>g++ -std=c++17 step1_collect.cpp -o step1</code></p><p class="mini-output"><b>See:</b> Collected 3 readings, then each one printed on its own line</p></div>
+      <div class="build-step"><div class="build-step-title"><span>Step 2</span><strong>Identify each event's real type to decide "is this critical?"</strong></div><p><code>dynamic_cast</code> checks the object's real, run-time type before applying that type's own threshold rule.</p><div class="code-card"><div class="code-head"><span class="filename">step2_identify.cpp</span><button class="copy-btn">Copy</button></div><pre><code>#include &lt;iostream&gt;
+#include &lt;memory&gt;
+#include &lt;vector&gt;
+#include &lt;string&gt;
+using namespace std;
+
+struct DiagnosticEvent {
+    string source;
+    DiagnosticEvent(string s) : source(move(s)) {}
+    virtual ~DiagnosticEvent() {}
+    virtual string describe() const { return source + ": generic event"; }
+};
+struct TempEvent : DiagnosticEvent {
+    double celsius;
+    TempEvent(string s, double c) : DiagnosticEvent(move(s)), celsius(c) {}
+    string describe() const override { return source + ": temperature " + to_string(celsius) + "C"; }
+};
+struct DiskEvent : DiagnosticEvent {
+    int percentFull;
+    DiskEvent(string s, int pct) : DiagnosticEvent(move(s)), percentFull(pct) {}
+    string describe() const override { return source + ": disk " + to_string(percentFull) + "% full"; }
+};
+
+bool isCritical(const DiagnosticEvent&amp; e) {
+    if (auto* t = dynamic_cast&lt;const TempEvent*&gt;(&amp;e)) return t-&gt;celsius &gt; 90.0;
+    if (auto* d = dynamic_cast&lt;const DiskEvent*&gt;(&amp;e)) return d-&gt;percentFull &gt; 90;
+    return false;
+}
+
+int main() {
+    vector&lt;unique_ptr&lt;DiagnosticEvent&gt;&gt; events;
+    events.push_back(make_unique&lt;TempEvent&gt;("Rack-A", 94.5));
+    events.push_back(make_unique&lt;DiskEvent&gt;("Rack-B", 42));
+    for (const auto&amp; e : events) {
+        cout &lt;&lt; e-&gt;describe();
+        if (isCritical(*e)) cout &lt;&lt; " [CRITICAL]";
+        cout &lt;&lt; "\n";
+    }
+}</code></pre></div><p class="run-line"><b>Run:</b> <code>g++ -std=c++17 step2_identify.cpp -o step2</code></p><p class="mini-output"><b>See:</b> Rack-A line marked [CRITICAL], Rack-B line not</p></div>
+      <div class="build-step"><div class="build-step-title"><span>Step 3</span><strong>Send the finished report to a relay over TCP</strong></div><p>Two files, two terminals — same connect/send pattern from the Networking tab, now carrying a real multi-line report.</p><div class="code-card"><div class="code-head"><span class="filename">step3_relay_server.cpp</span><button class="copy-btn">Copy</button></div><pre><code>#include &lt;iostream&gt;
+#include &lt;winsock2.h&gt;
+using namespace std;
+
+int main() {
+    WSADATA wsaData;
+    WSAStartup(MAKEWORD(2, 2), &amp;wsaData);
+    SOCKET serverSocket = socket(AF_INET, SOCK_STREAM, 0);
+    sockaddr_in addr{};
+    addr.sin_family = AF_INET;
+    addr.sin_port = htons(9090);
+    addr.sin_addr.s_addr = INADDR_ANY;
+    bind(serverSocket, (sockaddr*)&amp;addr, sizeof(addr));
+    listen(serverSocket, 1);
+    cout &lt;&lt; "[Relay] Listening on port 9090...\n";
+    sockaddr_in clientAddr; int clientSize = sizeof(clientAddr);
+    SOCKET clientSocket = accept(serverSocket, (sockaddr*)&amp;clientAddr, &amp;clientSize);
+    cout &lt;&lt; "[Relay] Agent connected.\n";
+    char buffer[4096] = {0};
+    int bytes = recv(clientSocket, buffer, sizeof(buffer) - 1, 0);
+    if (bytes &gt; 0) { buffer[bytes] = '\0'; cout &lt;&lt; "[Relay] Report received:\n" &lt;&lt; buffer &lt;&lt; "\n"; }
+    closesocket(clientSocket);
+    closesocket(serverSocket);
+    WSACleanup();
+}</code></pre></div><p class="run-line"><b>Run first:</b> <code>g++ -std=c++17 step3_relay_server.cpp -o relay_server -lws2_32</code> then <code>relay_server.exe</code></p><p class="mini-output"><b>See:</b> "[Relay] Listening..." then, once the agent connects, the full report text</p></div>
+    </div>
+    <div class="build-divider"><span>Now combine the pieces into the complete use case</span></div>
+    <div class="try-step"><span>01</span><div><strong>Fleet diagnostics agent — move semantics, RTTI, and networking together</strong><p>Collects readings with a moved buffer, classifies each with dynamic_cast, formats one report, and sends it to the relay server from Step 3.</p></div></div>
+    <div class="code-card"><div class="code-head"><span class="filename">program.cpp — complete use case</span><button class="copy-btn">Copy</button></div><pre><code>#include &lt;iostream&gt;
+#include &lt;winsock2.h&gt;
+#include &lt;memory&gt;
+#include &lt;vector&gt;
+#include &lt;string&gt;
+#include &lt;sstream&gt;
+using namespace std;
+
+struct DiagnosticEvent {
+    string source;
+    DiagnosticEvent(string s) : source(move(s)) {}
+    virtual ~DiagnosticEvent() {}
+    virtual string describe() const { return source + ": generic event"; }
+};
+struct TempEvent : DiagnosticEvent {
+    double celsius;
+    TempEvent(string s, double c) : DiagnosticEvent(move(s)), celsius(c) {}
+    string describe() const override { return source + ": temperature " + to_string(celsius) + "C"; }
+};
+struct DiskEvent : DiagnosticEvent {
+    int percentFull;
+    DiskEvent(string s, int pct) : DiagnosticEvent(move(s)), percentFull(pct) {}
+    string describe() const override { return source + ": disk " + to_string(percentFull) + "% full"; }
+};
+
+bool isCritical(const DiagnosticEvent&amp; e) {
+    if (auto* t = dynamic_cast&lt;const TempEvent*&gt;(&amp;e)) return t-&gt;celsius &gt; 90.0;
+    if (auto* d = dynamic_cast&lt;const DiskEvent*&gt;(&amp;e)) return d-&gt;percentFull &gt; 90;
+    return false;
+}
+
+// builds the day's readings into one buffer, then hands ownership to the
+// caller via a move - the vector of unique_ptr could not be copied anyway
+vector&lt;unique_ptr&lt;DiagnosticEvent&gt;&gt; collectReadings() {
+    vector&lt;unique_ptr&lt;DiagnosticEvent&gt;&gt; readings;
+    readings.push_back(make_unique&lt;TempEvent&gt;("Rack-A", 94.5));
+    readings.push_back(make_unique&lt;DiskEvent&gt;("Rack-B", 42));
+    readings.push_back(make_unique&lt;DiskEvent&gt;("Rack-D", 97));
+    return readings;
+}
+
+int main() {
+    vector&lt;unique_ptr&lt;DiagnosticEvent&gt;&gt; readings = collectReadings();
+
+    ostringstream report;
+    report &lt;&lt; "=== Fleet Diagnostics Report ===\n";
+    for (const auto&amp; e : readings) {
+        report &lt;&lt; e-&gt;describe();
+        if (isCritical(*e)) report &lt;&lt; " [CRITICAL]";
+        report &lt;&lt; "\n";
+    }
+    string finalReport = report.str();
+    cout &lt;&lt; finalReport;
+
+    WSADATA wsaData;
+    WSAStartup(MAKEWORD(2, 2), &amp;wsaData);
+    SOCKET sock = socket(AF_INET, SOCK_STREAM, 0);
+    sockaddr_in serverAddr{};
+    serverAddr.sin_family = AF_INET;
+    serverAddr.sin_port = htons(9090);
+    serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1");
+
+    if (connect(sock, (sockaddr*)&amp;serverAddr, sizeof(serverAddr)) == 0) {
+        send(sock, finalReport.c_str(), (int)finalReport.size(), 0);
+        cout &lt;&lt; "Report sent to relay.\n";
+    } else {
+        cout &lt;&lt; "Could not reach relay (start relay_server.exe first).\n";
+    }
+    closesocket(sock);
+    WSACleanup();
+}</code></pre></div>
+    <div class="output-box"><span class="lbl">Expected output (agent terminal)</span>=== Fleet Diagnostics Report ===
+Rack-A: temperature 94.500000C [CRITICAL]
+Rack-B: disk 42% full
+Rack-D: disk 97% full [CRITICAL]
+Report sent to relay.</div>
+    <p style="font-size:0.88rem; color:var(--text-muted, #888); margin:4px 0 16px;">Note: start <code>relay_server.exe</code> from Step 3 first, in its own terminal — the agent's "Could not reach relay" message is the expected, non-crashing result of running the agent alone.</p>
+    <div class="quickguide"><p class="qg-title">Run it in VS Code</p><ol><li>Create folder <code>module8-try-now</code>, open in VS Code.</li><li>Save the relay as <code>relay_server.cpp</code> and the agent as <code>program.cpp</code>.</li><li>Compile both: <code>g++ -std=c++17 relay_server.cpp -o relay_server -lws2_32</code> and <code>g++ -std=c++17 program.cpp -o program -lws2_32</code>.</li><li>Run <code>relay_server.exe</code> in one terminal, then <code>program.exe</code> in a second terminal.</li><li>Try: add a <code>NetworkEvent</code> (see the Additional topics tab) to <code>collectReadings()</code> with a latency over 500ms, and extend <code>isCritical</code> to recognize it.</li></ol></div>
+    <div class="task-card"><div class="task-label">Homework / assessment</div><h3>Add a critical-alert summary line, and let the relay serve more than one agent</h3><p>After the per-event lines, append one summary line to the report — <code>"N critical alert(s)"</code> — counted with the same <code>isCritical</code> function. Then change <code>relay_server.cpp</code> so it doesn't exit after one agent: wrap the accept/recv/print logic in a loop so it can receive reports from multiple agents run one after another, without restarting the server each time.</p><p class="hint-title">Hints, not the answer</p><ul class="hint-list"><li>A running count is just an <code>int</code> incremented inside the same <code>for</code> loop that already calls <code>isCritical(*e)</code> — no second pass over <code>readings</code> needed.</li><li>For the relay loop, everything from <code>SOCKET clientSocket = accept(...)</code> down to <code>closesocket(clientSocket)</code> is what needs to repeat — <code>serverSocket</code> itself should be created and bound only once, outside the loop.</li><li>Wrap the loop body's <code>bytes &lt;= 0</code> case with a <code>continue</code> so one malformed connection doesn't stop the relay from accepting the next one.</li></ul></div>
+    <div class="submission-card"><strong>Submit for evaluation</strong><p>Send your finished <code>program.cpp</code> to the trainer's cohort email.</p><div><b>Subject:</b> <code>Module 8 Task - Your Name - program.cpp</code></div><div><b>Body:</b> <code>Your Name | Module 8 | compiler used | result you observed</code></div><p>Attach both <code>program.cpp</code> and your updated <code>relay_server.cpp</code>, and describe the summary line you observed.</p></div>
+  </section>
+
+  <details class="practice-drawer">
+    <summary>★ Practice &amp; Capstones <span class="practice-drawer-hint">— standalone challenges you can attempt any time</span></summary>
+    <div class="practice-drawer-body">
+      <p style="margin:10px 0 0; font-size:13.5px; color:var(--text-muted);">Each one is a separate, self-contained exercise — pick whichever matches what you've covered so far.</p>
+      <div class="practice-links">
+        <a class="practice-link" href="exercise.html"><span class="practice-link-tag">Capstone</span>RR Skillverse Course Tracker — a course tracker built from scratch</a>
+        <a class="practice-link" href="capstone-work1.html"><span class="practice-link-tag">Capstone-Work1</span>Smart Office Access System — inheritance &amp; overloading, from scratch</a>
+        <a class="practice-link" href="capstone-work2.html"><span class="practice-link-tag">Capstone-Work2</span>Nimbus Logistics Challenge — fix 3 TODOs (Modules 1-6)</a>
+        <a class="practice-link" href="capstone-work3.html"><span class="practice-link-tag">Capstone-Work3</span>Nimbus Fleet Command — fix 5 TODOs (Module 8)</a>
+      </div>
+    </div>
+  </details>
+</div>
+</main>
+</div>
+<footer>Module 8 of 11 · Enterprise C++ Training Programme · Personal notes by <strong>Raushan Ranjan</strong></footer>
+<script>
+function initSidebar(){const toggle=document.querySelector('.sidebar-toggle'),sidebar=document.querySelector('.sidebar-left');if(!toggle||!sidebar)return;const desktop=window.matchMedia('(min-width: 861px)');toggle.addEventListener('click',()=>{if(desktop.matches){const collapsed=document.body.classList.toggle('sidebar-collapsed');toggle.setAttribute('aria-expanded',String(!collapsed));}else sidebar.classList.toggle('open');});sidebar.querySelectorAll('a:not(.nav-day-toggle)').forEach(link=>link.addEventListener('click',()=>sidebar.classList.remove('open')));}
+function initNavGroups(){document.querySelectorAll('.nav-day').forEach(day=>{const toggle=day.querySelector(':scope > .nav-day-toggle'),body=day.querySelector(':scope > .nav-day-body');if(!toggle||!body)return;toggle.setAttribute('aria-expanded',String(day.dataset.open==='true'));toggle.addEventListener('click',event=>{event.preventDefault();const open=day.dataset.open==='true';day.dataset.open=String(!open);toggle.setAttribute('aria-expanded',String(!open));});});}
+function initNavModules(){document.querySelectorAll('.nav-module').forEach(module=>{const label=module.querySelector(':scope > .nav-module-label'),content=module.querySelector(':scope > .nav-topics, :scope > .nav-tabs');if(!label||!content)return;module.dataset.open=module.dataset.open||'true';label.setAttribute('role','button');label.setAttribute('tabindex','0');label.setAttribute('aria-expanded',String(module.dataset.open==='true'));const toggle=()=>{const open=module.dataset.open==='true';module.dataset.open=String(!open);label.setAttribute('aria-expanded',String(!open));};label.addEventListener('click',toggle);label.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle();}});});}
+function initTabs(){const bar=document.querySelector('.tabbar');if(!bar)return;const buttons=[...document.querySelectorAll('.tabbar button,.nav-tab')],panels=[...document.querySelectorAll('.tabpanel')];function activate(id,updateHash){buttons.forEach(b=>b.classList.toggle('active',b.dataset.tab===id));panels.forEach(p=>p.classList.toggle('active',p.id===id));if(updateHash)history.replaceState(null,'','#'+id);}buttons.forEach(b=>b.addEventListener('click',()=>activate(b.dataset.tab,true)));const requested=location.hash.slice(1);activate(buttons.some(b=>b.dataset.tab===requested)?requested:(buttons.find(b=>b.classList.contains('active'))||buttons[0]).dataset.tab,false);}
+function initCopyButtons(){document.querySelectorAll('.copy-btn').forEach(btn=>btn.addEventListener('click',async()=>{const code=btn.closest('.code-card').querySelector('code').innerText;try{await navigator.clipboard.writeText(code);}catch(e){const ta=document.createElement('textarea');ta.value=code;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();}btn.textContent='Copied';setTimeout(()=>btn.textContent='Copy',1200);}));}
+document.addEventListener('DOMContentLoaded',()=>{initSidebar();initNavGroups();initNavModules();initTabs();initCopyButtons();});
+</script>
+<script src="search.js"></script>
+</body>
+</html>

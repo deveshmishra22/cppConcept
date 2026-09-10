@@ -14,51 +14,29 @@ int main() {
     serverAddr.sin_addr.s_addr = inet_addr("127.0.0.1"); // localhost
 
     connect(clientSocket, (sockaddr*)&serverAddr, sizeof(serverAddr));
-    cout << "Connected to Ritu! ✅" << endl;
+    cout << "Connected to server." << endl;
 
-    // making this two-way communication
-   // char buffer[1024];
-    string message;
-
-    // while (true) {
-    //     cout << "You: ";
-    //     getline(cin, message);
-    //     send(clientSocket, message.c_str(), message.size(), 0);
-    //     if (message == "exit") break;
-
-    //     int bytesReceived = recv(clientSocket, buffer, sizeof(buffer), 0);
-    //     if (bytesReceived <= 0) break;
-    //     buffer[bytesReceived] = '\0';
-    //     cout << "Ritu: " << buffer << endl;
-
-    //     if (string(buffer) == "exit") break;
-    // }
-    string message = "Hello Ritu!";
-    send(clientSocket, message.c_str(), message.size(), 0);
+    // 3_server.cpp echoes back whatever it receives, so this client just
+    // sends one message and prints the echoed reply.
+    string message = "Hello from client!";
+    send(clientSocket, message.c_str(), (int)message.size(), 0);
 
     char buffer[1024] = {0};
     recv(clientSocket, buffer, sizeof(buffer), 0);
-    cout << "Ritu replies: " << buffer << endl;
+    cout << "Server echoed: " << buffer << endl;
 
     closesocket(clientSocket);
     WSACleanup();
     return 0;
 }
 
-// To test this server-client program:
-// 1. Compile both server.cpp and client.cpp separately.
-// 2. Run server.exe first, then client.exe.
-// 3. You should see the connection messages on both sides.
-// 4. You can type messages in the client console, and they will appear on the server console, and vice versa.
-// 5. Type "exit" on either side to close the connection.
-// Note: Make sure your firewall allows the program to use the specified port (8080).
-// Also, both programs should be run on the same machine or within the same network for localhost (127.0.0.1).
-
-// If you want to test over the internet, replace INADDR_ANY with your public IP address in server.cpp
-// and use that IP address in client.cpp instead of "127.0.0.1".
-
-// run g++ server.cpp -o server.exe -lws2_32 
-// run g++ client.cpp -o client.exe -lws2_32
-// Then run server.exe first, followed by client.exe in separate command prompts. As -lws2_32 is required for linking Winsock library on Windows. Because we are not using any IDE here and Pragma comment for linking is not added in code.
-// Pragma comment way to link ws2_32.lib
-// #pragma comment(lib, "ws2_32.lib") or you can add it in project settings if using an IDE.
+// To test this server-client pair:
+// 1. Compile both: g++ -std=c++17 3_server.cpp -o server -lws2_32
+//                  g++ -std=c++17 4_client.cpp -o client -lws2_32
+// 2. Run server.exe first, in its own terminal - it stays running, accepting
+//    one connection after another (each on its own detached thread).
+// 3. Run client.exe (in a second terminal) as many times as you like, even
+//    at the same time from several terminals - the server handles each one
+//    concurrently instead of making the others wait.
+// Note: both programs must run on the same machine, or the same network for
+// localhost (127.0.0.1); make sure your firewall allows port 8080.

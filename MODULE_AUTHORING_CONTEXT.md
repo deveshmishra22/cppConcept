@@ -274,13 +274,104 @@ the order of operations. Do not paste a complete homework function or solution.
   (ofstream, ifstream, RAII file handling), and multithreading (std::thread,
   mutex, lock_guard, async, future). Case study: concurrent sensor log aggregator.
   Story Mode: "Nimbus Systems — the pipeline that kept crashing at midnight."
-- Every module currently live (`module0`–`module7`) already ends its tab bar
+- `module8.html` demonstrates the Day 5 Systems Programming & Advanced C++
+  Internals module — a full-day, six-topic module (largest in the handbook):
+  networking & sockets (TCP vs UDP, Winsock client/server), move semantics
+  (rvalue references, std::move), pipes & file descriptors (Windows
+  CreatePipe/CreateProcess IPC), static vs dynamic linking (built three ways
+  and verified on this repo's MinGW toolchain), reading system info (Win32
+  SYSTEM_INFO/MEMORYSTATUSEX plus the portable std::thread::hardware_concurrency()),
+  and an Additional Topics lesson on typeid/dynamic_cast/RTTI use cases/
+  polymorphic type identification. Case study: fleet diagnostics relay agent
+  (move semantics + RTTI + networking; pipes/linking/system info are taught as
+  standalone systems-level exercises rather than forced into the same program —
+  the try-now intro states this explicitly). Repo folder: `27-RTTI/` is new
+  (created for this module — see the Curriculum Gaps section in
+  `Advanced-cpp-sample-codes/CPP_CODE_SEQUENCE_CONTEXT.md`). Story Mode:
+  "Nimbus Systems — the on-call page that came from the wrong data center."
+- Every module currently live (`module0`–`module8`) already ends its tab bar
   with a Story Mode tab — see the dedicated section above before adding a new
   one. Read an existing Story Mode tab (e.g. `module5.html`'s `id="t5"`) as the
   concrete worked example before writing a new one from the template.
 
-Modules 8 through 10 are still listed on the index as coming soon. When their
-lesson pages are created, use this exact structure (including the required
-Story Mode tab) and preserve the handbook's WHY / WHAT / HOW explanation rhythm.
-Default new modules to the light `style.css` theme used by `module2.html`/
-`module3.html` unless told to match the dark theme instead.
+Module 8 is Day 5's only module — Day 5 was originally scoped as two modules
+(Networking, and Qt/QML), but Qt/QML moved to Day 6 (alongside the Module 10
+wrap-up/capstone) so that Day 5 could absorb every remaining non-Qt,
+non-capstone topic into one comprehensive day. Do not reintroduce a "Module 9:
+Qt/QML" card under Day 5 — Module 9 is now a Day 6 card.
+
+Modules 9 and 10 are still listed on the index as coming soon (both under
+Day 6 now). When their lesson pages are created, use this exact structure
+(including the required Story Mode tab) and preserve the handbook's
+WHY / WHAT / HOW explanation rhythm. Default new modules to the light
+`style.css` theme used by `module2.html`/`module3.html` unless told to match
+the dark theme instead.
+
+## Boilerplate/TODO Capstone Pattern
+
+`exercise.html` and `capstone-work1.html` are "build it from scratch" style —
+a use case description and a homework/hints structure, no starter code with
+gaps. `capstone-work2.html` and `capstone-work3.html` are a different style:
+a single starter `.cpp` file that already compiles and runs, where each
+unfinished feature's function/method body is literally
+`throw logic_error("Feature N not implemented: functionName()");`, and
+`main()` wraps each call site in `try { ... } catch (const logic_error& e) {
+cout << "[TODO] " << e.what(); }` so the file always builds and runs, showing
+one clear TODO message per unfinished feature. Use this style when asked for
+a "boilerplate," "template with blanks," or "fill in the logic" exercise:
+
+- GIVEN sections (classes/structs the learner doesn't need to write, or a
+  skeleton with fields+constructor given but a method body as the TODO) model
+  the exact shape every TODO should follow — write at least one GIVEN example
+  per pattern the learner needs to repeat.
+- Each feature is independent where possible (fixing one doesn't require
+  fixing another), but a feature that *calls* another unfinished feature will
+  legitimately surface that other feature's TODO message — this is fine and
+  informative, not a bug to hide.
+- If any requirement can't be expressed as "fill in this function body"
+  (e.g. Capstone-Work3's linking requirement — restructuring which files
+  things live in and how they're built), state it as a separate CONSTRAINT in
+  the source comments and as its own "Constraints — read before you start"
+  `task-card` on the page, not as a throwing function. Constraints belong
+  before the features task-card, since they're things to know going in, not
+  things to fix afterward.
+- Page structure: `module-header` → `story-also-grid` mapping each feature to
+  the module tab it draws from → WHY block (why this file is boilerplate, not
+  finished) → WHAT block (the starter file, GIVEN sections explained, full
+  code-card, "Output today" `output-box`, "Target output" `output-box`,
+  `quickguide` for VS Code setup, a `callout` prompting the learner to explain
+  something about the GIVEN code before starting) → HOW block (constraints
+  `task-card`, then features `task-card` with hints, then `submission-card`)
+  → `topic-nav` back to the parent module and the course map.
+- Before publishing, actually compile and run BOTH the starter (with the
+  `throw logic_error` stubs in place, to capture the real "Output today" text)
+  and a private reference solution (to capture the real "Target output" text
+  and confirm the task is actually solvable as specified) — do not hand-write
+  either output box from assumption.
+
+## Practice & Capstones Drawer
+
+Every module page (`module0.html`–`module8.html`) ends with a collapsed
+`<details class="practice-drawer">` (native disclosure element, no JS needed)
+right after the closing `</div>` of `.tabs-wrap` and before `</main>` (in
+`module3.html`'s differently-structured page, right before its
+`<footer class="page-footer">` instead), linking to all four practice pages:
+`exercise.html`, `capstone-work1.html`, `capstone-work2.html`,
+`capstone-work3.html`. This exists because capstones were previously only
+discoverable from `index.html`'s sidebar — every module page now surfaces
+them too. When a new capstone page is added, add its `<a class="practice-link">`
+to this drawer in all 9 module files, plus the sidebar-resources `<li>` in
+`exercise.html`, `capstone-work1.html`, `capstone-work2.html`, and
+`index.html` (the newest capstone page's own sidebar lists all the others,
+bolding itself — copy `capstone-work2.html`'s sidebar as the template for a
+new capstone page's sidebar). The drawer's CSS lives in `style.css` under
+`/* PRACTICE & CAPSTONES DRAWER */` for the light theme; `module0.html` and
+`module1.html` duplicate it inline with hardcoded hex colors (not `var()`
+tokens) because their inline dark-theme `<style>` block loads *before*
+`style.css` on those two pages, and since both blocks declare a `:root` with
+several identically-named custom properties (`--bg`, `--border`, `--text`,
+`--surface`, `--radius`, etc.), the later-loaded `style.css` `:root` wins the
+cascade for those shared names — hardcoded colors sidestep that risk entirely
+for any new component added to those two files. This collision is pre-existing
+and out of scope to fix unless asked; be aware of it before adding any new
+shared-name CSS variable usage to `module0.html`/`module1.html`.

@@ -299,6 +299,31 @@ footer a{color:var(--cyan); text-decoration:none;}
   .tabbar{top:57px;}
 }
 
+/* ---------- Practice & Capstones drawer ---------- */
+.practice-drawer{
+  max-width:1120px; margin:36px auto 12px;
+  border:1px solid #23374f; border-radius:10px;
+  background:#121d2e; overflow:hidden;
+}
+.practice-drawer>summary{
+  list-style:none; cursor:pointer; padding:15px 18px;
+  font-weight:700; font-size:14.5px; color:#e8edf4;
+  display:flex; align-items:center; gap:10px; user-select:none;
+}
+.practice-drawer>summary::-webkit-details-marker{display:none;}
+.practice-drawer>summary::before{content:"▸"; color:#ffb454; transition:transform 0.15s ease; flex-shrink:0;}
+.practice-drawer[open]>summary::before{transform:rotate(90deg);}
+.practice-drawer-hint{font-weight:400; color:#93a5bd; font-size:13px;}
+.practice-drawer-body{padding:4px 18px 18px; border-top:1px solid #1b2b40;}
+.practice-links{display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:12px; margin-top:14px;}
+.practice-link{
+  display:block; border:1px solid #23374f; border-radius:10px; padding:13px 15px;
+  font-size:13.5px; line-height:1.6; color:#93a5bd; background:#0b1420;
+  text-decoration:none; transition:border-color 0.15s ease, transform 0.15s ease;
+}
+.practice-link:hover{border-color:#ffb454; transform:translateY(-1px);}
+.practice-link-tag{display:block; font-weight:700; color:#e8edf4; margin-bottom:4px; font-size:13.5px;}
+
 </style>
 <link rel="stylesheet" href="style.css">
 </head>
@@ -352,7 +377,8 @@ footer a{color:var(--cyan); text-decoration:none;}
       <div class="nav-day" data-open="true"><a class="nav-day-toggle" href="index.html#day2"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 2</span><span class="nav-day-subtitle">Polymorphism</span><span class="nav-day-chevron">›</span></a><div class="nav-day-body"><div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module2.html">Inheritance &amp; Polymorphism</a></li><li class="nav-topic"><a href="module3.html">Compile-time Polymorphism</a></li></ul></div></div></div>
       <div class="nav-day" data-open="true"><a class="nav-day-toggle" href="index.html#day3"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 3</span><span class="nav-day-subtitle">Robustness</span><span class="nav-day-chevron">›</span></a><div class="nav-day-body"><div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module4.html">Exception Handling</a></li><li class="nav-topic"><a href="module5.html">Templates &amp; Generics</a></li></ul></div></div></div>
       <div class="nav-day"><a class="nav-day-toggle" href="index.html#day4"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 4</span><span class="nav-day-subtitle">Modern C++</span><span class="nav-day-chevron">›</span></a><div class="nav-day-body"><div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module6.html">STL &amp; Containers</a></li><li class="nav-topic"><a href="module7.html">Advanced C++</a></li></ul></div></div></div>
-      <div class="nav-day"><a class="nav-day-toggle" href="index.html#day5"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 5</span><span class="nav-day-subtitle">Networking</span><span class="nav-day-chevron">›</span></a></div>
+      <div class="nav-day"><a class="nav-day-toggle" href="index.html#day5"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 5</span><span class="nav-day-subtitle">Systems &amp; Internals</span><span class="nav-day-chevron">›</span></a><div class="nav-day-body"><div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module8.html">Systems Programming &amp; Advanced C++ Internals</a></li></ul></div></div></div>
+      <div class="nav-day"><a class="nav-day-toggle" href="index.html#day6"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 6</span><span class="nav-day-subtitle">Qt &amp; Capstone</span><span class="nav-day-chevron">›</span></a></div>
     </nav>
     <div class="sidebar-divider"></div>
     <div class="sidebar-section-title">Resources</div>
@@ -1164,6 +1190,19 @@ Status: keep practising.</div>
       <p>Attach the exact file you compiled. Include a short note if your output differs from the expected result.</p>
     </div>
   </section>
+
+  <details class="practice-drawer">
+    <summary>★ Practice &amp; Capstones <span class="practice-drawer-hint">— standalone challenges you can attempt any time</span></summary>
+    <div class="practice-drawer-body">
+      <p style="margin:10px 0 0; font-size:13.5px; color:#93a5bd;">Each one is a separate, self-contained exercise — pick whichever matches what you've covered so far.</p>
+      <div class="practice-links">
+        <a class="practice-link" href="exercise.html"><span class="practice-link-tag">Capstone</span>RR Skillverse Course Tracker — a course tracker built from scratch</a>
+        <a class="practice-link" href="capstone-work1.html"><span class="practice-link-tag">Capstone-Work1</span>Smart Office Access System — inheritance &amp; overloading, from scratch</a>
+        <a class="practice-link" href="capstone-work2.html"><span class="practice-link-tag">Capstone-Work2</span>Nimbus Logistics Challenge — fix 3 TODOs (Modules 1-6)</a>
+        <a class="practice-link" href="capstone-work3.html"><span class="practice-link-tag">Capstone-Work3</span>Nimbus Fleet Command — fix 5 TODOs (Module 8)</a>
+      </div>
+    </div>
+  </details>
 
 </div>
 
