@@ -89,6 +89,8 @@
       body: "capstone exercise course tracker classes inheritance virtual dispatch operator overloading complete program" },
     { title: "Capstone: Smart Office Access System", sub: "Practice lab", url: "capstone-work1.html", tab: null,
       body: "smart office badge access employee contractor visitor polymorphism capstone exercise" },
+    { title: "Capstone-Work2: Nimbus Logistics Challenge", sub: "Practice lab", url: "capstone-work2.html", tab: null,
+      body: "nimbus logistics challenge mode templates stl exceptions inheritance overloading repository generic order fulfillment unfinished features todo capstone" },
   ];
 
   // ─── Score a result against a query ─────────────────────────────

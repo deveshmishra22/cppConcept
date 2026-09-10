@@ -259,12 +259,27 @@ the order of operations. Do not paste a complete homework function or solution.
   styled via the shared `style.css`.
 - `style.css` contains the shared visual styles for `try-now`, `build-ladder`,
   `build-step`, `task-card`, `submission-card`, and `story-*` (Story Mode).
-- Every module currently live (`module0`-`module3`) already ends its tab bar
+- `module4.html` and `module5.html` demonstrate the Day 3 format: same
+  light `style.css` theme as module2/module3. module4 covers exception handling
+  (try/catch/throw, catch-by-type, custom exceptions, RAII); module5 covers
+  templates and generics (function templates, class templates, STL as templates).
+  Both end with a Story Mode tab and a try-now section with complete program.
+- `module6.html` demonstrates the Day 4 STL module: sequence containers (vector,
+  list, deque), associative containers (map, set, unordered_map), algorithms
+  (sort, find_if, count_if, transform, accumulate), and iterators. Case study:
+  student records analyzer. Story Mode: "Nimbus Academy — the records that
+  couldn't be found."
+- `module7.html` demonstrates the Day 4 Advanced C++ module: lambdas (captures,
+  std::function), smart pointers (unique_ptr, shared_ptr, weak_ptr), file I/O
+  (ofstream, ifstream, RAII file handling), and multithreading (std::thread,
+  mutex, lock_guard, async, future). Case study: concurrent sensor log aggregator.
+  Story Mode: "Nimbus Systems — the pipeline that kept crashing at midnight."
+- Every module currently live (`module0`–`module7`) already ends its tab bar
   with a Story Mode tab — see the dedicated section above before adding a new
-  one. Read an existing Story Mode tab (e.g. `module1.html`'s `id="t6"`) as the
+  one. Read an existing Story Mode tab (e.g. `module5.html`'s `id="t5"`) as the
   concrete worked example before writing a new one from the template.
 
-Modules 4 through 10 are still listed on the index as coming soon. When their
+Modules 8 through 10 are still listed on the index as coming soon. When their
 lesson pages are created, use this exact structure (including the required
 Story Mode tab) and preserve the handbook's WHY / WHAT / HOW explanation rhythm.
 Default new modules to the light `style.css` theme used by `module2.html`/

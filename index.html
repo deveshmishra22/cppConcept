@@ -301,11 +301,11 @@ footer a{color:var(--cyan); text-decoration:none;}
       <div class="nav-day" data-open="true"><a class="nav-day-toggle" href="#day1"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 1</span><span class="nav-day-subtitle">Foundations</span><span class="nav-day-chevron">›</span></a><div class="nav-day-body"><div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module0.html">Foundation Enhancer</a></li><li class="nav-topic"><a href="module1.html">C++ Basics</a></li></ul></div></div></div>
       <div class="nav-day" data-open="true"><a class="nav-day-toggle" href="#day2"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 2</span><span class="nav-day-subtitle">Polymorphism</span><span class="nav-day-chevron">›</span></a><div class="nav-day-body"><div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module2.html">Inheritance &amp; Polymorphism</a></li><li class="nav-topic"><a href="module3.html">Compile-time Polymorphism</a></li></ul></div></div></div>
       <div class="nav-day" data-open="true"><a class="nav-day-toggle" href="#day3"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 3</span><span class="nav-day-subtitle">Robustness</span><span class="nav-day-chevron">›</span></a><div class="nav-day-body"><div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module4.html">Exception Handling</a></li><li class="nav-topic"><a href="module5.html">Templates &amp; Generics</a></li></ul></div></div></div>
-      <div class="nav-day"><a class="nav-day-toggle" href="#day4"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 4</span><span class="nav-day-subtitle">Modern C++</span><span class="nav-day-chevron">›</span></a></div>
+      <div class="nav-day" data-open="true"><a class="nav-day-toggle" href="#day4"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 4</span><span class="nav-day-subtitle">Modern C++</span><span class="nav-day-chevron">›</span></a><div class="nav-day-body"><div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module6.html">STL &amp; Containers</a></li><li class="nav-topic"><a href="module7.html">Advanced C++</a></li></ul></div></div></div>
       <div class="nav-day"><a class="nav-day-toggle" href="#day5"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 5</span><span class="nav-day-subtitle">Networking</span><span class="nav-day-chevron">›</span></a></div>
     </nav>
     <div class="sidebar-divider"></div><div class="sidebar-section-title">Resources</div>
-    <ul class="sidebar-resources"><li><a href="repo-guide.html">▣ How to use the repository</a></li><li><a href="module-authoring-context.html">↗ Study flow guide</a></li><li><a href="https://github.com/raushan1107/Advanced-cpp-sample-codes" target="_blank" rel="noopener">↗ Source code</a></li><li><a href="exercise.html">★ Capstone exercise: RR Skillverse Course Tracker</a></li><li><a href="capstone-work1.html">★ Capstone-Work1: Smart Office Access System</a></li><li><a href="#schedule">▣ Course overview</a></li></ul>
+    <ul class="sidebar-resources"><li><a href="repo-guide.html">▣ How to use the repository</a></li><li><a href="module-authoring-context.html">↗ Study flow guide</a></li><li><a href="https://github.com/raushan1107/Advanced-cpp-sample-codes" target="_blank" rel="noopener">↗ Source code</a></li><li><a href="exercise.html">★ Capstone exercise: RR Skillverse Course Tracker</a></li><li><a href="capstone-work1.html">★ Capstone-Work1: Smart Office Access System</a></li><li><a href="capstone-work2.html">★ Capstone-Work2: Nimbus Logistics Challenge</a></li><li><a href="#schedule">▣ Course overview</a></li></ul>
   </div>
 </aside>
 <main class="main-content">
@@ -516,22 +516,70 @@ footer a{color:var(--cyan); text-decoration:none;}
 
   <div class="day-heading" id="day4">
     <h2>STL &amp; advanced modern C++</h2>
-    <span class="day-status">coming soon</span>
+    <span class="day-status">available now</span>
   </div>
   <div class="card-grid">
-    <div class="card locked">
+    <div class="card">
       <div class="module-tag">MODULE 6</div>
       <h3>Standard Template Library</h3>
-      <p>vector, list, map, set, queue, stack, iterators, and core algorithms via a student-records case study.</p>
-      <ul class="topic-list"><li>sort, find, count &amp; iterator patterns</li><li>Search and analyze student records</li></ul>
-      <div class="card-footer"><button class="btn btn-ghost" disabled>Coming soon</button></div>
+      <p>Sequence containers, associative containers, iterators, and core algorithms — the vocabulary that makes every C++ program more expressive and efficient.</p>
+      <ul class="topic-list">
+        <li>Sequence containers: vector, list, deque</li>
+        <li>Associative containers: map, set, unordered_map</li>
+        <li>Algorithms: sort, find_if, count_if, transform, accumulate</li>
+        <li>Iterators: categories, adapters, and back_inserter</li>
+        <li>🎬 Story Mode: the records that couldn't be found</li>
+      </ul>
+      <div class="card-footer">
+        <a class="btn btn-primary" href="module6.html">View module →</a>
+        <div>
+          <div class="stars" data-module="module6">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+          </div>
+          <div class="rating-note">Rate this module</div>
+        </div>
+      </div>
     </div>
-    <div class="card locked">
+    <div class="card">
       <div class="module-tag">MODULE 7</div>
       <h3>Advanced C++ Features</h3>
-      <p>Lambdas, smart pointers, file handling, multithreading &amp; concurrency, static vs dynamic linking, and performance profiling.</p>
-      <ul class="topic-list"><li>std::thread, async, futures &amp; mutexes</li><li>Producer-consumer synchronization</li><li>Memory leaks, linking &amp; profiling</li></ul>
-      <div class="card-footer"><button class="btn btn-ghost" disabled>Coming soon</button></div>
+      <p>Lambdas, smart pointers, file I/O, and multithreading — the four pillars that separate a working program from a production-grade one.</p>
+      <ul class="topic-list">
+        <li>Lambdas: captures, predicates, and std::function</li>
+        <li>Smart pointers: unique_ptr, shared_ptr, and weak_ptr</li>
+        <li>File I/O: ofstream, ifstream, and RAII file handling</li>
+        <li>Multithreading: std::thread, mutex, lock_guard, async &amp; future</li>
+        <li>🎬 Story Mode: the pipeline that kept crashing at midnight</li>
+      </ul>
+      <div class="card-footer">
+        <a class="btn btn-primary" href="module7.html">View module →</a>
+        <div>
+          <div class="stars" data-module="module7">
+            <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+          </div>
+          <div class="rating-note">Rate this module</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="day-heading">
+    <h2>Practice lab — challenge mode</h2>
+    <span class="day-status">available now</span>
+  </div>
+  <div class="card-grid">
+    <div class="card">
+      <div class="module-tag">CAPSTONE-WORK2</div>
+      <h3>Nimbus Logistics Challenge</h3>
+      <p>A cumulative challenge across Modules 1-6 — templates, STL, exceptions, inheritance and overloading all at once, in a warehouse order-fulfillment engine. Unlike the earlier capstones, the starter program is only partly finished: two features work, three are yours to complete.</p>
+      <ul class="topic-list">
+        <li>Starter compiles and runs today — unfinished parts say so clearly</li>
+        <li>3 independent features to implement, in any order</li>
+        <li>Hints only — no homework solution given</li>
+      </ul>
+      <div class="card-footer">
+        <a class="btn btn-primary" href="capstone-work2.html">Start the challenge →</a>
+      </div>
     </div>
   </div>
 

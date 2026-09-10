@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 7: Advanced C++ Features - Enterprise C++ Handbook</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-left">
+    <button class="sidebar-toggle" type="button" aria-label="Toggle course navigation" aria-expanded="true">☰</button>
+    <a href="index.html" class="brand"><span class="brand-mark">C++</span><span class="brand-text">Enterprise C++ Handbook<small>Personal notes by Raushan Ranjan</small></span></a>
+  </div>
+  <div class="topbar-center"><label class="search-bar"><span class="search-icon">⌕</span><input class="search-input" type="search" placeholder="Search the handbook" aria-label="Search the handbook"><kbd class="search-kbd">⌘ K</kbd></label></div>
+  <div class="topbar-right"><a href="index.html">All modules</a><a href="index.html#day4">Curriculum</a><a class="btn-notes" href="index.html#day4">Modern C++</a></div>
+</div>
+
+<div class="app-layout">
+<aside class="sidebar-left">
+  <div class="sidebar-content">
+    <div class="sidebar-section-title">Course map</div>
+    <nav class="nav-tree" aria-label="Course navigation">
+      <div class="nav-day">
+        <a class="nav-day-toggle" href="index.html#day1" aria-expanded="false"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 1</span><span class="nav-day-subtitle">Foundations</span><span class="nav-day-chevron">›</span></a>
+        <div class="nav-day-body">
+          <div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module0.html">Foundation Enhancer</a></li><li class="nav-topic"><a href="module1.html">C++ Basics</a></li></ul></div>
+        </div>
+      </div>
+      <div class="nav-day">
+        <a class="nav-day-toggle" href="index.html#day2" aria-expanded="false"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 2</span><span class="nav-day-subtitle">Polymorphism</span><span class="nav-day-chevron">›</span></a>
+        <div class="nav-day-body">
+          <div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module2.html">Inheritance &amp; Polymorphism</a></li><li class="nav-topic"><a href="module3.html">Compile-time Polymorphism</a></li></ul></div>
+        </div>
+      </div>
+      <div class="nav-day">
+        <a class="nav-day-toggle" href="index.html#day3" aria-expanded="false"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 3</span><span class="nav-day-subtitle">Robustness</span><span class="nav-day-chevron">›</span></a>
+        <div class="nav-day-body">
+          <div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module4.html">Exception Handling</a></li><li class="nav-topic"><a href="module5.html">Templates &amp; Generics</a></li></ul></div>
+        </div>
+      </div>
+      <div class="nav-day" data-open="true">
+        <a class="nav-day-toggle" href="index.html#day4"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 4</span><span class="nav-day-subtitle">Modern C++</span><span class="nav-day-chevron">›</span></a>
+        <div class="nav-day-body">
+          <div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module6.html">STL &amp; Containers</a></li><li class="nav-topic"><a class="active" href="module7.html">Advanced C++ Features</a></li></ul></div>
+          <div class="nav-module"><div class="nav-module-label">Topics</div><div class="nav-tabs">
+            <button class="nav-tab active" data-tab="t1">01 Lambdas</button>
+            <button class="nav-tab" data-tab="t2">02 Smart pointers</button>
+            <button class="nav-tab" data-tab="t3">03 File I/O</button>
+            <button class="nav-tab" data-tab="t4">04 Multithreading</button>
+            <button class="nav-tab" data-tab="t5">05 🎬 Story Mode</button>
+          </div></div>
+        </div>
+      </div>
+      <div class="nav-day"><a class="nav-day-toggle" href="index.html#day5"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 5</span><span class="nav-day-subtitle">Networking</span><span class="nav-day-chevron">›</span></a></div>
+    </nav>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section-title">Resources</div>
+    <ul class="sidebar-resources"><li><a href="https://github.com/raushan1107/Advanced-cpp-sample-codes" target="_blank" rel="noopener">↗ Source code</a></li><li><a href="index.html#day4">▣ Course overview</a></li></ul>
+  </div>
+</aside>
+
+<main class="main-content">
+<div class="module-header">
+  <div class="breadcrumb"><a href="index.html#day4">Modern C++</a> / Module 7</div>
+  <h1>Advanced C++ Features</h1>
+  <p class="sub">Lambdas, smart pointers, file I/O, and multithreading — the four pillars that separate a working program from a production-grade one.</p>
+  <div class="module-meta"><span><b>Day:</b> 4 of 6</span><span><b>Topics:</b> 4 + Story Mode</span><span><b>Case study:</b> Concurrent sensor log aggregator</span><span><b>Repo folder:</b> <code>17-Threading/, 15-Smart_Pointers/, 11-FStream/</code></span></div>
+</div>
+
+<div class="tabs-wrap">
+  <div class="tabbar"><button data-tab="t1" class="active">01 Lambdas</button><button data-tab="t2">02 Smart pointers</button><button data-tab="t3">03 File I/O</button><button data-tab="t4">04 Multithreading</button><button data-tab="t5">05 🎬 Story Mode</button></div>
+
+  <!-- TAB 1: Lambdas -->
+  <div class="tabpanel active" id="t1">
+    <p class="topic-intro">STL algorithms expect callable predicates and comparators. Before lambdas, every one-line callback required a named function or a functor class. Lambdas let you write the callback where you use it — no naming, no boilerplate, no separate function definition.</p>
+
+    <div class="block">
+      <div class="block-label"><span class="tag why">WHY</span><h4>Named functions for one-time callbacks</h4></div>
+      <div class="content">
+        <p>Suppose you want to sort students by grade. You write <code>bool byGradeDesc(const Student&amp; a, const Student&amp; b)</code>, use it once in <code>std::sort</code>, and it pollutes your namespace forever.</p>
+        <p>Multiply that by every unique sort order, every unique filter predicate, every <code>std::transform</code> operation — and you have dozens of tiny named functions that exist only to be passed to one algorithm call.</p>
+        <p>A lambda is an anonymous function expression. You write the body exactly where the callback goes — the compiler generates a unique unnamed callable type. It exists in scope only for that one use, and it can capture local variables from the surrounding scope.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag what">WHAT</span><h4>Lambda syntax and captures</h4></div>
+      <div class="content">
+        <ul>
+          <li><code>[](params) { body }</code> — basic lambda; no captures, explicit params, return type deduced.</li>
+          <li><code>[=](params) { body }</code> — capture all local variables by <strong>value</strong> (copy). Safe for threads that outlive the enclosing scope.</li>
+          <li><code>[&amp;](params) { body }</code> — capture all local variables by <strong>reference</strong>. Faster (no copy) but dangerous if the lambda outlives the variable.</li>
+          <li><code>[x, &amp;y](params) { body }</code> — capture <code>x</code> by value, <code>y</code> by reference — minimal and explicit.</li>
+          <li><code>-&gt; ReturnType</code> — explicit return type after <code>)</code>; required when the compiler can't deduce it (e.g., multiple return paths returning different types).</li>
+          <li><code>std::function&lt;Ret(Params...)&gt;</code> — type-erased wrapper that can store any callable, including lambdas, at the cost of a small runtime overhead. Use <code>auto</code> when you don't need to store the lambda in a heterogeneous container.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag how">HOW</span><h4>Filter, sort, and accumulate with lambdas</h4></div>
+      <div class="code-card">
+        <div class="code-head"><span class="filename">step1_lambda.cpp</span><button class="copy-btn">Copy</button></div>
+        <pre><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+#include &lt;functional&gt;
+#include &lt;numeric&gt;
+#include &lt;string&gt;
+
+int main() {
+    std::vector&lt;int&gt; nums = {3, 1, 4, 1, 5, 9, 2, 6};
+
+    int threshold = 4;
+    auto isAbove = [threshold](int n){ return n &gt; threshold; };
+    int count = std::count_if(nums.begin(), nums.end(), isAbove);
+    std::cout &lt;&lt; "Values above " &lt;&lt; threshold &lt;&lt; ": " &lt;&lt; count &lt;&lt; "\n";
+
+    // Sort descending — lambda comparator inline
+    std::sort(nums.begin(), nums.end(), [](int a, int b){ return a &gt; b; });
+    for (int n : nums) std::cout &lt;&lt; n &lt;&lt; " ";
+    std::cout &lt;&lt; "\n";
+
+    // Capture by reference to accumulate into outer variable
+    int total = 0;
+    std::for_each(nums.begin(), nums.end(), [&amp;total](int n){ total += n; });
+    std::cout &lt;&lt; "Total: " &lt;&lt; total &lt;&lt; "\n";
+
+    // Store lambda in std::function for later use
+    std::function&lt;std::string(const std::string&amp;)&gt; toUpper = [](const std::string&amp; s) {
+        std::string r = s;
+        std::transform(r.begin(), r.end(), r.begin(), ::toupper);
+        return r;
+    };
+    std::cout &lt;&lt; toUpper("hello world") &lt;&lt; "\n";
+}</code></pre>
+      </div>
+      <div class="output-box"><span class="lbl">Expected output</span>Values above 4: 3
+9 6 5 4 3 2 1 1
+Total: 31
+HELLO WORLD</div>
+      <div class="quickguide">
+        <p class="qg-title">Run it and experiment</p>
+        <ol>
+          <li>Compile: <code>g++ -std=c++17 step1_lambda.cpp -o step1</code>, run.</li>
+          <li><strong>Experiment 1:</strong> Change <code>[threshold]</code> to <code>[&amp;threshold]</code> and then modify <code>threshold</code> inside the lambda — note it now changes the outer variable.</li>
+          <li><strong>Experiment 2:</strong> Try calling <code>isAbove</code> without <code>std::count_if</code> — just <code>isAbove(7)</code> — it is a regular callable object, not special syntax.</li>
+          <li><strong>Experiment 3:</strong> Write a generic lambda <code>[](auto a, auto b){ return a + b; }</code> (C++14) and call it with int, double, and string arguments.</li>
+        </ol>
+      </div>
+      <div class="callout"><strong>Reference:</strong> <a href="https://en.cppreference.com/w/cpp/language/lambda" target="_blank" rel="noopener">cppreference: Lambda expressions</a></div>
+    </div>
+
+    <div class="topic-nav">
+      <span></span>
+      <button class="btn btn-primary" onclick="document.querySelector('[data-tab=t2]').click()">Next: Smart pointers →</button>
+    </div>
+  </div>
+
+  <!-- TAB 2: Smart pointers -->
+  <div class="tabpanel" id="t2">
+    <p class="topic-intro">Raw <code>new</code> and <code>delete</code> are error-prone: forget one <code>delete</code> and you have a memory leak; call it twice and the program crashes; use the pointer after delete and you have undefined behaviour. Smart pointers automate the lifetime of heap objects so none of those bugs are possible.</p>
+
+    <div class="block">
+      <div class="block-label"><span class="tag why">WHY</span><h4>The three ways raw pointers fail</h4></div>
+      <div class="content">
+        <p><strong>Leak</strong>: <code>Sensor* s = new Sensor("A"); return;</code> — if the function returns early (exception or early return), <code>delete s</code> never runs. The sensor object lives forever, its memory is never returned.</p>
+        <p><strong>Double-delete</strong>: Two code paths both call <code>delete s</code> — the second delete corrupts the heap and usually crashes the program in an unrelated location, making the bug hard to find.</p>
+        <p><strong>Use-after-free</strong>: <code>delete s; s-&gt;read();</code> — the pointer is still non-null after delete; accessing it is undefined behaviour. The program might crash, return garbage, or silently corrupt other data.</p>
+        <p>Smart pointers eliminate all three. The object is owned by the smart pointer, which deletes it in its destructor — exactly once, as soon as the last owner leaves scope.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag what">WHAT</span><h4>Three smart pointer types</h4></div>
+      <div class="content">
+        <ul>
+          <li><code>std::unique_ptr&lt;T&gt;</code> — sole owner. One object, one <code>unique_ptr</code>. When it goes out of scope, the object is deleted. Move-only: no copy constructor. Create with <code>std::make_unique&lt;T&gt;(constructor_args...)</code>.</li>
+          <li><code>std::shared_ptr&lt;T&gt;</code> — shared ownership. Multiple <code>shared_ptr</code>s can point to the same object. An internal reference count tracks owners; when the last one is destroyed (count reaches 0), the object is deleted. Create with <code>std::make_shared&lt;T&gt;(args...)</code>.</li>
+          <li><code>std::weak_ptr&lt;T&gt;</code> — non-owning observer. Points to a <code>shared_ptr</code>-managed object without incrementing the ref count. Call <code>.lock()</code> to get a temporary <code>shared_ptr</code> — returns <code>nullptr</code> if the object was already deleted. Used to break ownership cycles.</li>
+          <li><strong>Rule of thumb</strong>: default to <code>unique_ptr</code>. Upgrade to <code>shared_ptr</code> only when ownership genuinely needs to be shared. Use <code>weak_ptr</code> only to break cycles.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag how">HOW</span><h4>unique_ptr factory, shared_ptr ref counting, vector of unique_ptrs</h4></div>
+      <div class="code-card">
+        <div class="code-head"><span class="filename">step2_smart_ptrs.cpp</span><button class="copy-btn">Copy</button></div>
+        <pre><code>#include &lt;iostream&gt;
+#include &lt;memory&gt;
+#include &lt;vector&gt;
+#include &lt;string&gt;
+
+class Sensor {
+    std::string id_;
+    int reading_;
+public:
+    Sensor(const std::string&amp; id, int r) : id_(id), reading_(r) {
+        std::cout &lt;&lt; "Sensor " &lt;&lt; id_ &lt;&lt; " created\n";
+    }
+    ~Sensor() { std::cout &lt;&lt; "Sensor " &lt;&lt; id_ &lt;&lt; " destroyed\n"; }
+    int read() const { return reading_; }
+    const std::string&amp; id() const { return id_; }
+};
+
+std::unique_ptr&lt;Sensor&gt; makeSensor(const std::string&amp; id, int val) {
+    return std::make_unique&lt;Sensor&gt;(id, val);
+}
+
+int main() {
+    // unique_ptr: sole owner, auto-deleted on scope exit
+    {
+        auto s = makeSensor("TMP-01", 72);
+        std::cout &lt;&lt; "Reading: " &lt;&lt; s-&gt;read() &lt;&lt; "\n";
+    } // s destroyed here
+
+    // shared_ptr: reference counting
+    std::shared_ptr&lt;Sensor&gt; shared = std::make_shared&lt;Sensor&gt;("HUM-01", 65);
+    {
+        std::shared_ptr&lt;Sensor&gt; copy = shared; // count = 2
+        std::cout &lt;&lt; "Count: " &lt;&lt; shared.use_count() &lt;&lt; "\n";
+    } // copy destroyed, count = 1
+    std::cout &lt;&lt; "Count after inner scope: " &lt;&lt; shared.use_count() &lt;&lt; "\n";
+
+    // vector of unique_ptrs — move semantics, no raw delete
+    std::vector&lt;std::unique_ptr&lt;Sensor&gt;&gt; fleet;
+    fleet.push_back(std::make_unique&lt;Sensor&gt;("CO2-01", 420));
+    fleet.push_back(std::make_unique&lt;Sensor&gt;("CO2-02", 450));
+    for (const auto&amp; s : fleet)
+        std::cout &lt;&lt; s-&gt;id() &lt;&lt; ": " &lt;&lt; s-&gt;read() &lt;&lt; "\n";
+} // fleet destroyed — all sensors deleted automatically</code></pre>
+      </div>
+      <div class="output-box"><span class="lbl">Expected output</span>Sensor TMP-01 created
+Reading: 72
+Sensor TMP-01 destroyed
+Sensor HUM-01 created
+Count: 2
+Count after inner scope: 1
+Sensor CO2-01 created
+Sensor CO2-02 created
+CO2-01: 420
+CO2-02: 450
+Sensor CO2-02 destroyed
+Sensor CO2-01 destroyed
+Sensor HUM-01 destroyed</div>
+      <div class="quickguide">
+        <p class="qg-title">Run it and experiment</p>
+        <ol>
+          <li>Compile: <code>g++ -std=c++17 step2_smart_ptrs.cpp -o step2</code>, run.</li>
+          <li><strong>Experiment 1:</strong> Try <code>auto copy = s;</code> where s is a <code>unique_ptr</code> — compile error: unique_ptr is move-only. Fix with <code>std::move(s)</code> and observe s becomes null.</li>
+          <li><strong>Experiment 2:</strong> After the shared_ptr block, check <code>shared.use_count()</code> — it is 1, showing copy was properly released.</li>
+          <li><strong>Experiment 3:</strong> Add <code>std::weak_ptr&lt;Sensor&gt; weak = shared;</code> — <code>weak.use_count()</code> stays 1 because weak_ptr doesn't increment the count.</li>
+        </ol>
+      </div>
+      <div class="callout"><strong>Reference:</strong> <a href="https://en.cppreference.com/w/cpp/memory/unique_ptr" target="_blank" rel="noopener">cppreference: std::unique_ptr</a></div>
+    </div>
+
+    <div class="topic-nav">
+      <button class="btn btn-ghost" onclick="document.querySelector('[data-tab=t1]').click()">← Lambdas</button>
+      <button class="btn btn-primary" onclick="document.querySelector('[data-tab=t3]').click()">Next: File I/O →</button>
+    </div>
+  </div>
+
+  <!-- TAB 3: File I/O -->
+  <div class="tabpanel" id="t3">
+    <p class="topic-intro">A program that cannot read and write files cannot store anything permanently. <code>std::fstream</code> gives you the same <code>&lt;&lt;</code> and <code>&gt;&gt;</code> operators you already know from <code>std::cout</code> and <code>std::cin</code>, applied to files — with RAII guaranteeing the file is always closed.</p>
+
+    <div class="block">
+      <div class="block-label"><span class="tag why">WHY</span><h4>Files, portability, and RAII</h4></div>
+      <div class="content">
+        <p>The C standard library's <code>fopen</code>/<code>fclose</code> returns raw <code>FILE*</code> — if you forget to call <code>fclose</code>, the file stays locked and data may be lost. On Windows, a locked file prevents other programs from reading it.</p>
+        <p><code>std::ofstream</code> and <code>std::ifstream</code> are objects. The file is opened in the constructor and closed in the destructor — RAII guarantees the file is always closed even when an exception propagates. No explicit <code>close()</code> call needed (though calling it early to flush and release is fine).</p>
+        <p>The <code>&lt;&lt;</code> and <code>&gt;&gt;</code> insertion/extraction operators work the same way as with <code>std::cout</code>/<code>std::cin</code>, so there is almost no new syntax to learn.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag what">WHAT</span><h4>File stream types and key operations</h4></div>
+      <div class="content">
+        <ul>
+          <li><code>std::ofstream out("file.txt")</code> — opens for writing; creates the file if it doesn't exist, truncates if it does.</li>
+          <li><code>std::ifstream in("file.txt")</code> — opens for reading; <code>in.is_open()</code> returns false if the file doesn't exist.</li>
+          <li><code>std::fstream fs("file.txt", std::ios::in | std::ios::out)</code> — read+write; use mode flags to control behaviour.</li>
+          <li>Mode flags: <code>std::ios::app</code> (append, don't truncate), <code>std::ios::binary</code> (binary mode, no newline translation).</li>
+          <li><code>std::getline(in, line)</code> — reads an entire line including spaces, stopping at <code>\n</code>. Returns the stream, so works in a <code>while</code> condition.</li>
+          <li><code>out.flush()</code> — forces buffered data to disk without closing; useful between write and read on the same file.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag how">HOW</span><h4>Write a report to disk, read it back line by line</h4></div>
+      <div class="code-card">
+        <div class="code-head"><span class="filename">step3_fileio.cpp</span><button class="copy-btn">Copy</button></div>
+        <pre><code>#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+#include &lt;string&gt;
+#include &lt;stdexcept&gt;
+
+void writeReport(const std::string&amp; path) {
+    std::ofstream out(path);
+    if (!out.is_open())
+        throw std::runtime_error("Cannot write to: " + path);
+    out &lt;&lt; "Student Report\n";
+    out &lt;&lt; "==============\n";
+    out &lt;&lt; "Alice,92\n";
+    out &lt;&lt; "Bob,78\n";
+    out &lt;&lt; "Carol,85\n";
+} // out destroyed, file closed automatically
+
+void readReport(const std::string&amp; path) {
+    std::ifstream in(path);
+    if (!in.is_open())
+        throw std::runtime_error("Cannot read: " + path);
+    std::string line;
+    while (std::getline(in, line))
+        std::cout &lt;&lt; "[READ] " &lt;&lt; line &lt;&lt; "\n";
+}
+
+int main() {
+    const std::string path = "report.txt";
+    try {
+        writeReport(path);
+        std::cout &lt;&lt; "Written to " &lt;&lt; path &lt;&lt; "\n";
+        readReport(path);
+    }
+    catch (const std::runtime_error&amp; e) {
+        std::cout &lt;&lt; "File error: " &lt;&lt; e.what() &lt;&lt; "\n";
+    }
+}</code></pre>
+      </div>
+      <div class="output-box"><span class="lbl">Expected output</span>Written to report.txt
+[READ] Student Report
+[READ] ==============
+[READ] Alice,92
+[READ] Bob,78
+[READ] Carol,85</div>
+      <div class="quickguide">
+        <p class="qg-title">Run it and experiment</p>
+        <ol>
+          <li>Compile: <code>g++ -std=c++17 step3_fileio.cpp -o step3</code>, run.</li>
+          <li><strong>Experiment 1:</strong> Open <code>report.txt</code> in a text editor — the file should contain exactly what was written.</li>
+          <li><strong>Experiment 2:</strong> Open with <code>std::ios::app</code> flag instead of default truncation — each run appends rather than overwrites.</li>
+          <li><strong>Experiment 3:</strong> Deliberately write to a read-only path (<code>/etc/test.txt</code> on Linux or <code>C:\Windows\test.txt</code> on Windows) — verify the exception is caught and printed, not a crash.</li>
+        </ol>
+      </div>
+      <div class="callout"><strong>Reference:</strong> <a href="https://en.cppreference.com/w/cpp/io/basic_ofstream" target="_blank" rel="noopener">cppreference: std::ofstream</a></div>
+    </div>
+
+    <div class="topic-nav">
+      <button class="btn btn-ghost" onclick="document.querySelector('[data-tab=t2]').click()">← Smart pointers</button>
+      <button class="btn btn-primary" onclick="document.querySelector('[data-tab=t4]').click()">Next: Multithreading →</button>
+    </div>
+  </div>
+
+  <!-- TAB 4: Multithreading -->
+  <div class="tabpanel" id="t4">
+    <p class="topic-intro">A modern CPU has 8 to 24 cores. A single-threaded program uses one. <code>std::thread</code> lets you run independent tasks simultaneously — but sharing data between threads safely requires explicit synchronization.</p>
+
+    <div class="block">
+      <div class="block-label"><span class="tag why">WHY</span><h4>Parallel work without data races</h4></div>
+      <div class="content">
+        <p>A data race is when two threads read and write the same variable without coordination. The result is undefined behaviour — the program might produce wrong output, crash, or appear to work correctly only in tests.</p>
+        <p><code>std::mutex</code> (mutual exclusion) prevents a data race by ensuring only one thread executes a protected section at a time. <code>std::lock_guard</code> acquires the mutex on construction and releases it when it goes out of scope — RAII applied to locks.</p>
+        <p><code>std::async</code> launches a task on a background thread and returns a <code>std::future&lt;T&gt;</code>. Calling <code>.get()</code> on the future blocks until the result is ready. This "fire and collect later" pattern avoids manual thread management for independent computations.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag what">WHAT</span><h4>Thread, mutex, and async</h4></div>
+      <div class="content">
+        <ul>
+          <li><code>std::thread t(callable, args...)</code> — launches <code>callable(args...)</code> on a new OS thread. Must call <code>t.join()</code> (wait for completion) or <code>t.detach()</code> (let it run independently) before <code>t</code> is destroyed.</li>
+          <li><code>std::mutex m</code> — non-copyable lock. <code>m.lock()</code> / <code>m.unlock()</code> — use <code>std::lock_guard&lt;std::mutex&gt; lg(m)</code> instead so the unlock is guaranteed even on exception.</li>
+          <li><code>std::lock_guard&lt;std::mutex&gt; lg(m)</code> — acquires <code>m</code> on construction, releases in destructor. Cannot be used across scopes; use <code>std::unique_lock</code> for that.</li>
+          <li><code>std::async(std::launch::async, fn, args...)</code> — runs <code>fn(args...)</code> asynchronously. Returns <code>std::future&lt;ReturnType&gt;</code>. Call <code>future.get()</code> to retrieve the result (blocks if not yet ready).</li>
+          <li><code>std::ref(var)</code> — wraps a variable in a reference wrapper so it can be passed to a thread or async function without copying.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag how">HOW</span><h4>Two threads summing batches, then async for a one-liner</h4></div>
+      <div class="code-card">
+        <div class="code-head"><span class="filename">step4_threads.cpp</span><button class="copy-btn">Copy</button></div>
+        <pre><code>#include &lt;iostream&gt;
+#include &lt;thread&gt;
+#include &lt;mutex&gt;
+#include &lt;future&gt;
+#include &lt;vector&gt;
+#include &lt;numeric&gt;
+
+std::mutex print_mutex;
+
+void processBatch(int id, const std::vector&lt;int&gt;&amp; data, int&amp; result) {
+    result = std::accumulate(data.begin(), data.end(), 0);
+    std::lock_guard&lt;std::mutex&gt; lock(print_mutex);
+    std::cout &lt;&lt; "Thread " &lt;&lt; id &lt;&lt; " sum: " &lt;&lt; result &lt;&lt; "\n";
+}
+
+int main() {
+    std::vector&lt;int&gt; b1 = {1, 2, 3, 4, 5};
+    std::vector&lt;int&gt; b2 = {6, 7, 8, 9, 10};
+    int r1 = 0, r2 = 0;
+
+    std::thread t1(processBatch, 1, std::cref(b1), std::ref(r1));
+    std::thread t2(processBatch, 2, std::cref(b2), std::ref(r2));
+    t1.join();
+    t2.join();
+
+    std::cout &lt;&lt; "Combined: " &lt;&lt; r1 + r2 &lt;&lt; "\n";
+
+    // async: fire a task, collect result later
+    auto fut = std::async(std::launch::async, []{
+        int s = 0;
+        for (int i = 1; i &lt;= 100; ++i) s += i;
+        return s;
+    });
+    std::cout &lt;&lt; "Async sum 1-100: " &lt;&lt; fut.get() &lt;&lt; "\n";
+}</code></pre>
+      </div>
+      <div class="output-box"><span class="lbl">Expected output (thread print order may vary)</span>Thread 1 sum: 15
+Thread 2 sum: 40
+Combined: 55
+Async sum 1-100: 5050</div>
+      <p style="font-size:0.88rem; color:var(--text-muted, #888); margin:4px 0 16px;">Note: The two "Thread" lines may appear in either order depending on scheduling; "Combined" and "Async" always appear last.</p>
+      <div class="quickguide">
+        <p class="qg-title">Run it and experiment</p>
+        <ol>
+          <li>Compile: <code>g++ -std=c++17 step4_threads.cpp -o step4</code>, run (standard thread links fine on all platforms).</li>
+          <li><strong>Experiment 1:</strong> Remove <code>lock_guard</code> around the print statement and run many times — occasionally the two cout lines will interleave (corrupted output), demonstrating the race.</li>
+          <li><strong>Experiment 2:</strong> Change <code>std::launch::async</code> to <code>std::launch::deferred</code> — the lambda won't run until <code>.get()</code> is called (lazy evaluation on the calling thread).</li>
+          <li><strong>Experiment 3:</strong> Pass <code>-O2</code> to the compiler — the program should still produce correct output, demonstrating that the mutex protection is memory-model safe, not just "probably works."</li>
+        </ol>
+      </div>
+      <div class="callout"><strong>Reference:</strong> <a href="https://en.cppreference.com/w/cpp/thread/thread" target="_blank" rel="noopener">cppreference: std::thread</a></div>
+    </div>
+
+    <div class="topic-nav" style="justify-content:flex-end;">
+      <button class="btn btn-primary" onclick="document.querySelector('[data-tab=t5]').click()">Story Mode: see it all connected →</button>
+    </div>
+  </div>
+
+  <!-- TAB 5: Story Mode -->
+  <div class="tabpanel" id="t5">
+    <span class="story-badge">🎬 Story Mode</span>
+    <h2 style="margin:0 0 12px;">The pipeline that kept crashing at midnight</h2>
+    <p class="story-lede">Nimbus Systems monitors a factory floor with 48 sensors — temperature, humidity, CO2, and pressure. Every night at midnight, a batch job collects the day's readings, computes statistics, writes a report to disk, and pages an operator if any sensor drifted outside safe limits. For six months, the job ran single-threaded. With 48 sensors and hundreds of readings each, it took 11 minutes and occasionally missed its window. The team rewrote it using the four features in this module — lambdas, smart pointers, file I/O, and threads — and brought the runtime to under 40 seconds.</p>
+
+    <p><strong>ACT 1 — "Inline logic, no name tax"</strong> <button class="btn btn-ghost" style="font-size:0.8rem;padding:2px 10px;vertical-align:middle;" onclick="document.querySelector('[data-tab=t1]').click()">Lambdas ↗</button></p>
+    <p>The original code had 23 one-time comparison functions scattered across 4 files. Every time someone added a new sensor type, they added two more functions. After switching to lambdas, the sort-by-average, the outlier filter, and the threshold check all live exactly where they are used — next to the <code>std::sort</code>, the <code>std::copy_if</code>, and the <code>std::count_if</code> that call them. Zero named functions added to the global scope. Every predicate is co-located with its algorithm.</p>
+
+    <p><strong>ACT 2 — "Memory that cleans itself up"</strong> <button class="btn btn-ghost" style="font-size:0.8rem;padding:2px 10px;vertical-align:middle;" onclick="document.querySelector('[data-tab=t2]').click()">Smart pointers ↗</button></p>
+    <p>The old batch job created one <code>Sensor*</code> per device and stored them in a <code>std::vector&lt;Sensor*&gt;</code>. After the job finished, a cleanup loop called <code>delete</code> on each pointer. It worked — until a refactor added an early <code>return</code> on parse error, and the cleanup loop was never reached. Six sensors leaked every time the file was malformed. Replacing <code>Sensor*</code> with <code>std::unique_ptr&lt;Sensor&gt;</code> and <code>make_unique</code> meant the sensors destroyed themselves whenever their <code>unique_ptr</code> went out of scope, regardless of which path the code took.</p>
+
+    <p><strong>ACT 3 — "The audit trail"</strong> <button class="btn btn-ghost" style="font-size:0.8rem;padding:2px 10px;vertical-align:middle;" onclick="document.querySelector('[data-tab=t3]').click()">File I/O ↗</button></p>
+    <p>Regulatory compliance required that every batch run's output be preserved on disk for 90 days. The team added a <code>writeReport(path)</code> function using <code>std::ofstream</code> — same <code>&lt;&lt;</code> syntax as <code>std::cout</code>, file closed automatically by the destructor. A subsequent <code>readReport</code> function with <code>std::ifstream</code> and <code>getline</code> let the next shift's engineer replay any night's output without touching the database. The RAII guarantee meant no file was ever left open even when a sensor threw a parse exception mid-run.</p>
+
+    <p><strong>ACT 4 — "Eleven minutes to forty seconds"</strong> <button class="btn btn-ghost" style="font-size:0.8rem;padding:2px 10px;vertical-align:middle;" onclick="document.querySelector('[data-tab=t4]').click()">Multithreading ↗</button></p>
+    <p>The original single-threaded loop processed sensors one at a time. With 48 sensors averaging 4 seconds of I/O and computation each, runtime was 192 seconds. The rewrite launched one <code>std::thread</code> per sensor group, using a <code>std::mutex</code> around the shared log vector and <code>std::lock_guard</code> to guarantee release. Four groups of 12 sensors ran in parallel. Wall-clock time dropped to under 40 seconds on the same hardware — a 5x speedup from four lines of thread code and six lines of mutex protection.</p>
+
+    <blockquote class="story-pullquote">Lambdas let you write the logic where you need it. Smart pointers make memory manage itself. File I/O persists results without fuss. Threads use the other 15 cores. Together they turn a working program into a production-grade one.</blockquote>
+
+    <div class="story-also">
+      <p class="story-also-title">Also seen in the wild</p>
+      <div class="story-also-grid">
+        <div class="story-also-item"><span class="story-also-domain">Finance</span>Trading engines use <code>std::async</code> to run risk calculations for equity, fixed-income, and derivatives in parallel — each with its own result collected via <code>future.get()</code>.</div>
+        <div class="story-also-item"><span class="story-also-domain">Healthcare</span>Medical record exporters use <code>unique_ptr</code> for parsed patient objects — if parsing throws, no leaked allocation, no HIPAA exposure.</div>
+        <div class="story-also-item"><span class="story-also-domain">CI/CD pipelines</span>Build systems launch one <code>std::thread</code> per compilation unit; a <code>std::mutex</code> protects the shared dependency graph during updates.</div>
+        <div class="story-also-item"><span class="story-also-domain">Game engines</span>Asset loaders use <code>shared_ptr</code> with custom deleters to manage GPU-allocated textures — the texture is freed when the last scene that references it is unloaded.</div>
+      </div>
+    </div>
+
+    <div class="callout"><strong>Continue:</strong> the complete program below is the Nimbus Systems sensor log aggregator — smart pointers own the sensors, threads process them in parallel, a mutex guards the shared log, and a lambda sorts the final entries before they are written to disk.</div>
+
+    <div class="topic-nav">
+      <button class="btn btn-ghost" onclick="document.querySelector('[data-tab=t4]').click()">← Multithreading</button>
+      <a class="btn btn-primary" href="index.html#day5">Day 5: Networking →</a>
+    </div>
+  </div>
+
+  <section class="try-now" id="try-now">
+    <div class="try-now-header"><div><div class="section-kicker">Learn by doing</div><h2>Try now: build a concurrent sensor log aggregator</h2><p>Build the four pillars step by step, then combine everything into a threaded, smart-pointer-managed, file-logging program.</p></div><span class="try-badge">35 minutes</span></div>
+    <div class="build-ladder">
+      <div class="build-step"><div class="build-step-title"><span>Step 1</span><strong>Manage a sensor with unique_ptr</strong></div><p>RAII memory management — the sensor object destroys itself when it goes out of scope, with no manual delete.</p><div class="code-card"><div class="code-head"><span class="filename">step1_unique.cpp</span><button class="copy-btn">Copy</button></div><pre><code>#include &lt;iostream&gt;
+#include &lt;memory&gt;
+#include &lt;string&gt;
+struct Sensor {
+    std::string id; int value;
+    Sensor(const std::string&amp; i, int v) : id(i), value(v) {
+        std::cout &lt;&lt; id &lt;&lt; " online\n";
+    }
+    ~Sensor() { std::cout &lt;&lt; id &lt;&lt; " offline\n"; }
+};
+int main() {
+    auto s = std::make_unique&lt;Sensor&gt;("TMP-01", 72);
+    std::cout &lt;&lt; "Reading: " &lt;&lt; s-&gt;value &lt;&lt; "\n";
+} // destructor prints "TMP-01 offline"</code></pre></div><p class="run-line"><b>Run:</b> <code>g++ -std=c++17 step1_unique.cpp -o step1</code></p><p class="mini-output"><b>See:</b> TMP-01 online, Reading: 72, TMP-01 offline</p></div>
+      <div class="build-step"><div class="build-step-title"><span>Step 2</span><strong>Filter readings with a lambda</strong></div><p>Inline predicate captures <code>limit</code> by value — no named function, no namespace pollution.</p><div class="code-card"><div class="code-head"><span class="filename">step2_filter.cpp</span><button class="copy-btn">Copy</button></div><pre><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+int main() {
+    std::vector&lt;int&gt; temps = {68, 75, 102, 71, 99, 73};
+    int limit = 95;
+    auto alerts = std::count_if(temps.begin(), temps.end(),
+                                [limit](int t){ return t &gt; limit; });
+    std::cout &lt;&lt; alerts &lt;&lt; " readings above " &lt;&lt; limit &lt;&lt; "\n";
+    std::for_each(temps.begin(), temps.end(), [limit](int t){
+        if (t &gt; limit) std::cout &lt;&lt; "ALERT: " &lt;&lt; t &lt;&lt; "\n";
+    });
+}</code></pre></div><p class="run-line"><b>Run:</b> <code>g++ -std=c++17 step2_filter.cpp -o step2</code></p><p class="mini-output"><b>See:</b> 2 readings above 95, ALERT: 102, ALERT: 99</p></div>
+      <div class="build-step"><div class="build-step-title"><span>Step 3</span><strong>Write results to a file</strong></div><p>Structured binding, ofstream, and RAII — file is closed automatically when <code>log</code> goes out of scope.</p><div class="code-card"><div class="code-head"><span class="filename">step3_log.cpp</span><button class="copy-btn">Copy</button></div><pre><code>#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+#include &lt;vector&gt;
+int main() {
+    std::ofstream log("sensor_log.txt");
+    std::vector&lt;std::pair&lt;std::string,int&gt;&gt; readings = {
+        {"TMP-01", 72}, {"HUM-01", 65}, {"CO2-01", 420}
+    };
+    for (const auto&amp; [id, val] : readings)
+        log &lt;&lt; id &lt;&lt; "," &lt;&lt; val &lt;&lt; "\n";
+    std::cout &lt;&lt; "Log written.\n";
+} // file closed automatically</code></pre></div><p class="run-line"><b>Run:</b> <code>g++ -std=c++17 step3_log.cpp -o step3</code></p><p class="mini-output"><b>See:</b> "Log written." and sensor_log.txt created with 3 CSV lines</p></div>
+    </div>
+    <div class="build-divider"><span>Now combine the pieces into the complete use case</span></div>
+    <div class="try-step"><span>01</span><div><strong>Concurrent sensor log aggregator — threads, smart pointers, lambdas, and file I/O together</strong><p>Each sensor runs in its own thread; a mutex guards the shared log; a lambda sorts entries before they are written to disk.</p></div></div>
+    <div class="code-card"><div class="code-head"><span class="filename">program.cpp — complete use case</span><button class="copy-btn">Copy</button></div><pre><code>#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+#include &lt;thread&gt;
+#include &lt;mutex&gt;
+#include &lt;memory&gt;
+#include &lt;vector&gt;
+#include &lt;string&gt;
+#include &lt;algorithm&gt;
+#include &lt;numeric&gt;
+#include &lt;sstream&gt;
+#include &lt;iomanip&gt;
+
+std::mutex log_mutex;
+std::vector&lt;std::string&gt; log_entries;
+
+class Sensor {
+    std::string id_;
+    std::vector&lt;int&gt; readings_;
+public:
+    Sensor(const std::string&amp; id, std::vector&lt;int&gt; vals)
+        : id_(id), readings_(std::move(vals)) {}
+
+    void processAndLog() {
+        double avg = static_cast&lt;double&gt;(
+            std::accumulate(readings_.begin(), readings_.end(), 0))
+            / readings_.size();
+        auto [minIt, maxIt] = std::minmax_element(readings_.begin(), readings_.end());
+
+        std::ostringstream oss;
+        oss &lt;&lt; std::fixed &lt;&lt; std::setprecision(1)
+            &lt;&lt; id_
+            &lt;&lt; " | avg=" &lt;&lt; avg
+            &lt;&lt; " min=" &lt;&lt; *minIt
+            &lt;&lt; " max=" &lt;&lt; *maxIt;
+
+        std::lock_guard&lt;std::mutex&gt; lock(log_mutex);
+        log_entries.push_back(oss.str());
+    }
+};
+
+void writeLog(const std::string&amp; path) {
+    std::ofstream out(path);
+    for (const auto&amp; entry : log_entries)
+        out &lt;&lt; entry &lt;&lt; "\n";
+}
+
+int main() {
+    std::vector&lt;std::unique_ptr&lt;Sensor&gt;&gt; sensors;
+    sensors.push_back(std::make_unique&lt;Sensor&gt;("TMP-01",
+        std::vector&lt;int&gt;{72, 74, 71, 75, 73}));
+    sensors.push_back(std::make_unique&lt;Sensor&gt;("HUM-01",
+        std::vector&lt;int&gt;{65, 67, 63, 68, 66}));
+    sensors.push_back(std::make_unique&lt;Sensor&gt;("CO2-01",
+        std::vector&lt;int&gt;{420, 435, 410, 445, 430}));
+
+    // Each sensor processed in its own thread
+    std::vector&lt;std::thread&gt; threads;
+    for (int i = 0; i &lt; static_cast&lt;int&gt;(sensors.size()); ++i)
+        threads.emplace_back([i, &amp;sensors]{ sensors[i]-&gt;processAndLog(); });
+
+    for (auto&amp; t : threads) t.join();
+
+    // Sort log entries alphabetically (lambda comparator)
+    std::sort(log_entries.begin(), log_entries.end(),
+              [](const std::string&amp; a, const std::string&amp; b){ return a &lt; b; });
+
+    std::cout &lt;&lt; "=== Sensor Report ===\n";
+    for (const auto&amp; e : log_entries) std::cout &lt;&lt; e &lt;&lt; "\n";
+
+    writeLog("sensor_log.txt");
+    std::cout &lt;&lt; "\nLog written to sensor_log.txt\n";
+}</code></pre></div>
+    <div class="output-box"><span class="lbl">Expected output</span>=== Sensor Report ===
+CO2-01 | avg=428.0 min=410 max=445
+HUM-01 | avg=65.8 min=63 max=68
+TMP-01 | avg=73.0 min=71 max=75
+
+Log written to sensor_log.txt</div>
+    <p style="font-size:0.88rem; color:var(--text-muted, #888); margin:4px 0 16px;">Note: thread print order in <code>processAndLog</code> may vary, but <code>std::sort</code> ensures the final displayed order is always alphabetical.</p>
+    <div class="quickguide"><p class="qg-title">Run it in VS Code</p><ol><li>Create folder <code>module7-try-now</code>, open in VS Code.</li><li>Save as <code>program.cpp</code>.</li><li>Compile: <code>g++ -std=c++17 program.cpp -o program</code> (Linux: add <code>-lpthread</code>)</li><li>Run: <code>program.exe</code> (Windows) or <code>./program</code> (Linux/macOS).</li><li>Try: add a fourth sensor "PRE-01" with readings {1010, 1015, 1008, 1012} and verify the sorted report now has four entries.</li></ol></div>
+    <div class="task-card"><div class="task-label">Homework / assessment</div><h3>Add an alert filter and append-mode logging</h3><p>Add a lambda <code>isAlert</code> that returns true if any reading in a sensor exceeds a threshold (use 100 for temperature, 80 for humidity). Print a separate ALERT section for any sensor whose max exceeds the threshold. Then change <code>writeLog</code> to open the file in <code>std::ios::app</code> mode so each run appends rather than overwrites.</p><p class="hint-title">Hints, not the answer</p><ul class="hint-list"><li><code>std::any_of(readings_.begin(), readings_.end(), lambda)</code> returns true if any element satisfies the predicate — add this to <code>Sensor</code> as a <code>bool hasAlert(int threshold) const</code> method.</li><li>Pass the threshold into the alert lambda via capture: <code>[threshold](int r){ return r &gt; threshold; }</code>.</li><li>Change <code>std::ofstream out(path)</code> to <code>std::ofstream out(path, std::ios::app)</code> — no other changes needed.</li></ul></div>
+    <div class="submission-card"><strong>Submit for evaluation</strong><p>Send your finished <code>program.cpp</code> to the trainer's cohort email.</p><div><b>Subject:</b> <code>Module 7 Task - Your Name - program.cpp</code></div><div><b>Body:</b> <code>Your Name | Module 7 | compiler used | result you observed</code></div><p>Attach the file you compiled and describe the alert output you observed.</p></div>
+  </section>
+</div>
+</main>
+</div>
+<footer>Module 7 of 11 · Enterprise C++ Training Programme · Personal notes by <strong>Raushan Ranjan</strong></footer>
+<script>
+function initSidebar(){const toggle=document.querySelector('.sidebar-toggle'),sidebar=document.querySelector('.sidebar-left');if(!toggle||!sidebar)return;const desktop=window.matchMedia('(min-width: 861px)');toggle.addEventListener('click',()=>{if(desktop.matches){const collapsed=document.body.classList.toggle('sidebar-collapsed');toggle.setAttribute('aria-expanded',String(!collapsed));}else sidebar.classList.toggle('open');});sidebar.querySelectorAll('a:not(.nav-day-toggle)').forEach(link=>link.addEventListener('click',()=>sidebar.classList.remove('open')));}
+function initNavGroups(){document.querySelectorAll('.nav-day').forEach(day=>{const toggle=day.querySelector(':scope > .nav-day-toggle'),body=day.querySelector(':scope > .nav-day-body');if(!toggle||!body)return;toggle.setAttribute('aria-expanded',String(day.dataset.open==='true'));toggle.addEventListener('click',event=>{event.preventDefault();const open=day.dataset.open==='true';day.dataset.open=String(!open);toggle.setAttribute('aria-expanded',String(!open));});});}
+function initNavModules(){document.querySelectorAll('.nav-module').forEach(module=>{const label=module.querySelector(':scope > .nav-module-label'),content=module.querySelector(':scope > .nav-topics, :scope > .nav-tabs');if(!label||!content)return;module.dataset.open=module.dataset.open||'true';label.setAttribute('role','button');label.setAttribute('tabindex','0');label.setAttribute('aria-expanded',String(module.dataset.open==='true'));const toggle=()=>{const open=module.dataset.open==='true';module.dataset.open=String(!open);label.setAttribute('aria-expanded',String(!open));};label.addEventListener('click',toggle);label.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle();}});});}
+function initTabs(){const bar=document.querySelector('.tabbar');if(!bar)return;const buttons=[...document.querySelectorAll('.tabbar button,.nav-tab')],panels=[...document.querySelectorAll('.tabpanel')];function activate(id,updateHash){buttons.forEach(b=>b.classList.toggle('active',b.dataset.tab===id));panels.forEach(p=>p.classList.toggle('active',p.id===id));if(updateHash)history.replaceState(null,'','#'+id);}buttons.forEach(b=>b.addEventListener('click',()=>activate(b.dataset.tab,true)));const requested=location.hash.slice(1);activate(buttons.some(b=>b.dataset.tab===requested)?requested:(buttons.find(b=>b.classList.contains('active'))||buttons[0]).dataset.tab,false);}
+function initCopyButtons(){document.querySelectorAll('.copy-btn').forEach(btn=>btn.addEventListener('click',async()=>{const code=btn.closest('.code-card').querySelector('code').innerText;try{await navigator.clipboard.writeText(code);}catch(e){const ta=document.createElement('textarea');ta.value=code;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();}btn.textContent='Copied';setTimeout(()=>btn.textContent='Copy',1200);}));}
+document.addEventListener('DOMContentLoaded',()=>{initSidebar();initNavGroups();initNavModules();initTabs();initCopyButtons();});
+</script>
+<script src="search.js"></script>
+</body>
+</html>
