@@ -3,15 +3,15 @@ using namespace std;
 
 int main()
 {
-    int a=11;
-    int * p = &a; // pointer variable p holds the address of variable a
-    cout << "Value of a: " << a << endl;
-    cout << "Address of a: " << &a << endl;
-    cout << "Value of pointer p (Address of a): " << p << endl;
-    a = 15; // changing value of a
-    cout << "New value of a: " << a << endl;
-    cout << "Value of pointer p (Address of a): " << p << endl; //
-    cout << "Value pointed by pointer p: " << *p << endl; //
+    // int a=11;
+    // int * p = &a; // pointer variable p holds the address of variable a
+    // cout << "Value of a: " << a << endl;
+    // cout << "Address of a: " << &a << endl;
+    // cout << "Value of pointer p (Address of a): " << p << endl;
+    // a = 15; // changing value of a
+    // cout << "New value of a: " << a << endl;
+    // cout << "Value of pointer p (Address of a): " << p << endl; //
+    // cout << "Value pointed by pointer p: " << *p << endl; //
 
 
     int arr[3] = {10, 20, 30};

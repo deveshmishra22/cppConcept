@@ -54,32 +54,32 @@ int main() {
     cout << "One definition, three instantiations — the compiler wrote the other two for us.\n";
 
     cout << "\n==================== PART 3: Class template - Generic inventory stack ====================\n";
-    InventoryStack<string> warehouse;
-    warehouse.push("Laptop");
-    warehouse.push("Monitor");
-    warehouse.push("Keyboard");
-    cout << "Warehouse has " << warehouse.size() << " items. Top item: " << warehouse.top() << endl;
-    warehouse.pop();
-    cout << "After popping, top item: " << warehouse.top() << ", size: " << warehouse.size() << endl;
+    // InventoryStack<string> warehouse;
+    // warehouse.push("Laptop");
+    // warehouse.push("Monitor");
+    // warehouse.push("Keyboard");
+    // cout << "Warehouse has " << warehouse.size() << " items. Top item: " << warehouse.top() << endl;
+    // warehouse.pop();
+    // cout << "After popping, top item: " << warehouse.top() << ", size: " << warehouse.size() << endl;
 
-    InventoryStack<int> serialNumbers;
-    serialNumbers.push(1001);
-    serialNumbers.push(1002);
-    cout << "Same InventoryStack<T> class, now holding ints. Top serial: "
-         << serialNumbers.top() << endl;
+    // InventoryStack<int> serialNumbers;
+    // serialNumbers.push(1001);
+    // serialNumbers.push(1002);
+    // cout << "Same InventoryStack<T> class, now holding ints. Top serial: "
+    //      << serialNumbers.top() << endl;
 
-    cout << "\n==================== PART 4: STL containers ARE templates ====================\n";
-    // std::stack<T> and std::vector<T> in the standard library are written
-    // exactly the way we just wrote InventoryStack<T> above — a class
-    // template parameterised on T.
-    stack<string> stlStack;
-    stlStack.push("Router");
-    stlStack.push("Switch");
-    cout << "std::stack<string> top: " << stlStack.top() << endl;
-    stlStack.pop();
-    cout << "After pop, std::stack<string> top: " << stlStack.top() << endl;
-    cout << "Our InventoryStack<T> and std::stack<T> follow the same idea:\n";
-    cout << "write the container logic once, let the compiler stamp out a version per type.\n";
+    // cout << "\n==================== PART 4: STL containers ARE templates ====================\n";
+    // // std::stack<T> and std::vector<T> in the standard library are written
+    // // exactly the way we just wrote InventoryStack<T> above — a class
+    // // template parameterised on T.
+    // stack<string> stlStack;
+    // stlStack.push("Router");
+    // stlStack.push("Switch");
+    // cout << "std::stack<string> top: " << stlStack.top() << endl;
+    // stlStack.pop();
+    // cout << "After pop, std::stack<string> top: " << stlStack.top() << endl;
+    // cout << "Our InventoryStack<T> and std::stack<T> follow the same idea:\n";
+    // cout << "write the container logic once, let the compiler stamp out a version per type.\n";
 
     return 0;
 }

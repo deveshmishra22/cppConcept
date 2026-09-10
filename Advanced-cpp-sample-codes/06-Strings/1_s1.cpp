@@ -17,7 +17,7 @@ int main() {
     cout << "Concatenated String: " << str3 << endl;
 
     // Substring extraction
-    string subStr = str3.substr(7, 5); // Extract "World"
+    string subStr = str3.substr(7, 5); // Extract "World" // from str3 starting at index 7 with length 5
     cout << "Extracted Substring: " << subStr << endl;
 
     // Searching for a substring

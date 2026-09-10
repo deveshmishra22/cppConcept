@@ -29,6 +29,21 @@ int main()
         cout << "Strings are not equal." << endl;
     }
 
+    // strcmp vs (s.compare) vs (==) in c++ strings?
+    // strcmp is a C-style function that compares two C-style strings and returns an integer.
+    // s.compare() is a C++ string method that compares two C++ strings and returns an integer.
+    // == is the equality operator for C++ strings, which returns a boolean value.
+
+    // what is the differemce between c-style string vs c++ string?
+    // A C-style string is a null-terminated array of characters, 
+    // while a C++ string is an object of the std::string class that provides a more 
+    // convenient and safer way to work with strings. 
+    // Which one to use depends on the context and requirements of your program. 
+
+    // For example, if you are working with legacy C code or need to interface with C libraries,
+    // you may need to use C-style strings. However, if you are writing modern C++ code, 
+    // it is generally recommended to use C++ strings for their safety and convenience.
+
     // Initialize a C++ string
     string cppStr = "Hello, C++ String!";
     cout << "C++ String: " << cppStr << endl;
@@ -51,6 +66,8 @@ int main()
     cout << "New C++ String (from Char Array): " << newCppStr << endl;
 
     newCppStr.replace(newCppStr.find("C"), 1, "P");
+    // replace(para1, para2, para3) 
+    // -> para1 = starting index, para2 = length of substring to replace, para3 = new substring
     cout << "After replace in C++ String: " << newCppStr << endl;
     return 0;
 }

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Explore More - Enterprise C++ Handbook</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  .explore-tools { display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin:24px 0 28px; }
+  .explore-search { flex:1 1 300px; min-width:0; height:44px; padding:0 14px; border:1px solid var(--border); border-radius:var(--radius-sm); background:var(--surface); color:var(--text); font:inherit; }
+  .explore-search:focus { outline:2px solid var(--accent-border); border-color:var(--accent); }
+  .filter-tabs { display:flex; gap:6px; flex-wrap:wrap; }
+  .filter-tab { border:1px solid var(--border); border-radius:var(--radius-sm); background:var(--surface); color:var(--text-muted); padding:8px 12px; cursor:pointer; font:600 13px var(--body); }
+  .filter-tab:hover, .filter-tab.active { color:var(--accent-dark); background:var(--accent-soft); border-color:var(--accent-border); }
+  .question-card { margin:28px 0; padding:24px; border:1px solid var(--border); border-radius:var(--radius); background:var(--surface); scroll-margin-top:100px; }
+  .question-card[hidden] { display:none; }
+  .question-card h2 { font-size:22px; margin:0 0 8px; }
+  .question-card h2 a { color:var(--text); text-decoration:none; }
+  .question-card h2 a:hover { color:var(--accent-dark); }
+  .question-meta { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px; color:var(--text-faint); font-size:12px; font-family:var(--mono); }
+  .question-meta span { padding:3px 8px; border-radius:5px; background:var(--surface-2); }
+  .question-card .block { margin:22px 0; }
+  .question-card .code-card { max-width:none; }
+  .question-card .code-card pre { background:var(--code-bg); }
+  .empty-state { display:none; padding:28px; border:1px dashed var(--border); color:var(--text-muted); text-align:center; border-radius:var(--radius); }
+  .empty-state.visible { display:block; }
+  .topic-index { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:10px; margin:18px 0 30px; }
+  .topic-index a { display:block; padding:12px 14px; border:1px solid var(--border); border-radius:var(--radius-sm); background:var(--surface); color:var(--text); font-size:13px; text-decoration:none; }
+  .topic-index a:hover { border-color:var(--accent); background:var(--accent-soft); }
+  @media (max-width:640px) { .main-content { padding-left:18px; padding-right:18px; } .question-card { padding:18px; } }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-left">
+    <button class="sidebar-toggle" type="button" aria-label="Toggle course navigation" aria-expanded="true">☰</button>
+    <a href="index.html" class="brand"><span class="brand-mark">C++</span><span class="brand-text">Enterprise C++ Handbook<small>Personal notes by Raushan Ranjan</small></span></a>
+  </div>
+  <div class="topbar-center"><label class="search-bar"><span class="search-icon">⌕</span><input class="search-input" type="search" placeholder="Search the handbook" aria-label="Search the handbook"><kbd class="search-kbd">⌘ K</kbd></label></div>
+  <div class="topbar-right"><a href="index.html">All modules</a><a href="repo-guide.html">How to use code</a><a class="btn-notes" href="explore-more.html">Explore more</a></div>
+</div>
+
+<div class="app-layout">
+<aside class="sidebar-left">
+  <div class="sidebar-content">
+    <div class="sidebar-section-title">Course map</div>
+    <nav class="nav-tree" aria-label="Course navigation">
+      <div class="nav-day"><a class="nav-day-toggle" href="index.html#day1"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 1</span><span class="nav-day-subtitle">Foundations</span><span class="nav-day-chevron">›</span></a></div>
+      <div class="nav-day"><a class="nav-day-toggle" href="index.html#day2"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 2</span><span class="nav-day-subtitle">Polymorphism</span><span class="nav-day-chevron">›</span></a></div>
+      <div class="nav-day"><a class="nav-day-toggle" href="index.html#day3"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 3</span><span class="nav-day-subtitle">Robustness</span><span class="nav-day-chevron">›</span></a></div>
+      <div class="nav-day"><a class="nav-day-toggle" href="index.html#day4"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 4</span><span class="nav-day-subtitle">Modern C++</span><span class="nav-day-chevron">›</span></a></div>
+    </nav>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section-title">Explore more</div>
+    <ul class="sidebar-resources">
+      <li><a href="#virtual-keyword">Virtual keyword</a></li>
+      <li><a href="#cricket-calling-conventions">Calling conventions</a></li>
+    </ul>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section-title">Resources</div>
+    <ul class="sidebar-resources">
+      <li><a href="index.html">▣ Course overview</a></li>
+      <li><a href="repo-guide.html">▣ How to use the repository</a></li>
+      <li><a href="https://github.com/raushan1107/Advanced-cpp-sample-codes" target="_blank" rel="noopener">↗ Source code</a></li>
+    </ul>
+  </div>
+</aside>
+
+<main class="main-content">
+  <div class="module-header">
+    <div class="breadcrumb"><a href="index.html">Course home</a> / Explore more</div>
+    <div class="eyebrow">// Student questions and useful detours</div>
+    <h1>Explore More</h1>
+    <p class="sub">A growing reference for the questions that appear during training: concepts that deserve a second explanation, code that needs a theory bridge, and curiosities that are useful beyond the scheduled modules.</p>
+    <div class="module-meta"><span><b>Entries:</b> <span id="entry-count">2</span></span><span><b>Format:</b> Question → explanation → code</span><span><b>Use:</b> Search or choose a topic</span></div>
+  </div>
+
+  <div class="tabs-wrap">
+    <div class="explore-tools">
+      <input id="topic-search" class="explore-search" type="search" placeholder="Search these questions..." aria-label="Search Explore More topics">
+      <div class="filter-tabs" role="tablist" aria-label="Explore More categories">
+        <button class="filter-tab active" type="button" data-filter="all" role="tab" aria-selected="true">All questions</button>
+        <button class="filter-tab" type="button" data-filter="polymorphism" role="tab" aria-selected="false">Polymorphism</button>
+        <button class="filter-tab" type="button" data-filter="calling-conventions" role="tab" aria-selected="false">Calling conventions</button>
+      </div>
+    </div>
+
+    <nav class="topic-index" aria-label="Explore More topic index">
+      <a href="#virtual-keyword">Why is the <code>virtual</code> keyword useful?</a>
+      <a href="#cricket-calling-conventions">How does the cricket calling-conventions demo work?</a>
+    </nav>
+
+    <div id="question-list">
+      <article class="question-card" id="virtual-keyword" data-topic="polymorphism" data-search="virtual keyword real use polymorphism runtime dispatch vtable vptr base pointer reference child object parent type">
+        <div class="question-meta"><span>Question 01</span><span>Polymorphism</span><span>Runtime dispatch</span></div>
+        <h2><a href="#virtual-keyword">What is the real use of the <code>virtual</code> keyword?</a></h2>
+        <div class="block"><div class="block-label"><span class="tag why">WHY</span><h4>What confusion does it solve?</h4></div><div class="content"><p>Inheritance alone lets a child object be treated as a parent object, but a call through a parent type normally selects the parent version at compile time. The <code>virtual</code> keyword asks C++ to choose the override at runtime when the call is made through a base pointer or reference.</p><div class="callout"><strong>Simple rule:</strong> the object is created as a <code>Dog</code>, but the variable is a <code>Animal*</code>. Without <code>virtual</code>, the compiler uses the variable's type. With <code>virtual</code>, C++ follows the object's real type.</div></div></div>
+        <div class="block"><div class="block-label"><span class="tag what">WHAT</span><h4>Compile-time call versus runtime call</h4></div><div class="content"><div class="code-card"><div class="code-head"><span class="filename">virtual_dispatch.cpp</span><button class="copy-btn">Copy</button></div><pre><code>#include &lt;iostream&gt;
+using namespace std;
+
+struct Animal {
+    virtual void speak() const { cout &lt;&lt; "Animal sound\n"; }
+    virtual ~Animal() = default;
+};
+
+struct Dog : Animal {
+    void speak() const override { cout &lt;&lt; "Dog bark\n"; }
+};
+
+int main() {
+    Dog dog;
+    Animal* animal = &amp;dog; // parent-typed pointer, child object
+    animal-&gt;speak();      // virtual dispatch: Dog::speak()
+}</code></pre></div><p>The base pointer is the important part. If you call <code>dog.speak()</code> directly, there is no polymorphic decision to make. If you call through <code>Animal*</code> or <code>Animal&amp;</code>, <code>virtual</code> enables runtime dispatch, commonly implemented with a vtable and vptr.</p></div></div>
+        <div class="block"><div class="block-label"><span class="tag how">HOW</span><h4>How to decide whether to use it</h4></div><div class="content"><ul><li>Use <code>virtual</code> when derived classes should provide different behavior through one base interface.</li><li>Add <code>override</code> in the child class so the compiler verifies that a real override exists.</li><li>Give a polymorphic base class a virtual destructor when objects may be deleted through a base pointer.</li><li>Do not add it merely because inheritance exists; use it when runtime behavior must vary by the actual object type.</li></ul></div></div>
+      </article>
+
+      <article class="question-card" id="cricket-calling-conventions" data-topic="calling-conventions" data-search="3_calling_conventionscricket demo calling conventions theory code stack registers cdecl stdcall thiscall fastcall ABI">
+        <div class="question-meta"><span>Question 02</span><span>Calling conventions</span><span>Cricket demo</span></div>
+        <h2><a href="#cricket-calling-conventions">How should I understand <code>3_calling_conventionscricket-demo.cpp</code>?</a></h2>
+        <div class="block"><div class="block-label"><span class="tag why">WHY</span><h4>What problem do calling conventions solve?</h4></div><div class="content"><p>A calling convention is the agreed rule between a caller and a function about how a function call works. It answers questions such as: where do arguments go, where does the return value go, who restores the stack, and which registers may be changed?</p><div class="callout"><strong>Cricket analogy:</strong> the caller is the batter sending the required information, the function is the bowler following the agreed delivery format, and the return value is the result of the ball. Both sides must follow the same rules or the play breaks.</div></div></div>
+        <div class="block"><div class="block-label"><span class="tag what">WHAT</span><h4>What the code is demonstrating</h4></div><div class="content"><p>The demo is not showing a different C++ function body. It is showing that the compiler and platform ABI decide how the same call is represented at machine-code level. On modern 64-bit Windows, many older convention keywords are unified by the platform ABI, so the conceptual lesson is more important than expecting visibly different output.</p><div class="code-card"><div class="code-head"><span class="filename">calling_conventions_concept.cpp</span><button class="copy-btn">Copy</button></div><pre><code>#include &lt;iostream&gt;
+
+int add(int first, int second) {
+    return first + second;
+}
+
+int main() {
+    // The compiler follows the platform ABI for passing these arguments.
+    std::cout &lt;&lt; add(10, 20) &lt;&lt; "\n";
+}</code></pre></div></div></div>
+        <div class="block"><div class="block-label"><span class="tag how">HOW</span><h4>How to read the demo</h4></div><div class="content"><ol><li>Find the function declaration and identify its parameters and return type.</li><li>Find the call site: the caller prepares the arguments according to the ABI.</li><li>At the machine-code level, arguments may use registers or the stack.</li><li>The called function computes the result and returns it using the agreed return mechanism.</li><li>On the same compiler and target, caller and callee automatically use the same rules; mismatches matter when crossing compiler, language, or library boundaries.</li></ol><p>For ordinary application code, let the compiler choose the convention. The topic becomes especially relevant for operating-system APIs, C interoperability, callbacks, plugins, embedded systems, and performance-sensitive assembly interfaces.</p></div></div>
+      </article>
+    </div>
+    <div id="empty-state" class="empty-state">No Explore More topic matches that search.</div>
+  </div>
+</main>
+</div>
+
+<script src="search.js"></script>
+<script>
+(function () {
+  var search = document.getElementById('topic-search');
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.question-card'));
+  var empty = document.getElementById('empty-state');
+  var filters = Array.prototype.slice.call(document.querySelectorAll('.filter-tab'));
+  var activeFilter = 'all';
+
+  function render() {
+    var query = search.value.toLowerCase().trim();
+    var visible = 0;
+    cards.forEach(function (card) {
+      var matchesFilter = activeFilter === 'all' || card.dataset.topic === activeFilter;
+      var matchesSearch = !query || (card.textContent + ' ' + card.dataset.search).toLowerCase().includes(query);
+      card.hidden = !(matchesFilter && matchesSearch);
+      if (!card.hidden) visible += 1;
+    });
+    empty.classList.toggle('visible', visible === 0);
+  }
+
+  search.addEventListener('input', render);
+  filters.forEach(function (button) {
+    button.addEventListener('click', function () {
+      activeFilter = button.dataset.filter;
+      filters.forEach(function (item) {
+        var active = item === button;
+        item.classList.toggle('active', active);
+        item.setAttribute('aria-selected', active ? 'true' : 'false');
+      });
+      render();
+    });
+  });
+}());
+</script>
+</body>
+</html>

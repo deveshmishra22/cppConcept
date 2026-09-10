@@ -29,7 +29,8 @@ int main() {
  
       // safe parsing with error handling
     try {
-        int val = stoi("12ab"); // will parse up to 'a' and then stop? actually throws for invalid
+        int val = stoi("10cbv"); // will parse up to 'a' and then stop? 
+        // stops when any non-numeric character/value comes and then convert rest and proceed as it is.
         cout << val << '\n';
     } catch (const invalid_argument& e) {
         cout << "Invalid argument in stoi\n";

@@ -115,56 +115,56 @@ int main() {
    cout << "Done\n";
 
     // Demonstrate safe memory management using smart pointers
-    // safesingleallocExample();
-    // try
-    // {
-    //     // Demonstrate recursive function to show stack memory usage
-    //     recurseiveFunction(1000); // Adjust the depth as needed
-    // }
-    // catch(const std::exception& e)
-    // {
-    //     cerr << "Exception occurred: " << e.what() << endl;
-    // }
+    safesingleallocExample();
+    try
+    {
+        // Demonstrate recursive function to show stack memory usage
+        recurseiveFunction(1000); // Adjust the depth as needed
+    }
+    catch(const std::exception& e)
+    {
+        cerr << "Exception occurred: " << e.what() << endl;
+    }
 
-    // // Demonstrate double free error
-    // doubefreeExample(); // undefined behavior
+    // Demonstrate double free error
+    doubefreeExample(); // undefined behavior
 
-    // Demonstrate memory leak
-    // for(int i = 0; i < 10000; ++i) {
-    //     leakMemoryExample();
-    //     // In a real application, we would monitor memory usage here to see the leak effect
-    //     // how even it is possible to monitor memory leak in C++?
-    //     // We can use tools like Valgrind (on Linux) or Visual Studio's built-in diagnostic tools (on Windows) to monitor memory usage and detect leaks.
-    //     // These tools can help identify memory that was allocated but not properly deallocated.
+    // // Demonstrate memory leak
+    for(int i = 0; i < 10000; ++i) {
+        leakMemoryExample();
+        // In a real application, we would monitor memory usage here to see the leak effect
+        // how even it is possible to monitor memory leak in C++?
+        // We can use tools like Valgrind (on Linux) or Visual Studio's built-in diagnostic tools (on Windows) to monitor memory usage and detect leaks.
+        // These tools can help identify memory that was allocated but not properly deallocated.
 
-    // }
+    }
 
-    // Demonstrate heap allocation and deallocation
-    //heapAllocateDeallocateExample();
+    // // Demonstrate heap allocation and deallocation
+    heapAllocateDeallocateExample();
 
-    // Show memory addresses
-    //showAddresses();
+    // // Show memory addresses
+    showAddresses();
 
-    //cout << "C++ Memory Types and Management" << endl;
+    cout << "C++ Memory Types and Management" << endl;
 
-    // // Stack Memory Example
-    // int stackVar = 10; // Allocated on stack
-    // cout << "Stack Variable: " << stackVar << endl;
+    // Stack Memory Example
+    int stackVar = 10; // Allocated on stack
+    cout << "Stack Variable: " << stackVar << endl;
 
-    // // Heap Memory Example
-    // int* heapVar = new int(20); // Allocated on heap
-    // cout << "Heap Variable: " << *heapVar << endl;
-    // delete heapVar; // Deallocate heap memory
+    // Heap Memory Example
+    int* heapVar = new int(20); // Allocated on heap
+    cout << "Heap Variable: " << *heapVar << endl;
+    delete heapVar; // Deallocate heap memory
 
-    // // Static/Global Memory Example
-    // static int staticVar = 30; // Allocated in static memory
-    // cout << "Static Variable: " << staticVar << endl;
+    // Static/Global Memory Example
+    static int staticVar = 30; // Allocated in static memory
+    cout << "Static Variable: " << staticVar << endl;
 
-    // // Code/Text Segment is not directly accessible in code, but we can mention it.
-    // cout << "Code/Text Segment contains the compiled program code." << endl;
-    // const char* str = "Hello, World!"; // string literal stored in code/text segment
-    // cout << str << endl;
-    // cout << "Global Variable: " << globalVar << endl;
+    // Code/Text Segment is not directly accessible in code, but we can mention it.
+    cout << "Code/Text Segment contains the compiled program code." << endl;
+    const char* str = "Hello, World!"; // string literal stored in code/text segment
+    cout << str << endl;
+    cout << "Global Variable: " << globalVar << endl;
 
     return 0;
 }

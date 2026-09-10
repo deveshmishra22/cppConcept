@@ -91,6 +91,14 @@
       body: "smart office badge access employee contractor visitor polymorphism capstone exercise" },
     { title: "Capstone-Work2: Nimbus Logistics Challenge", sub: "Practice lab", url: "capstone-work2.html", tab: null,
       body: "nimbus logistics challenge mode templates stl exceptions inheritance overloading repository generic order fulfillment unfinished features todo capstone" },
+
+    // Explore More: student questions and follow-up explanations
+    { title: "Explore More", sub: "Student questions · 2 entries", url: "explore-more.html", tab: null,
+      body: "student questions curiosity follow-up explanations virtual keyword calling conventions cricket demo" },
+    { title: "Why use the virtual keyword?", sub: "Explore More · Polymorphism", url: "explore-more.html#virtual-keyword", tab: null,
+      body: "virtual keyword real use runtime polymorphism dispatch vtable vptr base pointer reference child object parent type override virtual destructor" },
+    { title: "Calling conventions cricket demo", sub: "Explore More · Calling conventions", url: "explore-more.html#cricket-calling-conventions", tab: null,
+      body: "3_calling_conventionscricket demo theory code snippets calling conventions ABI stack registers cdecl stdcall thiscall fastcall" },
   ];
 
   // ─── Score a result against a query ─────────────────────────────
