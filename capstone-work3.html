@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Capstone-Work3: Nimbus Fleet Command - Enterprise C++ Handbook</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-left">
+    <button class="sidebar-toggle" type="button" aria-label="Toggle course navigation" aria-expanded="true">☰</button>
+    <a href="index.html" class="brand"><span class="brand-mark">C++</span><span class="brand-text">Enterprise C++ Handbook<small>Personal notes by Raushan Ranjan</small></span></a>
+  </div>
+  <div class="topbar-center"><label class="search-bar"><span class="search-icon">⌕</span><input class="search-input" type="search" placeholder="Search the handbook" aria-label="Search the handbook"><kbd class="search-kbd">⌘ K</kbd></label></div>
+  <div class="topbar-right"><a href="index.html">All modules</a><a href="index.html#day5">Course map</a></div>
+</div>
+
+<div class="app-layout">
+<aside class="sidebar-left">
+  <div class="sidebar-content">
+    <div class="sidebar-section-title">Course map</div>
+    <nav class="nav-tree" aria-label="Course navigation">
+      <div class="nav-day" data-open="true">
+        <a class="nav-day-toggle" href="index.html#day1"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 1</span><span class="nav-day-subtitle">Foundations</span><span class="nav-day-chevron">›</span></a>
+        <div class="nav-day-body">
+          <div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module0.html">Foundation Enhancer</a></li><li class="nav-topic"><a href="module1.html">C++ Basics</a></li></ul></div>
+        </div>
+      </div>
+      <div class="nav-day" data-open="true">
+        <a class="nav-day-toggle" href="index.html#day2"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 2</span><span class="nav-day-subtitle">Polymorphism</span><span class="nav-day-chevron">›</span></a>
+        <div class="nav-day-body">
+          <div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module2.html">Inheritance &amp; Polymorphism</a></li><li class="nav-topic"><a href="module3.html">Compile-time Polymorphism</a></li></ul></div>
+        </div>
+      </div>
+      <div class="nav-day" data-open="true">
+        <a class="nav-day-toggle" href="index.html#day3"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 3</span><span class="nav-day-subtitle">Robustness</span><span class="nav-day-chevron">›</span></a>
+        <div class="nav-day-body">
+          <div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module4.html">Exception Handling</a></li><li class="nav-topic"><a href="module5.html">Templates &amp; Generics</a></li></ul></div>
+        </div>
+      </div>
+      <div class="nav-day" data-open="true">
+        <a class="nav-day-toggle" href="index.html#day4"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 4</span><span class="nav-day-subtitle">Modern C++</span><span class="nav-day-chevron">›</span></a>
+        <div class="nav-day-body">
+          <div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module6.html">STL &amp; Containers</a></li><li class="nav-topic"><a href="module7.html">Advanced C++ Features</a></li></ul></div>
+        </div>
+      </div>
+      <div class="nav-day" data-open="true">
+        <a class="nav-day-toggle" href="index.html#day5"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 5</span><span class="nav-day-subtitle">Systems &amp; Internals</span><span class="nav-day-chevron">›</span></a>
+        <div class="nav-day-body">
+          <div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module8.html">Systems Programming &amp; Advanced C++ Internals</a></li></ul></div>
+        </div>
+      </div>
+      <div class="nav-day"><a class="nav-day-toggle" href="index.html#day6"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 6</span><span class="nav-day-subtitle">Qt &amp; Capstone</span><span class="nav-day-chevron">›</span></a></div>
+    </nav>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section-title">Resources</div>
+    <ul class="sidebar-resources"><li><a href="repo-guide.html">▣ How to use the repository</a></li><li><a href="module-authoring-context.html">↗ Study flow guide</a></li><li><a href="https://github.com/raushan1107/Advanced-cpp-sample-codes" target="_blank" rel="noopener">↗ Source code</a></li><li><a href="exercise.html">★ Capstone: RR Skillverse Course Tracker</a></li><li><a href="capstone-work1.html">★ Capstone-Work1: Smart Office Access System</a></li><li><a href="capstone-work2.html">★ Capstone-Work2: Nimbus Logistics Challenge</a></li><li><a href="capstone-work3.html"><strong>★ Capstone-Work3: Nimbus Fleet Command</strong></a></li></ul>
+  </div>
+</aside>
+
+<main class="main-content">
+<div class="module-header">
+  <div class="breadcrumb"><a href="index.html">Practice</a> / Capstone-Work3</div>
+  <h1>Capstone-Work3: Nimbus Fleet Command</h1>
+  <p class="sub">Module 8 covered six different systems-level topics across six tabs. This challenge is one program that needs all six. It's a diagnostics agent with <strong>five features</strong> that currently throw a clear "not implemented" message, plus <strong>one structural requirement</strong> about how the finished program must be built — not just what it must do. The file compiles and runs today; your job is to replace each placeholder with real logic and then restructure the build itself.</p>
+  <div class="module-meta"><span><b>Brings together:</b> every Module 8 topic tab</span><span><b>Case study:</b> Nimbus Fleet Command diagnostics relay agent</span><span><b>Estimated time:</b> 70-90 minutes</span><span><b>Repo files:</b> <code>24-Exercises/4_nimbus_fleet_command_challenge.cpp</code>, <code>24-Exercises/4_relay_server.cpp</code></span></div>
+</div>
+
+<div class="tabs-wrap">
+
+  <p class="topic-intro">Picture Nimbus Fleet Command: a diagnostics agent runs on every server rack, watches for trouble, and has to get one report out three different ways before it can trust the report is safe — over the network to a central relay, archived locally through a helper process in case the network is down, with a live system snapshot attached so nobody has to guess whether "slow" means "out of memory." None of that works if the agent copies gigabytes of readings it doesn't need to, and none of the alerts mean anything if the agent can't tell one kind of reading from another at run time.</p>
+
+  <div class="story-also">
+    <p class="story-also-title">What this challenge pulls together</p>
+    <div class="story-also-grid">
+      <div class="story-also-item"><span class="story-also-domain">Additional Topics — RTTI</span>Feature 1: define <code>NetworkEvent</code> and complete <a href="module8.html#t6">the <code>isCritical()</code> dynamic_cast chain</a> across all three event types.</div>
+      <div class="story-also-item"><span class="story-also-domain">Move Semantics</span>Feature 2: <a href="module8.html#t2"><code>buildReport()</code></a> takes ownership of a <code>vector&lt;unique_ptr&lt;DiagnosticEvent&gt;&gt;</code> by value — moved in, never copied.</div>
+      <div class="story-also-item"><span class="story-also-domain">Reading System Info</span>Feature 3: <a href="module8.html#t5"><code>getSystemSnapshot()</code></a> queries <code>SYSTEM_INFO</code> and <code>MEMORYSTATUSEX</code> and formats one line.</div>
+      <div class="story-also-item"><span class="story-also-domain">Networking</span>Feature 4: <a href="module8.html#t1"><code>sendReportOverTcp()</code></a> connects and sends over a real TCP socket, failing softly if the relay isn't up.</div>
+      <div class="story-also-item"><span class="story-also-domain">Pipes &amp; FDs</span>Feature 5: <a href="module8.html#t3"><code>archiveReportViaPipe()</code></a> spawns a child process and hands it the report through an anonymous pipe.</div>
+      <div class="story-also-item"><span class="story-also-domain">Linking</span>Constraint: split the event hierarchy into its own <a href="module8.html#t4">static library, built with <code>ar</code></a>, and link against it instead of compiling it inline.</div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="block-label"><span class="tag why">WHY</span><h4>Why this one has a constraint, not just five TODOs</h4></div>
+    <div class="content">
+      <p>Every earlier capstone asked "can you write the missing logic?" This one adds a second question real systems work always asks: "did you build it the right way?" A function that computes the correct answer but is linked wrong — or a program that crashes the moment the relay server isn't running — is not actually finished, even if every unit of logic inside it is correct. Module 8 spent an entire tab on static vs dynamic linking for exactly this reason: how you build a program is a decision with consequences, not an afterthought once the code compiles.</p>
+      <p>So this file gives you five functions that throw <code>std::logic_error("Feature N not implemented...")</code> exactly where real logic belongs — the same honest-placeholder pattern as Capstone-Work2 — plus one requirement that isn't a function body at all: once your five features pass, you restructure the file itself so the event hierarchy lives in its own statically-linked library. The program compiles and runs today, throwing clear TODO messages; get all five features and the restructure right, and it becomes a small but genuine multi-file, multi-process system.</p>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="block-label"><span class="tag what">WHAT</span><h4>The starter file — run it, and start the relay, before you change anything</h4></div>
+    <div class="content"><p>This compiles and runs as-is. Read every GIVEN section first — the <code>DiagnosticEvent</code>/<code>TempEvent</code>/<code>DiskEvent</code> hierarchy, the <code>NetworkEvent</code> skeleton's fields and constructor, and <code>child_main()</code> are all done for you and establish the exact shape each TODO follows.</p></div>
+    <div class="code-card">
+      <div class="code-head"><span class="filename">4_nimbus_fleet_command_challenge.cpp</span><button class="copy-btn">Copy</button></div>
+      <pre><code>// CHALLENGE MODE — Nimbus Fleet Command: Diagnostics Relay Agent
+//
+// Brings together every topic tab from Module 8:
+//   Networking      : sendReportOverTcp()
+//   Move semantics  : buildReport() takes ownership of the readings vector
+//   Pipes &amp; FDs     : archiveReportViaPipe()
+//   System info     : getSystemSnapshot()
+//   Additional (RTTI): NetworkEvent::describe() + isCritical()
+//   Linking         : see the CONSTRAINT at the bottom of this file
+//
+// This file has 5 features. Each one currently throws a clear
+// "[TODO] ..." message instead of doing real work, so the program compiles
+// and runs today. Fill in one feature at a time, rebuilding after each.
+// Companion file: relay_server.cpp (same folder) — start it before testing
+// Feature 4.
+#include &lt;iostream&gt;
+#include &lt;winsock2.h&gt;
+#include &lt;windows.h&gt;
+#include &lt;sysinfoapi.h&gt;
+#include &lt;memory&gt;
+#include &lt;vector&gt;
+#include &lt;string&gt;
+#include &lt;sstream&gt;
+#include &lt;fstream&gt;
+#include &lt;stdexcept&gt;
+using namespace std;
+
+// ---------- GIVEN: DiagnosticEvent hierarchy ----------
+struct DiagnosticEvent {
+    string source;
+    DiagnosticEvent(string s) : source(move(s)) {}
+    virtual ~DiagnosticEvent() {}
+    virtual string describe() const { return source + ": generic event"; }
+};
+struct TempEvent : DiagnosticEvent {
+    double celsius;
+    TempEvent(string s, double c) : DiagnosticEvent(move(s)), celsius(c) {}
+    string describe() const override { return source + ": temperature " + to_string(celsius) + "C"; }
+};
+struct DiskEvent : DiagnosticEvent {
+    int percentFull;
+    DiskEvent(string s, int pct) : DiagnosticEvent(move(s)), percentFull(pct) {}
+    string describe() const override { return source + ": disk " + to_string(percentFull) + "% full"; }
+};
+
+// ---------- GIVEN: NetworkEvent skeleton — fields and constructor only ----------
+struct NetworkEvent : DiagnosticEvent {
+    int latencyMs;
+    NetworkEvent(string s, int ms) : DiagnosticEvent(move(s)), latencyMs(ms) {}
+
+    // Feature 1a (YOUR TASK): return "&lt;source&gt;: network latency &lt;latencyMs&gt;ms"
+    // e.g. source="Rack-C", latencyMs=610 -&gt; "Rack-C: network latency 610ms"
+    string describe() const override {
+        throw logic_error("Feature 1 not implemented: NetworkEvent::describe()");
+    }
+};
+
+// Feature 1b (YOUR TASK): identify each event's REAL type at run time and
+// apply that type's own critical threshold:
+//   TempEvent    -&gt; critical if celsius    &gt; 90.0
+//   DiskEvent    -&gt; critical if percentFull &gt; 90
+//   NetworkEvent -&gt; critical if latencyMs   &gt; 500
+// Use dynamic_cast&lt;const T*&gt;(&amp;e) for each check; anything else is not critical.
+bool isCritical(const DiagnosticEvent&amp; e) {
+    throw logic_error("Feature 1 not implemented: isCritical()");
+}
+
+// Feature 2 (YOUR TASK): move semantics.
+// This function takes `readings` BY VALUE on purpose — the caller's vector
+// is moved into this parameter, not copied, because a vector&lt;unique_ptr&lt;T&gt;&gt;
+// cannot be copied at all (unique_ptr has no copy constructor). Build an
+// ostringstream starting with the line "=== Fleet Diagnostics Report ===\n",
+// then for every event append e-&gt;describe(), plus " [CRITICAL]" when
+// isCritical(*e) is true, then a newline. Return report.str().
+string buildReport(vector&lt;unique_ptr&lt;DiagnosticEvent&gt;&gt; readings) {
+    throw logic_error("Feature 2 not implemented: buildReport()");
+}
+
+// Feature 3 (YOUR TASK): system info.
+// Fill a SYSTEM_INFO via GetSystemInfo() and a MEMORYSTATUSEX (remember to
+// set memStatus.dwLength = sizeof(memStatus) BEFORE calling
+// GlobalMemoryStatusEx(), or the call fails) and return a string formatted
+// exactly as: "Processors: &lt;N&gt; | Total RAM: &lt;MB&gt; MB"
+string getSystemSnapshot() {
+    throw logic_error("Feature 3 not implemented: getSystemSnapshot()");
+}
+
+// Feature 4 (YOUR TASK): networking.
+// Create a TCP socket, connect() to host:port, and if the connection
+// succeeds, send() the full report. Return true on a successful connect,
+// false otherwise — a failed connect must NOT crash or throw, because the
+// relay server may not be running yet (that's an expected, testable case).
+// Don't forget WSAStartup before and WSACleanup after.
+bool sendReportOverTcp(const string&amp; report, const char* host, int port) {
+    throw logic_error("Feature 4 not implemented: sendReportOverTcp()");
+}
+
+// ---------- GIVEN: the archiver child process (the "-archive" side) ----------
+int child_main() {
+    string line;
+    if (getline(cin, line)) {
+        ofstream log("archive_log.txt", ios::app);
+        log &lt;&lt; line &lt;&lt; "\n";
+        cout &lt;&lt; "[Archiver] Wrote " &lt;&lt; line.size() &lt;&lt; " bytes to archive_log.txt\n";
+    }
+    return 0;
+}
+
+// Feature 5 (YOUR TASK): pipes &amp; file descriptors.
+// Re-launch THIS SAME executable with the argument "archive" (see main()'s
+// argv check and GetModuleFileNameA), connected via an anonymous pipe whose
+// read end becomes the child's stdin (STARTUPINFOA.hStdInput + dwFlags =
+// STARTF_USESTDHANDLES). Write `report` to the pipe's write end, then close
+// it to signal EOF, then WaitForSingleObject on the child. Return true if
+// CreatePipe/CreateProcess both succeeded, false otherwise.
+// Reminder: the child reads ONE line with std::getline — strip or replace
+// any '\n' characters inside `report` before writing it, or the child will
+// only see the first line.
+bool archiveReportViaPipe(const string&amp; report) {
+    throw logic_error("Feature 5 not implemented: archiveReportViaPipe()");
+}
+
+// ---------- GIVEN: wiring it all together ----------
+int main(int argc, char* argv[]) {
+    if (argc &gt;= 2 &amp;&amp; string(argv[1]) == "archive")
+        return child_main();
+
+    vector&lt;unique_ptr&lt;DiagnosticEvent&gt;&gt; readings;
+    readings.push_back(make_unique&lt;TempEvent&gt;("Rack-A", 94.5));
+    readings.push_back(make_unique&lt;DiskEvent&gt;("Rack-B", 42));
+    readings.push_back(make_unique&lt;NetworkEvent&gt;("Rack-C", 610));
+
+    string report;
+    try {
+        report = buildReport(move(readings));
+    } catch (const logic_error&amp; e) {
+        cout &lt;&lt; "[TODO] " &lt;&lt; e.what() &lt;&lt; "\n";
+        report = "=== Fleet Diagnostics Report (placeholder) ===\n";
+    }
+
+    try {
+        report += getSystemSnapshot() + "\n";
+    } catch (const logic_error&amp; e) {
+        cout &lt;&lt; "[TODO] " &lt;&lt; e.what() &lt;&lt; "\n";
+    }
+
+    cout &lt;&lt; report;
+
+    try {
+        if (sendReportOverTcp(report, "127.0.0.1", 9090))
+            cout &lt;&lt; "Report sent to relay.\n";
+        else
+            cout &lt;&lt; "Could not reach relay (start relay_server.exe first).\n";
+    } catch (const logic_error&amp; e) {
+        cout &lt;&lt; "[TODO] " &lt;&lt; e.what() &lt;&lt; "\n";
+    }
+
+    try {
+        if (archiveReportViaPipe(report))
+            cout &lt;&lt; "Report archived via pipe.\n";
+        else
+            cout &lt;&lt; "Archiver pipe failed.\n";
+    } catch (const logic_error&amp; e) {
+        cout &lt;&lt; "[TODO] " &lt;&lt; e.what() &lt;&lt; "\n";
+    }
+}
+
+// ---------- CONSTRAINT (Linking — no TODO stub, this is a structural task) ----------
+// Once all 5 features above pass, move the DiagnosticEvent/TempEvent/
+// DiskEvent/NetworkEvent/isCritical block into its own rttilib.h (declarations)
+// and rttilib.cpp (definitions), matching the Linking tab's rrmathlib.h/.cpp
+// pattern. Compile rttilib.cpp into a static library with `ar`, then link your
+// main.cpp against that library instead of compiling the hierarchy inline.
+// Your submission must include the exact g++/ar commands you used.</code></pre>
+    </div>
+    <div class="output-box"><span class="lbl">Output today (before you touch anything)</span>[TODO] Feature 2 not implemented: buildReport()
+[TODO] Feature 3 not implemented: getSystemSnapshot()
+=== Fleet Diagnostics Report (placeholder) ===
+[TODO] Feature 4 not implemented: sendReportOverTcp()
+[TODO] Feature 5 not implemented: archiveReportViaPipe()</div>
+    <div class="output-box"><span class="lbl">Target output — once all 5 features are correctly implemented (relay_server.exe running)</span>=== Fleet Diagnostics Report ===
+Rack-A: temperature 94.500000C [CRITICAL]
+Rack-B: disk 42% full
+Rack-C: network latency 610ms [CRITICAL]
+Processors: 12 | Total RAM: 16052 MB
+Report sent to relay.
+Report archived via pipe.</div>
+    <div class="quickguide">
+      <p class="qg-title">Run it in VS Code</p>
+      <ol>
+        <li>Create a folder named <code>capstone-work3</code> and open it in VS Code.</li>
+        <li>Save the code above as <code>4_nimbus_fleet_command_challenge.cpp</code>, and copy <code>relay_server.cpp</code> into the same folder (both live in the repo at <code>24-Exercises/</code>, filenames <code>4_nimbus_fleet_command_challenge.cpp</code> and <code>4_relay_server.cpp</code>).</li>
+        <li>Compile the agent: <code>g++ -std=c++17 4_nimbus_fleet_command_challenge.cpp -o agent -lws2_32</code>. Compile the relay: <code>g++ -std=c++17 4_relay_server.cpp -o relay_server -lws2_32</code>.</li>
+        <li>Start <code>relay_server.exe</code> first, in its own terminal — restart it before every test run, since it exits after receiving one report.</li>
+        <li>Run <code>agent.exe</code> in a second terminal. Confirm your output matches "Output today" exactly before you change a single line.</li>
+      </ol>
+    </div>
+    <div class="callout"><strong>Before you touch Feature 1:</strong> explain out loud why <code>main()</code> never had to change to add a third event type. If you can point at the line that makes <code>isCritical()</code> work for <em>any</em> <code>DiagnosticEvent</code> without knowing which subclass it is, you understand exactly what run-time type identification is buying you here.</div>
+  </div>
+
+  <div class="block">
+    <div class="block-label"><span class="tag how">HOW</span><h4>Your task — five features and one build constraint</h4></div>
+
+    <div class="task-card">
+      <div class="task-label">Constraints — read before you start</div>
+      <h3>Things that will compile fine and still be wrong</h3>
+      <ul class="hint-list">
+        <li><strong>Exactly one WSAStartup/WSACleanup pair.</strong> Both belong inside <code>sendReportOverTcp()</code> for this exercise — don't call <code>WSAStartup</code> anywhere else, and don't skip <code>WSACleanup</code> on the failure path.</li>
+        <li><strong>A failed connect is not an error.</strong> <code>sendReportOverTcp()</code> must return <code>false</code> and let <code>main()</code> print "Could not reach relay" — it must never throw or crash when <code>relay_server.exe</code> isn't running. Test both with and without the relay running.</li>
+        <li><strong>Don't change buildReport's parameter to a reference.</strong> The whole point of Feature 2 is that the parameter is taken by value so the caller's vector is moved in. Changing it to <code>const vector&lt;...&gt;&amp;</code> would "fix" a compile error the wrong way — <code>unique_ptr</code> has no copy constructor, so if you find yourself fighting the compiler here, you've mis-called the function in <code>main()</code>, not mis-declared it.</li>
+        <li><strong>GlobalMemoryStatusEx fails silently if you forget dwLength.</strong> Set <code>memStatus.dwLength = sizeof(memStatus)</code> before the call, not after.</li>
+        <li><strong>The pipe carries exactly one line.</strong> <code>child_main()</code> reads with a single <code>std::getline</code>. If your report string still contains <code>'\n'</code> characters when you write it to the pipe, the archiver only sees the first line — replace newlines (a space or <code>|</code> both work) before writing.</li>
+        <li><strong>The linking constraint is not optional and not a TODO stub.</strong> A version that still compiles the event hierarchy directly into one <code>.cpp</code> file has not met the Linking requirement, even if all 5 features are correct. Submissions must show a separate <code>rttilib.h</code>/<code>rttilib.cpp</code>, a static library built with <code>ar</code>, and a final link step against that library.</li>
+      </ul>
+    </div>
+
+    <div class="task-card">
+      <div class="task-label">Homework / assessment</div>
+      <h3>Finish Features 1 through 5, then apply the Linking constraint</h3>
+      <p>Each feature is independent — finishing one does not require finishing another, though Feature 2 calls Feature 1's <code>isCritical()</code>, so an unfinished Feature 1 will surface as a "[TODO] Feature 1..." message even while you're testing Feature 2. Work through the five features in whatever order you like, recompiling and rerunning after each change, then finish with the Linking restructure described in the constraints above.</p>
+      <ol>
+        <li><strong>Feature 1 — NetworkEvent + isCritical.</strong> Implement <code>NetworkEvent::describe()</code> and the full <code>isCritical()</code> body with three <code>dynamic_cast</code> checks and their thresholds.</li>
+        <li><strong>Feature 2 — buildReport.</strong> Build the report string from the moved-in <code>readings</code> vector using <code>describe()</code> and <code>isCritical()</code>.</li>
+        <li><strong>Feature 3 — getSystemSnapshot.</strong> Query <code>SYSTEM_INFO</code> and <code>MEMORYSTATUSEX</code> and format the one-line snapshot.</li>
+        <li><strong>Feature 4 — sendReportOverTcp.</strong> Connect and send over a real TCP socket, handling a failed connect gracefully.</li>
+        <li><strong>Feature 5 — archiveReportViaPipe.</strong> Spawn the archiver child process over an anonymous pipe and write the report to it.</li>
+        <li><strong>Linking constraint.</strong> Extract the event hierarchy into <code>rttilib.h</code>/<code>rttilib.cpp</code>, build a static library with <code>ar</code>, and link your main program against it.</li>
+      </ol>
+      <p class="hint-title">Hints, not the answer</p>
+      <ul class="hint-list">
+        <li>Every TODO function already has the correct signature and is already called from the right place in <code>main()</code> — you are filling in a body, not designing new wiring.</li>
+        <li>For Feature 1, look at how <code>TempEvent::describe()</code> and <code>DiskEvent::describe()</code> are written a few lines above <code>NetworkEvent</code> — same shape, different field and wording.</li>
+        <li>For Feature 3, the format string in the Reading System Info tab's own demo (<code>sysinfo_step.cpp</code>) uses exactly the same two API calls in exactly the same order.</li>
+        <li>For Feature 4 and Feature 5, the Networking and Pipes &amp; FDs tabs' own HOW-block code cards are close to line-for-line what these two functions need — the difference is mostly which variable holds the data being sent.</li>
+        <li>For the Linking constraint, the Linking tab's <code>rrmathlib.h</code>/<code>rrmathlib.cpp</code> pair plus its three build commands (combined, static <code>.a</code> via <code>ar</code>, dynamic <code>.dll</code>) is the exact pattern — you only need the static-library path here, not the dynamic one.</li>
+        <li>If a section still prints <code>[TODO] ...</code> after you believe you're done, search the file for the literal text <code>not implemented</code> to make sure none are left in the feature you just touched.</li>
+      </ul>
+    </div>
+
+    <div class="submission-card">
+      <strong>Submit for evaluation</strong>
+      <p>Send your finished files to the trainer's cohort email.</p>
+      <div><b>Subject:</b> <code>Capstone Task - Your Name - nimbus_fleet_command.cpp</code></div>
+      <div><b>Body:</b> <code>Your Name | Capstone-Work3 | compiler used | the exact g++/ar commands you used for the static library</code></div>
+      <p>Attach <code>main.cpp</code>, <code>rttilib.h</code>, <code>rttilib.cpp</code>, and <code>relay_server.cpp</code>, with all 5 <code>throw logic_error(...)</code> placeholders replaced by real logic and your output matching "Target output" exactly.</p>
+    </div>
+  </div>
+
+  <div class="topic-nav">
+    <a class="btn btn-ghost" href="module8.html">← Back to Systems Programming &amp; Advanced C++ Internals</a>
+    <a class="btn btn-primary" href="index.html#day5">Back to course map →</a>
+  </div>
+
+</div>
+</main>
+</div>
+<footer>Capstone-Work3 · Enterprise C++ Training Programme · Personal notes by <strong>Raushan Ranjan</strong></footer>
+<script>
+function initSidebar(){const toggle=document.querySelector('.sidebar-toggle'),sidebar=document.querySelector('.sidebar-left');if(!toggle||!sidebar)return;const desktop=window.matchMedia('(min-width: 861px)');toggle.addEventListener('click',()=>{if(desktop.matches){const collapsed=document.body.classList.toggle('sidebar-collapsed');toggle.setAttribute('aria-expanded',String(!collapsed));}else sidebar.classList.toggle('open');});sidebar.querySelectorAll('a:not(.nav-day-toggle)').forEach(link=>link.addEventListener('click',()=>sidebar.classList.remove('open')));}
+function initNavGroups(){document.querySelectorAll('.nav-day').forEach(day=>{const toggle=day.querySelector(':scope > .nav-day-toggle'),body=day.querySelector(':scope > .nav-day-body');if(!toggle||!body)return;toggle.setAttribute('aria-expanded',String(day.dataset.open==='true'));toggle.addEventListener('click',event=>{event.preventDefault();const open=day.dataset.open==='true';day.dataset.open=String(!open);toggle.setAttribute('aria-expanded',String(!open));});});}
+function initNavModules(){document.querySelectorAll('.nav-module').forEach(module=>{const label=module.querySelector(':scope > .nav-module-label'),content=module.querySelector(':scope > .nav-topics, :scope > .nav-tabs');if(!label||!content)return;module.dataset.open=module.dataset.open||'true';label.setAttribute('role','button');label.setAttribute('tabindex','0');label.setAttribute('aria-expanded',String(module.dataset.open==='true'));const toggle=()=>{const open=module.dataset.open==='true';module.dataset.open=String(!open);label.setAttribute('aria-expanded',String(!open));};label.addEventListener('click',toggle);label.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle();}});});}
+function initCopyButtons(){document.querySelectorAll('.copy-btn').forEach(btn=>btn.addEventListener('click',async()=>{const code=btn.closest('.code-card').querySelector('code').innerText;try{await navigator.clipboard.writeText(code);}catch(e){const ta=document.createElement('textarea');ta.value=code;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();}btn.textContent='Copied';setTimeout(()=>btn.textContent='Copy',1200);}));}
+document.addEventListener('DOMContentLoaded',()=>{initSidebar();initNavGroups();initNavModules();initCopyButtons();});
+</script>
+<script src="search.js"></script>
+</body>
+</html>

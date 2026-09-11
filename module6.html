@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 6: Standard Template Library - Enterprise C++ Handbook</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-left">
+    <button class="sidebar-toggle" type="button" aria-label="Toggle course navigation" aria-expanded="true">☰</button>
+    <a href="index.html" class="brand"><span class="brand-mark">C++</span><span class="brand-text">Enterprise C++ Handbook<small>Personal notes by Raushan Ranjan</small></span></a>
+  </div>
+  <div class="topbar-center"><label class="search-bar"><span class="search-icon">⌕</span><input class="search-input" type="search" placeholder="Search the handbook" aria-label="Search the handbook"><kbd class="search-kbd">⌘ K</kbd></label></div>
+  <div class="topbar-right"><a href="index.html">All modules</a><a href="index.html#day4">Curriculum</a><a class="btn-notes" href="index.html#day4">Modern C++</a></div>
+</div>
+
+<div class="app-layout">
+<aside class="sidebar-left">
+  <div class="sidebar-content">
+    <div class="sidebar-section-title">Course map</div>
+    <nav class="nav-tree" aria-label="Course navigation">
+      <div class="nav-day">
+        <a class="nav-day-toggle" href="index.html#day1" aria-expanded="false"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 1</span><span class="nav-day-subtitle">Foundations</span><span class="nav-day-chevron">›</span></a>
+        <div class="nav-day-body">
+          <div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module0.html">Foundation Enhancer</a></li><li class="nav-topic"><a href="module1.html">C++ Basics</a></li></ul></div>
+        </div>
+      </div>
+      <div class="nav-day">
+        <a class="nav-day-toggle" href="index.html#day2" aria-expanded="false"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 2</span><span class="nav-day-subtitle">Polymorphism</span><span class="nav-day-chevron">›</span></a>
+        <div class="nav-day-body">
+          <div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module2.html">Inheritance &amp; Polymorphism</a></li><li class="nav-topic"><a href="module3.html">Compile-time Polymorphism</a></li></ul></div>
+        </div>
+      </div>
+      <div class="nav-day">
+        <a class="nav-day-toggle" href="index.html#day3" aria-expanded="false"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 3</span><span class="nav-day-subtitle">Robustness</span><span class="nav-day-chevron">›</span></a>
+        <div class="nav-day-body">
+          <div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module4.html">Exception Handling</a></li><li class="nav-topic"><a href="module5.html">Templates &amp; Generics</a></li></ul></div>
+        </div>
+      </div>
+      <div class="nav-day" data-open="true">
+        <a class="nav-day-toggle" href="index.html#day4"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 4</span><span class="nav-day-subtitle">Modern C++</span><span class="nav-day-chevron">›</span></a>
+        <div class="nav-day-body">
+          <div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a class="active" href="module6.html">STL &amp; Containers</a></li><li class="nav-topic"><a href="module7.html">Advanced C++</a></li></ul></div>
+          <div class="nav-module"><div class="nav-module-label">Topics</div><div class="nav-tabs">
+            <button class="nav-tab active" data-tab="t1">01 Sequence containers</button>
+            <button class="nav-tab" data-tab="t2">02 Associative containers</button>
+            <button class="nav-tab" data-tab="t3">03 Algorithms</button>
+            <button class="nav-tab" data-tab="t4">04 Iterators</button>
+            <button class="nav-tab" data-tab="t5">05 🎬 Story Mode</button>
+          </div></div>
+        </div>
+      </div>
+      <div class="nav-day"><a class="nav-day-toggle" href="index.html#day5"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 5</span><span class="nav-day-subtitle">Systems &amp; Internals</span><span class="nav-day-chevron">›</span></a><div class="nav-day-body"><div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module8.html">Systems Programming &amp; Advanced C++ Internals</a></li></ul></div></div></div>
+      <div class="nav-day"><a class="nav-day-toggle" href="index.html#day6"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 6</span><span class="nav-day-subtitle">Qt &amp; Capstone</span><span class="nav-day-chevron">›</span></a></div>
+    </nav>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section-title">Resources</div>
+    <ul class="sidebar-resources"><li><a href="https://github.com/raushan1107/Advanced-cpp-sample-codes" target="_blank" rel="noopener">↗ Source code</a></li><li><a href="index.html#day4">▣ Course overview</a></li></ul>
+  </div>
+</aside>
+
+<main class="main-content">
+<div class="module-header">
+  <div class="breadcrumb"><a href="index.html#day4">Modern C++</a> / Module 6</div>
+  <h1>Standard Template Library</h1>
+  <p class="sub">The STL gives you battle-tested, zero-overhead containers, iterators, and algorithms — so you spend time on your problem, not on reimplementing sort or search.</p>
+  <div class="module-meta"><span><b>Day:</b> 4 of 6</span><span><b>Topics:</b> 4 + Story Mode</span><span><b>Case study:</b> Student records analyzer</span><span><b>Repo folder:</b> <code>12-DataStrucCollections/</code></span></div>
+</div>
+
+<div class="tabs-wrap">
+  <div class="tabbar"><button data-tab="t1" class="active">01 Sequence containers</button><button data-tab="t2">02 Associative containers</button><button data-tab="t3">03 Algorithms</button><button data-tab="t4">04 Iterators</button><button data-tab="t5">05 🎬 Story Mode</button></div>
+
+  <!-- TAB 1: Sequence containers -->
+  <div class="tabpanel active" id="t1">
+    <p class="topic-intro">Before STL, C++ programmers chose between raw arrays (fixed size, no bounds checking) or manual dynamic allocation. Sequence containers give you type-safe, growable sequences with correct memory management built in.</p>
+
+    <div class="block">
+      <div class="block-label"><span class="tag why">WHY</span><h4>Why fixed arrays aren't enough</h4></div>
+      <div class="content">
+        <p>A C-style array <code>int arr[100]</code> has fixed size decided at compile time — add a 101st element and you corrupt memory silently.</p>
+        <p>A raw pointer with <code>new int[n]</code> grows at runtime but has no size tracking, no bounds checking, and requires manual <code>delete[]</code>.</p>
+        <p>Sequence containers solve both: they manage their own memory, track size, provide bounds-checked access (<code>.at()</code>), and clean up automatically.</p>
+        <p>Choose the right container for the access pattern: <code>vector</code> for random access, <code>list</code> for mid-sequence insertions, <code>deque</code> for both-ends operations.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag what">WHAT</span><h4>Three sequence containers defined</h4></div>
+      <div class="content">
+        <ul>
+          <li><code>std::vector&lt;T&gt;</code> — dynamic array backed by contiguous memory. O(1) random access (<code>v[i]</code>), amortized O(1) push_back, O(n) insert/erase in middle. <strong>Default choice</strong> for almost everything.</li>
+          <li><code>std::list&lt;T&gt;</code> — doubly-linked list. O(1) insert and erase anywhere (given an iterator), but no random access and poor cache locality. Use when you frequently insert/erase inside a large sequence.</li>
+          <li><code>std::deque&lt;T&gt;</code> — double-ended queue in chunks of memory. O(1) at both ends (push_front AND push_back), O(1) random access. Useful when you need a FIFO queue or stack at one end and indexed access at the other.</li>
+          <li><strong>Capacity vs size</strong>: <code>vector</code> has <code>.size()</code> (elements stored) and <code>.capacity()</code> (allocated space). Call <code>v.reserve(n)</code> to pre-allocate and avoid repeated reallocations.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag how">HOW</span><h4>vector push/iterate/erase, then list mid-insert</h4></div>
+      <div class="code-card">
+        <div class="code-head"><span class="filename">step1_sequence.cpp</span><button class="copy-btn">Copy</button></div>
+        <pre><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;list&gt;
+#include &lt;string&gt;
+
+int main() {
+    // --- vector ---
+    std::vector&lt;std::string&gt; students;
+    students.push_back("Alice");
+    students.push_back("Bob");
+    students.push_back("Carol");
+
+    students[1] = "Barbara";          // O(1) random access
+
+    for (const auto&amp; name : students)
+        std::cout &lt;&lt; name &lt;&lt; "\n";
+
+    // erase "Barbara" (index 1)
+    students.erase(students.begin() + 1);
+    std::cout &lt;&lt; "After erase: " &lt;&lt; students.size() &lt;&lt; " students\n\n";
+
+    // --- list ---
+    std::list&lt;int&gt; scores = {85, 72, 90};
+    auto it = scores.begin();
+    ++it;                              // advance to 72
+    scores.insert(it, 78);            // insert 78 before 72
+    for (int s : scores) std::cout &lt;&lt; s &lt;&lt; " ";
+    std::cout &lt;&lt; "\n";
+}</code></pre>
+      </div>
+      <div class="output-box"><span class="lbl">Expected output</span>Alice
+Barbara
+Carol
+After erase: 2 students
+
+85 78 72 90</div>
+      <div class="quickguide">
+        <p class="qg-title">Run it and experiment</p>
+        <ol>
+          <li>Save as <code>step1_sequence.cpp</code>, compile: <code>g++ -std=c++17 step1_sequence.cpp -o step1</code></li>
+          <li>Run: <code>step1.exe</code> (Windows) or <code>./step1</code> (Linux/macOS)</li>
+          <li><strong>Experiment 1:</strong> Call <code>students.at(10)</code> — it throws <code>std::out_of_range</code>, while <code>students[10]</code> is undefined behaviour with no error.</li>
+          <li><strong>Experiment 2:</strong> Insert 1000 names in a loop and time it with <code>vector</code> vs <code>list</code> — vector is faster because it is cache-friendly.</li>
+          <li><strong>Experiment 3:</strong> Try <code>students.reserve(100)</code> before the loop and check <code>.capacity()</code> after.</li>
+        </ol>
+      </div>
+      <div class="callout"><strong>Reference:</strong> <a href="https://en.cppreference.com/w/cpp/container/vector" target="_blank" rel="noopener">cppreference — std::vector</a> — capacity management, iterator invalidation rules, and complexity guarantees.</div>
+    </div>
+
+    <div class="topic-nav">
+      <span></span>
+      <button class="btn btn-primary" onclick="document.querySelector('[data-tab=t2]').click()">Next: Associative containers →</button>
+    </div>
+  </div>
+
+  <!-- TAB 2: Associative containers -->
+  <div class="tabpanel" id="t2">
+    <p class="topic-intro">Searching a vector is O(n) — fine for ten items, painful for ten thousand. Associative containers index by key and give you O(log n) or O(1) average lookup.</p>
+
+    <div class="block">
+      <div class="block-label"><span class="tag why">WHY</span><h4>Linear search doesn't scale</h4></div>
+      <div class="content">
+        <p><code>std::find</code> on a vector of 1M names checks each element until it finds a match: on average 500,000 comparisons per lookup.</p>
+        <p>A <code>std::map</code> stores keys in a balanced binary search tree — any key lookup is at most log₂(1,000,000) ≈ 20 comparisons regardless of table size.</p>
+        <p>A <code>std::unordered_map</code> uses a hash table — average O(1) lookup, no ordering. Preferred when order doesn't matter and keys are hashable (strings, ints).</p>
+        <p>Use a <code>std::set</code> when you only need membership testing (is this name already in the list?) rather than value lookup.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag what">WHAT</span><h4>Four associative containers</h4></div>
+      <div class="content">
+        <ul>
+          <li><code>std::map&lt;K,V&gt;</code> — sorted BST keyed by K. Iterating gives keys in ascending order. O(log n) insert/find/erase. Use <code>[]</code> to insert or update; use <code>.count(key)</code> or <code>.find()</code> to check without inserting.</li>
+          <li><code>std::unordered_map&lt;K,V&gt;</code> — hash table. O(1) average. No order. Needs <code>std::hash&lt;K&gt;</code> (built in for string/int/etc). Prefer when order doesn't matter.</li>
+          <li><code>std::set&lt;T&gt;</code> — sorted unique values. Insert/erase/find O(log n). Useful for deduplication and membership tests.</li>
+          <li><code>std::unordered_set&lt;T&gt;</code> — hash set. O(1) average membership test. No order.</li>
+          <li>Structured bindings with <code>for (const auto&amp; [k, v] : m)</code> — C++17 syntax that unpacks map pairs.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag how">HOW</span><h4>Grade lookup by name with map and unordered_map</h4></div>
+      <div class="code-card">
+        <div class="code-head"><span class="filename">step2_associative.cpp</span><button class="copy-btn">Copy</button></div>
+        <pre><code>#include &lt;iostream&gt;
+#include &lt;map&gt;
+#include &lt;unordered_map&gt;
+#include &lt;string&gt;
+
+int main() {
+    // map: sorted by key
+    std::map&lt;std::string, int&gt; grades;
+    grades["Alice"] = 92;
+    grades["Bob"]   = 78;
+    grades["Carol"] = 85;
+    grades["David"] = 91;
+
+    // Iterates in alphabetical key order
+    for (const auto&amp; [name, grade] : grades)
+        std::cout &lt;&lt; name &lt;&lt; ": " &lt;&lt; grade &lt;&lt; "\n";
+
+    // Safe lookup (never inserts a default)
+    if (grades.count("Eve") == 0)
+        std::cout &lt;&lt; "Eve not enrolled\n";
+
+    auto it = grades.find("Bob");
+    if (it != grades.end())
+        std::cout &lt;&lt; "Bob's grade: " &lt;&lt; it-&gt;second &lt;&lt; "\n";
+
+    // unordered_map: O(1) average, no order guarantee
+    std::unordered_map&lt;std::string, int&gt; ids = {
+        {"Alice", 1001}, {"Bob", 1002}
+    };
+    std::cout &lt;&lt; "Alice's ID: " &lt;&lt; ids["Alice"] &lt;&lt; "\n";
+}</code></pre>
+      </div>
+      <div class="output-box"><span class="lbl">Expected output</span>Alice: 92
+Bob: 78
+Carol: 85
+David: 91
+Eve not enrolled
+Bob's grade: 78
+Alice's ID: 1001</div>
+      <div class="quickguide">
+        <p class="qg-title">Run it and experiment</p>
+        <ol>
+          <li>Compile: <code>g++ -std=c++17 step2_associative.cpp -o step2</code>, run.</li>
+          <li><strong>Experiment 1:</strong> Change <code>std::map</code> to <code>std::unordered_map</code> — the for loop now prints names in an unpredictable order (hash order).</li>
+          <li><strong>Experiment 2:</strong> Access <code>grades["Eve"]</code> without <code>.count()</code> first — a default-constructed value (0) is inserted. Check <code>.size()</code> before and after.</li>
+          <li><strong>Experiment 3:</strong> Measure with 100,000 entries: does <code>find</code> feel faster with map or unordered_map? (Hint: unordered for large sets, map when you need sorted iteration.)</li>
+        </ol>
+      </div>
+      <div class="callout"><strong>Reference:</strong> <a href="https://en.cppreference.com/w/cpp/container/map" target="_blank" rel="noopener">cppreference: std::map</a> — node-based storage, iterator stability, and ordered traversal guarantees.</div>
+    </div>
+
+    <div class="topic-nav">
+      <button class="btn btn-ghost" onclick="document.querySelector('[data-tab=t1]').click()">← Sequence containers</button>
+      <button class="btn btn-primary" onclick="document.querySelector('[data-tab=t3]').click()">Next: Algorithms →</button>
+    </div>
+  </div>
+
+  <!-- TAB 3: Algorithms -->
+  <div class="tabpanel" id="t3">
+    <p class="topic-intro">Every program eventually sorts a list or searches for an item. The &lt;algorithm&gt; header provides correct, optimized implementations of these operations — generic across all containers that provide iterators.</p>
+
+    <div class="block">
+      <div class="block-label"><span class="tag why">WHY</span><h4>Don't rewrite sort and search</h4></div>
+      <div class="content">
+        <p>A hand-written bubble sort is O(n²). <code>std::sort</code> uses introsort — O(n log n) average and worst case. Using the standard version costs zero extra lines and gives you production-tested code.</p>
+        <p>All STL algorithms work through iterators. The same <code>std::sort</code> that sorts a <code>vector</code> also sorts an array. The same <code>std::find_if</code> that searches a <code>list</code> also searches a <code>deque</code>. No specialization needed.</p>
+        <p>Algorithms compose: <code>std::transform</code> + <code>std::accumulate</code> expresses a map-reduce pipeline in two lines without any index variables.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag what">WHAT</span><h4>Six essential algorithms</h4></div>
+      <div class="content">
+        <ul>
+          <li><code>std::sort(begin, end)</code> — sorts in ascending order in-place. O(n log n).</li>
+          <li><code>std::sort(begin, end, comparator)</code> — sorts by a custom predicate. Comparator returns <code>true</code> if first arg comes before second.</li>
+          <li><code>std::find_if(begin, end, pred)</code> — returns iterator to first element where <code>pred(elem)</code> is true, or <code>end</code> if none matches.</li>
+          <li><code>std::count_if(begin, end, pred)</code> — returns count of elements satisfying predicate.</li>
+          <li><code>std::transform(in_begin, in_end, out_begin, op)</code> — applies <code>op</code> to each input element, writing results to output. Use <code>std::back_inserter(v)</code> as out_begin to append to a vector.</li>
+          <li><code>std::accumulate(begin, end, init)</code> — folds the range with <code>+</code> starting from <code>init</code>. In <code>&lt;numeric&gt;</code>.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag how">HOW</span><h4>Sort, find, count and average a student list</h4></div>
+      <div class="code-card">
+        <div class="code-head"><span class="filename">step3_algorithms.cpp</span><button class="copy-btn">Copy</button></div>
+        <pre><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+#include &lt;numeric&gt;
+#include &lt;string&gt;
+
+struct Student { std::string name; int grade; };
+
+int main() {
+    std::vector&lt;Student&gt; students = {
+        {"Alice", 92}, {"Bob", 78}, {"Carol", 85}, {"David", 91}
+    };
+
+    // Sort by grade descending
+    std::sort(students.begin(), students.end(),
+              [](const Student&amp; a, const Student&amp; b){ return a.grade &gt; b.grade; });
+
+    std::cout &lt;&lt; "Ranked:\n";
+    for (const auto&amp; s : students)
+        std::cout &lt;&lt; "  " &lt;&lt; s.name &lt;&lt; ": " &lt;&lt; s.grade &lt;&lt; "\n";
+
+    // First student with grade &gt;= 90
+    auto top = std::find_if(students.begin(), students.end(),
+                            [](const Student&amp; s){ return s.grade &gt;= 90; });
+    if (top != students.end())
+        std::cout &lt;&lt; "Top scorer: " &lt;&lt; top-&gt;name &lt;&lt; "\n";
+
+    // Count passing (&gt;= 80)
+    int passing = std::count_if(students.begin(), students.end(),
+                                [](const Student&amp; s){ return s.grade &gt;= 80; });
+    std::cout &lt;&lt; "Passing: " &lt;&lt; passing &lt;&lt; "/" &lt;&lt; students.size() &lt;&lt; "\n";
+
+    // Average grade via transform + accumulate
+    std::vector&lt;int&gt; scores;
+    std::transform(students.begin(), students.end(),
+                   std::back_inserter(scores),
+                   [](const Student&amp; s){ return s.grade; });
+    double avg = static_cast&lt;double&gt;(
+        std::accumulate(scores.begin(), scores.end(), 0)) / scores.size();
+    std::cout &lt;&lt; "Average: " &lt;&lt; avg &lt;&lt; "\n";
+}</code></pre>
+      </div>
+      <div class="output-box"><span class="lbl">Expected output</span>Ranked:
+  Alice: 92
+  David: 91
+  Carol: 85
+  Bob: 78
+Top scorer: Alice
+Passing: 3/4
+Average: 86.5</div>
+      <div class="quickguide">
+        <p class="qg-title">Run it and experiment</p>
+        <ol>
+          <li>Compile: <code>g++ -std=c++17 step3_algorithms.cpp -o step3</code>, run.</li>
+          <li><strong>Experiment 1:</strong> Change the sort comparator to <code>a.grade &lt; b.grade</code> — list now ascending; note <code>find_if</code> with <code>&gt;= 90</code> now returns <code>David</code> first.</li>
+          <li><strong>Experiment 2:</strong> Use <code>std::min_element</code> / <code>std::max_element</code> with the same lambda comparator to find the bottom and top scores in one call each.</li>
+          <li><strong>Experiment 3:</strong> Replace the transform+accumulate pair with <code>std::reduce</code> (C++17, also in <code>&lt;numeric&gt;</code>) and compare.</li>
+        </ol>
+      </div>
+      <div class="callout"><strong>Reference:</strong> <a href="https://en.cppreference.com/w/cpp/algorithm" target="_blank" rel="noopener">cppreference: Algorithm library</a> — full list of standard algorithms with complexity, iterator requirements, and examples.</div>
+    </div>
+
+    <div class="topic-nav">
+      <button class="btn btn-ghost" onclick="document.querySelector('[data-tab=t2]').click()">← Associative containers</button>
+      <button class="btn btn-primary" onclick="document.querySelector('[data-tab=t4]').click()">Next: Iterators →</button>
+    </div>
+  </div>
+
+  <!-- TAB 4: Iterators -->
+  <div class="tabpanel" id="t4">
+    <p class="topic-intro">Iterators are the bridge between containers and algorithms. An algorithm never knows which container it is working on — it only knows how to advance an iterator and dereference it. That one abstraction makes every algorithm work with every container.</p>
+
+    <div class="block">
+      <div class="block-label"><span class="tag why">WHY</span><h4>Why algorithms don't take containers</h4></div>
+      <div class="content">
+        <p>If <code>std::sort</code> accepted <code>std::vector</code> directly, you would need a separate <code>listSort</code>, <code>dequeSort</code>, and <code>arraySort</code>. That defeats the purpose of a generic library.</p>
+        <p>Iterators define a uniform vocabulary: <code>*it</code> dereferences, <code>++it</code> advances, <code>it != end</code> tests for completion. Any type that satisfies those operations works with any algorithm that needs them.</p>
+        <p><code>begin(c)</code> and <code>end(c)</code> give iterators to the first element and one-past-the-last — this half-open range <code>[begin, end)</code> is the universal convention throughout the STL.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag what">WHAT</span><h4>Iterator categories and key operations</h4></div>
+      <div class="content">
+        <ul>
+          <li><strong>Input/Output iterators</strong>: single-pass read or write. <code>std::istream_iterator</code> and <code>std::ostream_iterator</code> are examples.</li>
+          <li><strong>Forward iterators</strong>: multi-pass forward traversal. <code>std::list</code> and <code>std::forward_list</code> iterators.</li>
+          <li><strong>Bidirectional iterators</strong>: forward and backward (<code>--it</code>). <code>std::list</code>, <code>std::map</code> iterators.</li>
+          <li><strong>Random-access iterators</strong>: jump by n in O(1) (<code>it + 5</code>, <code>it - 3</code>). <code>std::vector</code> and <code>std::deque</code> iterators.</li>
+          <li><code>rbegin()</code> / <code>rend()</code> — reverse iterators; <code>++</code> on a reverse iterator moves backward through the container.</li>
+          <li><code>std::back_inserter(v)</code> — an output iterator adapter that calls <code>push_back</code> on every assignment. Lets algorithms write into a vector without pre-sizing it.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag how">HOW</span><h4>Forward, reverse, copy, and filter with iterators</h4></div>
+      <div class="code-card">
+        <div class="code-head"><span class="filename">step4_iterators.cpp</span><button class="copy-btn">Copy</button></div>
+        <pre><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+#include &lt;iterator&gt;
+
+int main() {
+    std::vector&lt;int&gt; scores = {85, 92, 78, 91, 88};
+
+    // Forward iteration via explicit iterators
+    std::cout &lt;&lt; "Forward:  ";
+    for (auto it = scores.begin(); it != scores.end(); ++it)
+        std::cout &lt;&lt; *it &lt;&lt; " ";
+    std::cout &lt;&lt; "\n";
+
+    // Reverse iteration
+    std::cout &lt;&lt; "Reversed: ";
+    for (auto it = scores.rbegin(); it != scores.rend(); ++it)
+        std::cout &lt;&lt; *it &lt;&lt; " ";
+    std::cout &lt;&lt; "\n";
+
+    // Copy to stdout with ostream_iterator
+    std::cout &lt;&lt; "Copy:     ";
+    std::copy(scores.begin(), scores.end(),
+              std::ostream_iterator&lt;int&gt;(std::cout, " "));
+    std::cout &lt;&lt; "\n";
+
+    // Filter with back_inserter -- no manual push_back loop needed
+    std::vector&lt;int&gt; high;
+    std::copy_if(scores.begin(), scores.end(),
+                 std::back_inserter(high),
+                 [](int s){ return s &gt;= 90; });
+    std::cout &lt;&lt; "High (&gt;=90):";
+    for (int s : high) std::cout &lt;&lt; " " &lt;&lt; s;
+    std::cout &lt;&lt; "\n";
+}</code></pre>
+      </div>
+      <div class="output-box"><span class="lbl">Expected output</span>Forward:  85 92 78 91 88
+Reversed: 88 91 78 92 85
+Copy:     85 92 78 91 88
+High (>=90): 92 91</div>
+      <div class="quickguide">
+        <p class="qg-title">Run it and experiment</p>
+        <ol>
+          <li>Compile: <code>g++ -std=c++17 step4_iterators.cpp -o step4</code>, run.</li>
+          <li><strong>Experiment 1:</strong> Add <code>std::sort(scores.begin(), scores.end())</code> before the forward loop — observe that the reversed output is now also sorted, because reverse iterators traverse the same (now-sorted) data backward.</li>
+          <li><strong>Experiment 2:</strong> <code>std::distance(scores.begin(), scores.end())</code> returns the element count — useful with containers that have no <code>.size()</code>.</li>
+          <li><strong>Experiment 3:</strong> Try <code>std::advance(it, 3)</code> — moves any iterator forward by 3 steps, and backward for bidirectional/random-access iterators.</li>
+        </ol>
+      </div>
+      <div class="callout"><strong>Reference:</strong> <a href="https://en.cppreference.com/w/cpp/iterator" target="_blank" rel="noopener">cppreference: Iterator library</a> — iterator categories, adapter types, and named requirements for each category.</div>
+    </div>
+
+    <div class="topic-nav">
+      <button class="btn btn-ghost" onclick="document.querySelector('[data-tab=t3]').click()">← Algorithms</button>
+      <button class="btn btn-primary" onclick="document.querySelector('[data-tab=t5]').click()">Story Mode: see it all connected →</button>
+    </div>
+  </div>
+
+  <!-- TAB 5: Story Mode -->
+  <div class="tabpanel" id="t5">
+    <span class="story-badge">🎬 Story Mode</span>
+    <h2 style="margin:0 0 12px;">The records that couldn't be found</h2>
+    <p class="story-lede">Nimbus Academy started the year with student records in a spreadsheet. As enrolment grew to 800 students and quizzes multiplied, the Python script that sorted the sheet began to time out — and a professor querying a single student had to wait 40 seconds. The engineering team rewrote the system in C++ using exactly the containers, algorithms, and iterators you just studied.</p>
+
+    <div class="story-act">
+      <p><strong>ACT 1 — The list that kept growing</strong> &nbsp;<button class="btn btn-ghost" style="font-size:0.8rem;padding:2px 10px;" onclick="document.querySelector('[data-tab=t1]').click()">↩ Sequence containers</button></p>
+      <p>The academy stored names in a fixed-size array. When a late-registration student arrived as the 201st enrolment, the code wrote past the end of the array and silently corrupted the grade records three positions later. Replacing the array with a <code>std::vector</code> took one line of change: capacity grew automatically, bounds-checking via <code>.at()</code> caught any out-of-range access immediately, and the corruption bug disappeared permanently.</p>
+    </div>
+
+    <div class="story-act">
+      <p><strong>ACT 2 — Eight hundred lookups, forty seconds</strong> &nbsp;<button class="btn btn-ghost" style="font-size:0.8rem;padding:2px 10px;" onclick="document.querySelector('[data-tab=t2]').click()">↩ Associative containers</button></p>
+      <p>The grade-reporting endpoint searched a vector of 800 students with <code>std::find</code> every time a professor queried a name. On a quiet afternoon with 20 concurrent users, response time hit 40 seconds. Replacing the vector with a <code>std::map&lt;string, Student&gt;</code> cut lookup from O(n) to O(log n) — 800 students means at most 10 comparisons per query instead of up to 800. Response time dropped to under 2 milliseconds.</p>
+    </div>
+
+    <div class="story-act">
+      <p><strong>ACT 3 — Ranking day</strong> &nbsp;<button class="btn btn-ghost" style="font-size:0.8rem;padding:2px 10px;" onclick="document.querySelector('[data-tab=t3]').click()">↩ Algorithms</button></p>
+      <p>Each semester the academy produced a ranked report of all students sorted by average quiz score, with a count of passing students and the cohort average. The first version used nested for loops and a hand-written bubble sort — 60 lines, one subtle off-by-one bug. The rewrite used <code>std::sort</code> with a lambda comparator, <code>std::count_if</code>, and <code>std::accumulate</code> from <code>&lt;numeric&gt;</code> — 6 lines, no off-by-one possible, and O(n log n) instead of O(n²).</p>
+    </div>
+
+    <div class="story-act">
+      <p><strong>ACT 4 — Outputting to any sink</strong> &nbsp;<button class="btn btn-ghost" style="font-size:0.8rem;padding:2px 10px;" onclick="document.querySelector('[data-tab=t4]').click()">↩ Iterators</button></p>
+      <p>The final report needed to be sent to the terminal, to a file, and to an HTTP response body — three different output targets. Without iterators, each target would need its own copy of the formatting loop. With <code>std::ostream_iterator</code>, the same <code>std::copy</code> call writes to any output stream: <code>std::cout</code>, a <code>std::ofstream</code>, or a <code>std::ostringstream</code>. One algorithm, three sinks.</p>
+    </div>
+
+    <blockquote class="story-pullquote">The STL isn't a collection of types — it is a vocabulary that makes every algorithm speak to every container and every output sink.</blockquote>
+
+    <div class="story-also">
+      <p class="story-also-title">Also seen in the wild</p>
+      <div class="story-also-grid">
+        <div class="story-also-item"><span class="story-also-domain">Finance</span>Portfolio risk engines store positions in <code>unordered_map&lt;string, Position&gt;</code> for O(1) lookup during live trading — milliseconds matter.</div>
+        <div class="story-also-item"><span class="story-also-domain">Healthcare</span>Patient scheduling systems use <code>std::priority_queue</code> to always serve the next highest-priority patient without sorting the full queue each time.</div>
+        <div class="story-also-item"><span class="story-also-domain">Game engines</span>Entity-component systems keep component arrays in <code>std::vector</code> for cache-friendly iteration — 10,000 enemies updated per frame without a single heap allocation per enemy.</div>
+        <div class="story-also-item"><span class="story-also-domain">Embedded systems</span>Fixed-size ring buffers implemented as <code>std::array</code> + iterators let firmware process sensor data with zero dynamic allocation.</div>
+      </div>
+    </div>
+
+    <div class="callout"><strong>Continue:</strong> the complete program below is the student records analyzer the Nimbus Academy team shipped — it combines map lookup, sort, count_if, and accumulate in under 60 lines.</div>
+
+    <div class="topic-nav">
+      <button class="btn btn-ghost" onclick="document.querySelector('[data-tab=t4]').click()">← Iterators</button>
+      <a class="btn btn-primary" href="module7.html">Continue to Module 7 →</a>
+    </div>
+  </div>
+
+  <section class="try-now" id="try-now">
+    <div class="try-now-header"><div><div class="section-kicker">Learn by doing</div><h2>Try now: build a student records analyzer</h2><p>Build intuition with three short programs, then combine everything into the complete use case.</p></div><span class="try-badge">30 minutes</span></div>
+    <div class="build-ladder">
+      <div class="build-step"><div class="build-step-title"><span>Step 1</span><strong>Add students to a vector, sort by name</strong></div><p>The simplest sequence container operation — populate, sort, print.</p><div class="code-card"><div class="code-head"><span class="filename">step1_roster.cpp</span><button class="copy-btn">Copy</button></div><pre><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+#include &lt;string&gt;
+int main() {
+    std::vector&lt;std::string&gt; roster = {"Carol", "Alice", "David", "Bob"};
+    std::sort(roster.begin(), roster.end()); // alphabetical
+    for (const auto&amp; name : roster) std::cout &lt;&lt; name &lt;&lt; "\n";
+}</code></pre></div><p class="run-line"><b>Run:</b> <code>g++ -std=c++17 step1_roster.cpp -o step1</code></p><p class="mini-output"><b>See:</b> Alice, Bob, Carol, David — sorted</p></div>
+      <div class="build-step"><div class="build-step-title"><span>Step 2</span><strong>Build a grade lookup with map</strong></div><p>Replace linear search with a key-value lookup in O(log n).</p><div class="code-card"><div class="code-head"><span class="filename">step2_lookup.cpp</span><button class="copy-btn">Copy</button></div><pre><code>#include &lt;iostream&gt;
+#include &lt;map&gt;
+#include &lt;string&gt;
+int main() {
+    std::map&lt;std::string, int&gt; grades = {
+        {"Alice", 92}, {"Bob", 78}, {"Carol", 85}
+    };
+    std::string query = "Carol";
+    if (grades.count(query))
+        std::cout &lt;&lt; query &lt;&lt; ": " &lt;&lt; grades[query] &lt;&lt; "\n";
+    else
+        std::cout &lt;&lt; "Not found\n";
+}</code></pre></div><p class="run-line"><b>Run:</b> <code>g++ -std=c++17 step2_lookup.cpp -o step2</code></p><p class="mini-output"><b>See:</b> Carol: 85</p></div>
+      <div class="build-step"><div class="build-step-title"><span>Step 3</span><strong>Sort by average and count passing</strong></div><p>Combine sort with a custom comparator and count_if in one program.</p><div class="code-card"><div class="code-head"><span class="filename">step3_rank.cpp</span><button class="copy-btn">Copy</button></div><pre><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+#include &lt;numeric&gt;
+#include &lt;string&gt;
+struct S { std::string name; std::vector&lt;int&gt; scores; };
+int avg(const S&amp; s){
+    return std::accumulate(s.scores.begin(),s.scores.end(),0)/s.scores.size();
+}
+int main() {
+    std::vector&lt;S&gt; r = {{"Alice",{92,88,95}},{"Bob",{72,68,75}},{"Carol",{85,89,82}}};
+    std::sort(r.begin(), r.end(), [](const S&amp; a, const S&amp; b){ return avg(a) &gt; avg(b); });
+    for (const auto&amp; s : r) std::cout &lt;&lt; s.name &lt;&lt; ": " &lt;&lt; avg(s) &lt;&lt; "\n";
+    int pass = std::count_if(r.begin(),r.end(),[](const S&amp; s){return avg(s)&gt;=80;});
+    std::cout &lt;&lt; pass &lt;&lt; "/" &lt;&lt; r.size() &lt;&lt; " passing\n";
+}</code></pre></div><p class="run-line"><b>Run:</b> <code>g++ -std=c++17 step3_rank.cpp -o step3</code></p><p class="mini-output"><b>See:</b> Alice: 91, Carol: 85, Bob: 71 — 2/3 passing</p></div>
+    </div>
+    <div class="build-divider"><span>Now combine the pieces into the complete use case</span></div>
+    <div class="try-step"><span>01</span><div><strong>Student records analyzer — map lookup + sort + stats in one program</strong><p>A complete analyzer combining all four STL concepts: map for lookup, sort with a lambda, count_if for passing rate, and accumulate for the average.</p></div></div>
+    <div class="code-card"><div class="code-head"><span class="filename">program.cpp — complete use case</span><button class="copy-btn">Copy</button></div><pre><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;map&gt;
+#include &lt;algorithm&gt;
+#include &lt;numeric&gt;
+#include &lt;string&gt;
+#include &lt;iomanip&gt;
+
+struct Student {
+    std::string name;
+    std::vector&lt;int&gt; quizScores;
+
+    double average() const {
+        if (quizScores.empty()) return 0.0;
+        return static_cast&lt;double&gt;(
+            std::accumulate(quizScores.begin(), quizScores.end(), 0))
+            / quizScores.size();
+    }
+};
+
+void printReport(const std::vector&lt;Student&gt;&amp; roster) {
+    auto sorted = roster;
+    std::sort(sorted.begin(), sorted.end(),
+              [](const Student&amp; a, const Student&amp; b){
+                  return a.average() &gt; b.average();
+              });
+
+    std::cout &lt;&lt; std::left
+              &lt;&lt; std::setw(10) &lt;&lt; "Name"
+              &lt;&lt; std::setw(10) &lt;&lt; "Average"
+              &lt;&lt; "Status\n"
+              &lt;&lt; std::string(30, '-') &lt;&lt; "\n";
+
+    for (const auto&amp; s : sorted) {
+        std::string status = s.average() &gt;= 80.0 ? "PASS" : "FAIL";
+        std::cout &lt;&lt; std::setw(10) &lt;&lt; s.name
+                  &lt;&lt; std::setw(10) &lt;&lt; std::fixed &lt;&lt; std::setprecision(1)
+                  &lt;&lt; s.average()
+                  &lt;&lt; status &lt;&lt; "\n";
+    }
+
+    int passing = std::count_if(sorted.begin(), sorted.end(),
+                                [](const Student&amp; s){ return s.average() &gt;= 80.0; });
+    std::cout &lt;&lt; "\n" &lt;&lt; passing &lt;&lt; " of " &lt;&lt; sorted.size()
+              &lt;&lt; " students passed.\n";
+
+    auto best = std::max_element(sorted.begin(), sorted.end(),
+                                 [](const Student&amp; a, const Student&amp; b){
+                                     return a.average() &lt; b.average();
+                                 });
+    std::cout &lt;&lt; "Top scorer: " &lt;&lt; best-&gt;name
+              &lt;&lt; " (" &lt;&lt; std::fixed &lt;&lt; std::setprecision(1)
+              &lt;&lt; best-&gt;average() &lt;&lt; ")\n";
+}
+
+int main() {
+    std::vector&lt;Student&gt; roster = {
+        {"Alice",  {92, 88, 95, 90}},
+        {"Bob",    {72, 68, 75, 70}},
+        {"Carol",  {85, 89, 82, 88}},
+        {"David",  {91, 94, 88, 93}},
+        {"Eva",    {78, 76, 80, 79}},
+    };
+
+    // Quick lookup by name using map
+    std::map&lt;std::string, int&gt; nameIndex;
+    for (int i = 0; i &lt; static_cast&lt;int&gt;(roster.size()); ++i)
+        nameIndex[roster[i].name] = i;
+
+    std::string query = "Carol";
+    if (nameIndex.count(query))
+        std::cout &lt;&lt; query &lt;&lt; "'s average: "
+                  &lt;&lt; std::fixed &lt;&lt; std::setprecision(1)
+                  &lt;&lt; roster[nameIndex[query]].average() &lt;&lt; "\n\n";
+
+    printReport(roster);
+}</code></pre></div>
+    <div class="output-box"><span class="lbl">Expected output</span>Carol's average: 86.0
+
+Name      Average   Status
+------------------------------
+David     91.5      PASS
+Alice     91.3      PASS
+Carol     86.0      PASS
+Eva       78.3      FAIL
+Bob       71.3      FAIL
+
+3 of 5 students passed.
+Top scorer: David (91.5)</div>
+    <div class="quickguide"><p class="qg-title">Run it in VS Code</p><ol><li>Create a folder <code>module6-try-now</code> and open it in VS Code.</li><li>Save the code above as <code>program.cpp</code>.</li><li>Compile: <code>g++ -std=c++17 program.cpp -o program</code></li><li>Run: <code>program.exe</code> (Windows) or <code>./program</code> (Linux/macOS).</li><li>Try: add a sixth student "Frank" with scores {60, 65, 58, 70} — he should appear at the bottom of the report and change the passing count.</li></ol></div>
+    <div class="task-card"><div class="task-label">Homework / assessment</div><h3>Add findStudentsByStatus and a failing student</h3><p>Add a function <code>findStudentsByStatus(const std::vector&lt;Student&gt;&amp; roster, bool pass)</code> that returns a <code>std::vector&lt;Student&gt;</code> containing only students with average &gt;= 80 (if pass=true) or &lt; 80 (if pass=false). Then add a new student Frank with scores {60, 65, 58, 70} and call both variants to print the two groups separately.</p><p class="hint-title">Hints, not the answer</p><ul class="hint-list"><li>Use <code>std::copy_if</code> with <code>std::back_inserter</code> and a lambda that checks <code>s.average() &gt;= 80.0</code>.</li><li>The function signature returns <code>std::vector&lt;Student&gt;</code> — declare it above <code>main</code>.</li><li><code>std::for_each</code> or a range-based for loop can print each returned group.</li></ul></div>
+    <div class="submission-card"><strong>Submit for evaluation</strong><p>Send your finished <code>program.cpp</code> to the trainer's cohort email.</p><div><b>Subject:</b> <code>Module 6 Task - Your Name - program.cpp</code></div><div><b>Body:</b> <code>Your Name | Module 6 | compiler used | result you observed</code></div><p>Attach the exact file compiled and describe what the two groups printed.</p></div>
+  </section>
+
+  <details class="practice-drawer">
+    <summary>★ Practice &amp; Capstones <span class="practice-drawer-hint">— standalone challenges you can attempt any time</span></summary>
+    <div class="practice-drawer-body">
+      <p style="margin:10px 0 0; font-size:13.5px; color:var(--text-muted);">Each one is a separate, self-contained exercise — pick whichever matches what you've covered so far.</p>
+      <div class="practice-links">
+        <a class="practice-link" href="exercise.html"><span class="practice-link-tag">Capstone</span>RR Skillverse Course Tracker — a course tracker built from scratch</a>
+        <a class="practice-link" href="capstone-work1.html"><span class="practice-link-tag">Capstone-Work1</span>Smart Office Access System — inheritance &amp; overloading, from scratch</a>
+        <a class="practice-link" href="capstone-work2.html"><span class="practice-link-tag">Capstone-Work2</span>Nimbus Logistics Challenge — fix 3 TODOs (Modules 1-6)</a>
+        <a class="practice-link" href="capstone-work3.html"><span class="practice-link-tag">Capstone-Work3</span>Nimbus Fleet Command — fix 5 TODOs (Module 8)</a>
+      </div>
+    </div>
+  </details>
+</div>
+</main>
+</div>
+<footer>Module 6 of 11 · Enterprise C++ Training Programme · Personal notes by <strong>Raushan Ranjan</strong></footer>
+<script>
+function initSidebar(){const toggle=document.querySelector('.sidebar-toggle'),sidebar=document.querySelector('.sidebar-left');if(!toggle||!sidebar)return;const desktop=window.matchMedia('(min-width: 861px)');toggle.addEventListener('click',()=>{if(desktop.matches){const collapsed=document.body.classList.toggle('sidebar-collapsed');toggle.setAttribute('aria-expanded',String(!collapsed));}else sidebar.classList.toggle('open');});sidebar.querySelectorAll('a:not(.nav-day-toggle)').forEach(link=>link.addEventListener('click',()=>sidebar.classList.remove('open')));}
+function initNavGroups(){document.querySelectorAll('.nav-day').forEach(day=>{const toggle=day.querySelector(':scope > .nav-day-toggle'),body=day.querySelector(':scope > .nav-day-body');if(!toggle||!body)return;toggle.setAttribute('aria-expanded',String(day.dataset.open==='true'));toggle.addEventListener('click',event=>{event.preventDefault();const open=day.dataset.open==='true';day.dataset.open=String(!open);toggle.setAttribute('aria-expanded',String(!open));});});}
+function initNavModules(){document.querySelectorAll('.nav-module').forEach(module=>{const label=module.querySelector(':scope > .nav-module-label'),content=module.querySelector(':scope > .nav-topics, :scope > .nav-tabs');if(!label||!content)return;module.dataset.open=module.dataset.open||'true';label.setAttribute('role','button');label.setAttribute('tabindex','0');label.setAttribute('aria-expanded',String(module.dataset.open==='true'));const toggle=()=>{const open=module.dataset.open==='true';module.dataset.open=String(!open);label.setAttribute('aria-expanded',String(!open));};label.addEventListener('click',toggle);label.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle();}});});}
+function initTabs(){const bar=document.querySelector('.tabbar');if(!bar)return;const buttons=[...document.querySelectorAll('.tabbar button,.nav-tab')],panels=[...document.querySelectorAll('.tabpanel')];function activate(id,updateHash){buttons.forEach(b=>b.classList.toggle('active',b.dataset.tab===id));panels.forEach(p=>p.classList.toggle('active',p.id===id));if(updateHash)history.replaceState(null,'','#'+id);}buttons.forEach(b=>b.addEventListener('click',()=>activate(b.dataset.tab,true)));const requested=location.hash.slice(1);activate(buttons.some(b=>b.dataset.tab===requested)?requested:(buttons.find(b=>b.classList.contains('active'))||buttons[0]).dataset.tab,false);}
+function initCopyButtons(){document.querySelectorAll('.copy-btn').forEach(btn=>btn.addEventListener('click',async()=>{const code=btn.closest('.code-card').querySelector('code').innerText;try{await navigator.clipboard.writeText(code);}catch(e){const ta=document.createElement('textarea');ta.value=code;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();}btn.textContent='Copied';setTimeout(()=>btn.textContent='Copy',1200);}));}
+document.addEventListener('DOMContentLoaded',()=>{initSidebar();initNavGroups();initNavModules();initTabs();initCopyButtons();});
+</script>
+<script src="search.js"></script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+# Compiled binaries produced by g++/clang/MSVC when following the lessons
+*.exe
+*.o
+*.obj
+*.out
+*.pdb
+*.ilk
+
+# VS Code Code Runner scratch file, regenerated on every "Run Code"
+tempCodeRunnerFile.*

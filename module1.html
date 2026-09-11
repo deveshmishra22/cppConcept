@@ -299,6 +299,31 @@ footer a{color:var(--cyan); text-decoration:none;}
   .tabbar{top:57px;}
 }
 
+/* ---------- Practice & Capstones drawer ---------- */
+.practice-drawer{
+  max-width:1120px; margin:36px auto 12px;
+  border:1px solid #23374f; border-radius:10px;
+  background:#121d2e; overflow:hidden;
+}
+.practice-drawer>summary{
+  list-style:none; cursor:pointer; padding:15px 18px;
+  font-weight:700; font-size:14.5px; color:#e8edf4;
+  display:flex; align-items:center; gap:10px; user-select:none;
+}
+.practice-drawer>summary::-webkit-details-marker{display:none;}
+.practice-drawer>summary::before{content:"▸"; color:#ffb454; transition:transform 0.15s ease; flex-shrink:0;}
+.practice-drawer[open]>summary::before{transform:rotate(90deg);}
+.practice-drawer-hint{font-weight:400; color:#93a5bd; font-size:13px;}
+.practice-drawer-body{padding:4px 18px 18px; border-top:1px solid #1b2b40;}
+.practice-links{display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:12px; margin-top:14px;}
+.practice-link{
+  display:block; border:1px solid #23374f; border-radius:10px; padding:13px 15px;
+  font-size:13.5px; line-height:1.6; color:#93a5bd; background:#0b1420;
+  text-decoration:none; transition:border-color 0.15s ease, transform 0.15s ease;
+}
+.practice-link:hover{border-color:#ffb454; transform:translateY(-1px);}
+.practice-link-tag{display:block; font-weight:700; color:#e8edf4; margin-bottom:4px; font-size:13.5px;}
+
 </style>
 <link rel="stylesheet" href="style.css">
 </head>
@@ -349,9 +374,10 @@ footer a{color:var(--cyan); text-decoration:none;}
         </div>
       </div>
       <div class="nav-day" data-open="true"><a class="nav-day-toggle" href="index.html#day2"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 2</span><span class="nav-day-subtitle">Polymorphism</span><span class="nav-day-chevron">›</span></a><div class="nav-day-body"><div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module2.html">Inheritance &amp; Polymorphism</a></li><li class="nav-topic"><a href="module3.html">Compile-time Polymorphism</a></li></ul></div></div></div>
-      <div class="nav-day"><a class="nav-day-toggle" href="index.html#day3"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 3</span><span class="nav-day-subtitle">Robustness</span><span class="nav-day-chevron">›</span></a></div>
-      <div class="nav-day"><a class="nav-day-toggle" href="index.html#day4"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 4</span><span class="nav-day-subtitle">Modern C++</span><span class="nav-day-chevron">›</span></a></div>
-      <div class="nav-day"><a class="nav-day-toggle" href="index.html#day5"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 5</span><span class="nav-day-subtitle">Networking</span><span class="nav-day-chevron">›</span></a></div>
+      <div class="nav-day" data-open="true"><a class="nav-day-toggle" href="index.html#day3"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 3</span><span class="nav-day-subtitle">Robustness</span><span class="nav-day-chevron">›</span></a><div class="nav-day-body"><div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module4.html">Exception Handling</a></li><li class="nav-topic"><a href="module5.html">Templates &amp; Generics</a></li></ul></div></div></div>
+      <div class="nav-day"><a class="nav-day-toggle" href="index.html#day4"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 4</span><span class="nav-day-subtitle">Modern C++</span><span class="nav-day-chevron">›</span></a><div class="nav-day-body"><div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module6.html">STL &amp; Containers</a></li><li class="nav-topic"><a href="module7.html">Advanced C++</a></li></ul></div></div></div>
+      <div class="nav-day"><a class="nav-day-toggle" href="index.html#day5"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 5</span><span class="nav-day-subtitle">Systems &amp; Internals</span><span class="nav-day-chevron">›</span></a><div class="nav-day-body"><div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module8.html">Systems Programming &amp; Advanced C++ Internals</a></li></ul></div></div></div>
+      <div class="nav-day"><a class="nav-day-toggle" href="index.html#day6"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 6</span><span class="nav-day-subtitle">Qt &amp; Capstone</span><span class="nav-day-chevron">›</span></a></div>
     </nav>
     <div class="sidebar-divider"></div>
     <div class="sidebar-section-title">Resources</div>
@@ -955,45 +981,44 @@ int main() {
   <!-- TAB 6: Story Mode -->
   <div class="tabpanel" id="t6">
     <span class="story-badge">🎬 Story Mode</span>
-    <h2 style="font-family:var(--head); font-size:26px; margin:0 0 12px;">The First Branch: building BankAccount for Nimbus Bank</h2>
-    <p class="story-lede">Picture this: Nimbus Bank has hired you as the engineer who has to replace a pile of loose C-style functions and global arrays with something that will not fall over the first time two developers touch it at once. Every tab you just clicked through was one decision in that rebuild. Here is the whole story, start to finish, in the order it actually happened.</p>
+    <h2 style="font-family:var(--head); font-size:26px; margin:0 0 12px;">Roshan's account, his manager's override</h2>
+    <p class="story-lede">Roshan joined Nimbus Bank as a junior developer. His first task: build the account system that every branch in the country would run on. His tech lead gave him one rule — if something can go wrong, make it structurally impossible to do wrong by accident. Everything in this module came from that one rule.</p>
 
-    <div class="story-timeline">
-      <div class="story-act">
-        <div class="story-act-head"><span class="story-act-num">ACT 1</span><h3>One customer, scattered code</h3><button class="story-jump" type="button" onclick="document.querySelector('[data-tab=t1]').click()">↳ Revisit Classes &amp; Objects</button></div>
-        <p>Before you arrived, Nimbus Bank tracked each customer's name and balance in separate arrays, updated by free functions scattered across a dozen files. Nobody could say, just by reading a function signature, which arrays it was allowed to touch. Your first move is not clever — it is just honest: put the name and balance that belong to <em>one account</em> inside <strong>one</strong> <code>BankAccount</code> type, with functions like <code>deposit</code> living right next to the data they change. That single decision is what a class actually buys you.</p>
-      </div>
-      <div class="story-act">
-        <div class="story-act-head"><span class="story-act-num">ACT 2</span><h3>Lock the vault</h3><button class="story-jump" type="button" onclick="document.querySelector('[data-tab=t2]').click()">↳ Revisit Access Specifiers</button></div>
-        <p>Two weeks in, a bug ticket lands: a report-generation script set <code>balance</code> directly to fix a rounding display issue, and it shipped a permanently wrong number to a customer's statement. There was nothing stopping it — <code>balance</code> was public. You mark it <code>private</code> the same afternoon. Now the only way to change a balance is through <code>deposit</code> and <code>withdraw</code>, which can refuse a negative amount or an overdraft before it ever touches real money. Private is not secrecy for its own sake — it is the bank refusing to let anyone skip the front door.</p>
-      </div>
-      <div class="story-act">
-        <div class="story-act-head"><span class="story-act-num">ACT 3</span><h3>Open properly, close properly</h3><button class="story-jump" type="button" onclick="document.querySelector('[data-tab=t3]').click()">↳ Revisit Constructors &amp; Destructors</button></div>
-        <p>Next, compliance asks a harder question: can an account ever exist half-built — a name with no balance, or a balance with no owner? With a constructor, the answer becomes no: a <code>BankAccount</code> cannot be created without a name and an opening balance, full stop. And when an account object goes out of scope, its destructor is your guarantee that any logging, file handles, or cleanup the account owed the bank actually happens — nobody has to remember to call a <code>closeAccount()</code> function by hand.</p>
-      </div>
-      <div class="story-act">
-        <div class="story-act-head"><span class="story-act-num">ACT 4</span><h3>The ledger that never lies</h3><button class="story-jump" type="button" onclick="document.querySelector('[data-tab=t4]').click()">↳ Revisit Static Members</button></div>
-        <p>The regulator now wants one number on every quarterly filing: how many accounts has Nimbus Bank ever opened, across every branch, every server, every day. That number does not belong to any single account — it belongs to the <code>BankAccount</code> type itself. A <code>static</code> counter, incremented once inside the constructor, gives every object a shared, always-consistent view of a bank-wide total, without a single global variable in sight.</p>
-      </div>
-      <div class="story-act">
-        <div class="story-act-head"><span class="story-act-num">ACT 5</span><h3>The manager's override</h3><button class="story-jump" type="button" onclick="document.querySelector('[data-tab=t5]').click()">↳ Revisit Friend Functions &amp; Classes</button></div>
-        <p>Finally, the branch manager pushes back: private balances are correct for customers and tellers, but a manager legitimately needs to correct a balance after a proven error — without reopening the whole class to the public just for that one case. <code>friend class BankManager;</code> is the bank's answer: one explicitly named exception, granted by <code>BankAccount</code> itself, that nobody can invoke by accident and nobody outside can forge.</p>
-      </div>
+    <p>The first version Roshan wrote had two global variables, <code>name</code> and <code>balance</code>, and three standalone functions: <code>deposit()</code>, <code>withdraw()</code>, <code>printBalance()</code>. It worked fine. Until a reporting script reached directly into <code>balance</code> to correct a rounding display issue and shipped a permanently wrong number to a customer's statement. Nothing had stopped it. Roshan's tech lead pointed at the bug and said: put the data and the functions that are allowed to touch it inside the same named place, and make them work as a team. That named place is a <strong>class</strong>. A <code>BankAccount</code> class holds <code>name</code> and <code>balance</code> together, with <code>deposit()</code> and <code>withdraw()</code> living right next to the data they manage.</p>
+
+    <p>Once the class existed, Roshan made <code>balance</code> <strong>private</strong>. Not for secrecy — for enforcement. A private member can only be changed by the class's own methods. That means the only way to change a balance is through <code>deposit()</code> and <code>withdraw()</code>, which can refuse a negative amount or an overdraft before it touches real money. Public access means anyone can bypass those rules. Private access means the rules are the only door into the data.</p>
+
+    <p>Compliance then asked a harder question: can an account ever exist half-built — a name with no balance, or a balance with no owner? Roshan's answer was a <strong>constructor</strong>: <code>BankAccount(string name, double initialBalance)</code>. You cannot create the object without providing both. When an account is later closed and the object goes out of scope, its <strong>destructor</strong> runs automatically. No one has to remember to call a <code>closeAccount()</code> function — the destructor is the guarantee that cleanup, logging, and any resources the account held actually happen.</p>
+
+    <p>The reserve bank then asked for one number on every quarterly report: total accounts ever opened, across every branch, every server, every day. That number does not belong to any single account — it belongs to the <code>BankAccount</code> type itself. A <strong>static member</strong> is a variable shared by every instance of a class. Roshan added <code>static int totalAccounts</code> and incremented it inside the constructor. Every object sees the same count, always consistent, with no global variable in sight.</p>
+
+    <p>Finally, the branch manager pushed back. Private balance is correct for tellers and customers — but he sometimes needs to directly correct a balance after a proven audit error, without going through deposit and withdraw. Roshan could not just make <code>balance</code> public again. The solution: <code>friend class BankManager;</code> inside <code>BankAccount</code>. A <strong>friend class</strong> is an explicit, named exception — granted by <code>BankAccount</code> itself, not demanded by the manager. The bank says: this one class, and only this one, may see my private members. The manager gets the override. Nobody else does. And because <code>BankAccount</code> is the one granting access, no external code can forge or bypass that permission.</p>
+
+    <blockquote class="story-pullquote">Roshan wrote <code>friend class BankManager</code> and his tech lead said: that is the most honest line of code in this file. The bank is granting access. The manager is not taking it.</blockquote>
+
+    <div class="callout" style="margin-top:24px;">
+      <p style="margin:0 0 8px;"><strong>What we just learned</strong></p>
+      <ul style="margin:0; padding-left:20px; line-height:1.9;">
+        <li><strong>Class</strong> — a named type that holds data and the functions that belong to it together in one place</li>
+        <li><strong>Private / Public</strong> — private members can only be accessed by the class's own methods; the only way in is through the controlled interface</li>
+        <li><strong>Constructor</strong> — runs when an object is created; enforces that the object is always built in a valid state from the start</li>
+        <li><strong>Destructor</strong> — runs when an object goes out of scope; guarantees cleanup happens automatically, no manual call needed</li>
+        <li><strong>Static member</strong> — shared by every instance of the class; belongs to the type, not to any one object</li>
+        <li><strong>Friend class</strong> — an explicit, named exception to private access; granted by the class itself, not taken from outside</li>
+      </ul>
     </div>
-
-    <blockquote class="story-pullquote">Every keyword in this module exists because a bank somewhere got burned by not having it. <code>private</code>, the constructor, <code>static</code>, <code>friend</code> — none of them are academic. They are five scars, healed into syntax.</blockquote>
 
     <div class="story-also">
       <p class="story-also-title">Also seen in the wild</p>
       <div class="story-also-grid">
-        <div class="story-also-item"><span class="story-also-domain">E-commerce</span>A <code>ShoppingCart</code> class keeps its item list and total private, exposing only <code>addItem()</code>/<code>checkout()</code> — exactly the encapsulation from Act 2.</div>
-        <div class="story-also-item"><span class="story-also-domain">Hospitals</span>A <code>PatientRecord</code> keeps history private to most staff, but grants a <code>friend class Auditor</code> the same override access a <code>BankManager</code> gets here.</div>
-        <div class="story-also-item"><span class="story-also-domain">Games</span>A shared <code>static</code> counter on a <code>Player</code> class tracks "players online right now" the same way Nimbus Bank tracks total accounts opened.</div>
-        <div class="story-also-item"><span class="story-also-domain">Cloud infrastructure</span>A <code>DatabaseConnection</code> class opens a handle in its constructor and guarantees it is released in its destructor — the same RAII instinct that closes a <code>BankAccount</code> cleanly.</div>
+        <div class="story-also-item"><span class="story-also-domain">E-commerce</span>A <code>ShoppingCart</code> class keeps its item list private, exposing only <code>addItem()</code> and <code>checkout()</code> — the same encapsulation Roshan applied to balance.</div>
+        <div class="story-also-item"><span class="story-also-domain">Hospitals</span>A <code>PatientRecord</code> keeps history private to most staff, but grants a <code>friend class Auditor</code> the same override access the branch manager gets here.</div>
+        <div class="story-also-item"><span class="story-also-domain">Games</span>A <code>static</code> counter on a <code>Player</code> class tracks "players online right now" the same way Roshan's bank tracks total accounts ever opened.</div>
+        <div class="story-also-item"><span class="story-also-domain">Cloud infrastructure</span>A <code>DatabaseConnection</code> class opens a handle in its constructor and closes it in its destructor — the same RAII pattern that closes Roshan's account cleanly.</div>
       </div>
     </div>
 
-    <div class="callout"><strong>Bring it back:</strong> Everything above is exactly what the complete <code>program.cpp</code> below builds in code. When you get to the homework's <code>transfer()</code> feature, you are the engineer again — Nimbus Bank just asked for one more capability, and you already know which five tools solve it.</div>
+    <div class="callout"><strong>Continue:</strong> the complete <code>program.cpp</code> below builds exactly what Roshan built. When you reach the homework's <code>transfer()</code> feature, you are Roshan — the bank just asked for one more capability.</div>
 
     <div class="topic-nav">
       <button class="btn btn-ghost" onclick="document.querySelector('[data-tab=t5]').click()">← Friend Functions &amp; Classes</button>
@@ -1188,6 +1213,19 @@ Open accounts: 2</div>
       <p>Attach the exact file you compiled. Include one sentence describing how your program handles a failed transfer.</p>
     </div>
   </section>
+
+  <details class="practice-drawer">
+    <summary>★ Practice &amp; Capstones <span class="practice-drawer-hint">— standalone challenges you can attempt any time</span></summary>
+    <div class="practice-drawer-body">
+      <p style="margin:10px 0 0; font-size:13.5px; color:#93a5bd;">Each one is a separate, self-contained exercise — pick whichever matches what you've covered so far.</p>
+      <div class="practice-links">
+        <a class="practice-link" href="exercise.html"><span class="practice-link-tag">Capstone</span>RR Skillverse Course Tracker — a course tracker built from scratch</a>
+        <a class="practice-link" href="capstone-work1.html"><span class="practice-link-tag">Capstone-Work1</span>Smart Office Access System — inheritance &amp; overloading, from scratch</a>
+        <a class="practice-link" href="capstone-work2.html"><span class="practice-link-tag">Capstone-Work2</span>Nimbus Logistics Challenge — fix 3 TODOs (Modules 1-6)</a>
+        <a class="practice-link" href="capstone-work3.html"><span class="practice-link-tag">Capstone-Work3</span>Nimbus Fleet Command — fix 5 TODOs (Module 8)</a>
+      </div>
+    </div>
+  </details>
 
 </div>
 
@@ -1386,5 +1424,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 </script>
+<script src="search.js"></script>
 </body>
 </html>

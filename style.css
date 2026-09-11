@@ -2017,3 +2017,68 @@ footer a:hover { text-decoration: underline; }
   clip: rect(0,0,0,0);
   border: 0;
 }
+
+/* ──────────────── PRACTICE & CAPSTONES DRAWER ──────────────── */
+.practice-drawer {
+  max-width: var(--content-max);
+  margin: 36px 0 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  overflow: hidden;
+}
+.practice-drawer > summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 15px 18px;
+  font-weight: 700;
+  font-size: 14.5px;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
+}
+.practice-drawer > summary::-webkit-details-marker { display: none; }
+.practice-drawer > summary::before {
+  content: "▸";
+  color: var(--accent);
+  transition: transform 0.15s ease;
+  flex-shrink: 0;
+}
+.practice-drawer[open] > summary::before { transform: rotate(90deg); }
+.practice-drawer-hint {
+  font-weight: 400;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+.practice-drawer-body {
+  padding: 4px 18px 18px;
+  border-top: 1px solid var(--border-soft);
+}
+.practice-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+.practice-link {
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 13px 15px;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--text-muted);
+  background: var(--bg);
+  text-decoration: none;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+.practice-link:hover { border-color: var(--accent-border); transform: translateY(-1px); }
+.practice-link-tag {
+  display: block;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+  font-size: 13.5px;
+}

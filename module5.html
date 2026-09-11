@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 5: Templates &amp; Generics - Enterprise C++ Handbook</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-left">
+    <button class="sidebar-toggle" type="button" aria-label="Toggle course navigation" aria-expanded="true">☰</button>
+    <a href="index.html" class="brand"><span class="brand-mark">C++</span><span class="brand-text">Enterprise C++ Handbook<small>Personal notes by Raushan Ranjan</small></span></a>
+  </div>
+  <div class="topbar-center"><label class="search-bar"><span class="search-icon">⌕</span><input class="search-input" type="search" placeholder="Search the handbook" aria-label="Search the handbook"><kbd class="search-kbd">⌘ K</kbd></label></div>
+  <div class="topbar-right"><a href="index.html">All modules</a><a href="index.html#day3">Curriculum</a><a class="btn-notes" href="index.html#day3">Robustness</a></div>
+</div>
+
+<div class="app-layout">
+<aside class="sidebar-left">
+  <div class="sidebar-content">
+    <div class="sidebar-section-title">Course map</div>
+    <nav class="nav-tree" aria-label="Course navigation">
+      <div class="nav-day">
+        <a class="nav-day-toggle" href="index.html#day1" aria-expanded="false"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 1</span><span class="nav-day-subtitle">Foundations</span><span class="nav-day-chevron">›</span></a>
+        <div class="nav-day-body">
+          <div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module0.html">Foundation Enhancer</a></li><li class="nav-topic"><a href="module1.html">C++ Basics</a></li></ul></div>
+        </div>
+      </div>
+      <div class="nav-day">
+        <a class="nav-day-toggle" href="index.html#day2" aria-expanded="false"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 2</span><span class="nav-day-subtitle">Polymorphism</span><span class="nav-day-chevron">›</span></a>
+        <div class="nav-day-body">
+          <div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module2.html">Inheritance &amp; Polymorphism</a></li><li class="nav-topic"><a href="module3.html">Compile-time Polymorphism</a></li></ul></div>
+        </div>
+      </div>
+      <div class="nav-day" data-open="true">
+        <a class="nav-day-toggle" href="index.html#day3"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 3</span><span class="nav-day-subtitle">Robustness</span><span class="nav-day-chevron">›</span></a>
+        <div class="nav-day-body">
+          <div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module4.html">Exception Handling</a></li><li class="nav-topic"><a class="active" href="module5.html">Templates &amp; Generics</a></li></ul></div>
+          <div class="nav-module"><div class="nav-module-label">Topics</div><div class="nav-tabs">
+            <button class="nav-tab active" data-tab="t1">01 Why templates</button>
+            <button class="nav-tab" data-tab="t2">02 Function templates</button>
+            <button class="nav-tab" data-tab="t3">03 Class templates</button>
+            <button class="nav-tab" data-tab="t4">04 STL as templates</button>
+            <button class="nav-tab" data-tab="t5">05 🎬 Story Mode</button>
+          </div></div>
+        </div>
+      </div>
+      <div class="nav-day"><a class="nav-day-toggle" href="index.html#day4"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 4</span><span class="nav-day-subtitle">Modern C++</span><span class="nav-day-chevron">›</span></a><div class="nav-day-body"><div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module6.html">STL &amp; Containers</a></li><li class="nav-topic"><a href="module7.html">Advanced C++</a></li></ul></div></div></div>
+      <div class="nav-day"><a class="nav-day-toggle" href="index.html#day5"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 5</span><span class="nav-day-subtitle">Systems &amp; Internals</span><span class="nav-day-chevron">›</span></a><div class="nav-day-body"><div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module8.html">Systems Programming &amp; Advanced C++ Internals</a></li></ul></div></div></div>
+      <div class="nav-day"><a class="nav-day-toggle" href="index.html#day6"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 6</span><span class="nav-day-subtitle">Qt &amp; Capstone</span><span class="nav-day-chevron">›</span></a></div>
+    </nav>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section-title">Resources</div>
+    <ul class="sidebar-resources"><li><a href="https://github.com/raushan1107/Advanced-cpp-sample-codes" target="_blank" rel="noopener">↗ Source code</a></li><li><a href="index.html#day3">▣ Course overview</a></li></ul>
+  </div>
+</aside>
+
+<main class="main-content">
+<div class="module-header">
+  <div class="breadcrumb"><a href="index.html">Robustness</a> / Module 5</div>
+  <h1>Templates &amp; Generics</h1>
+  <p class="sub">Write an algorithm or data structure once and compile it correctly for any type that supports the required operations — without duplicating code or losing type safety.</p>
+  <div class="module-meta"><span><b>Day:</b> 3 of 6</span><span><b>Topics:</b> 4 + Story Mode</span><span><b>Case study:</b> Generic inventory stack</span><span><b>Repo folder:</b> <code>12-DataStrucCollections/</code></span></div>
+</div>
+
+<div class="tabs-wrap">
+  <div class="tabbar"><button data-tab="t1" class="active">01 Why templates</button><button data-tab="t2">02 Function templates</button><button data-tab="t3">03 Class templates</button><button data-tab="t4">04 STL as templates</button><button data-tab="t5">05 🎬 Story Mode</button></div>
+
+  <!-- TAB 1: Why templates -->
+  <div class="tabpanel active" id="t1">
+    <p class="topic-intro">Before templates, writing type-independent code meant choosing between unsafe type casting or tedious code duplication. Templates eliminate both choices.</p>
+
+    <div class="block">
+      <div class="block-label"><span class="tag why">WHY</span><h4>The duplication that templates replace</h4></div>
+      <div class="content">
+        <p>Suppose you need a <code>max()</code> function for <code>int</code>, <code>double</code>, and <code>std::string</code>. Without templates you write three separate functions — same logic, different type in the signature. When the logic has a bug, you fix it in three places. When you add <code>float</code> support, you add a fourth copy. After six types, six functions that must stay in sync.</p>
+        <p>Templates solve this by parameterising the type: write the logic once, and the compiler generates a concrete function for each type used at a call site. Generation happens at compile time, produces the same native code as hand-written versions, and adds zero runtime overhead — the compiler does the duplication, correctly, every time.</p>
+        <p>The entire C++ Standard Template Library — <code>std::vector</code>, <code>std::map</code>, <code>std::sort</code>, <code>std::unique_ptr</code> — is built on this single idea.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag what">WHAT</span><h4>Key terms defined</h4></div>
+      <div class="content">
+        <ul>
+          <li><strong>template&lt;typename T&gt;</strong> — declares <code>T</code> as a type parameter. You can use <code>T</code> anywhere inside the template as a placeholder for the concrete type provided at usage.</li>
+          <li><strong>template instantiation</strong> — when the compiler sees <code>maxOf(3, 5)</code> it generates a concrete <code>maxOf&lt;int&gt;(int, int)</code> function from the template. This is compile-time code generation; no runtime dispatch occurs.</li>
+          <li><strong>typename vs class</strong> — in a template parameter list, both keywords are identical: <code>template&lt;typename T&gt;</code> and <code>template&lt;class T&gt;</code> mean the same thing. Prefer <code>typename</code> for clarity in modern code.</li>
+          <li><strong>Template headers</strong> — templates must be fully defined in header files (<code>.h</code>), not split across a <code>.cpp</code>. The compiler needs the full definition at every usage point to generate the instantiation.</li>
+          <li><strong>Compile-time contract</strong> — if you call <code>maxOf(a, b)</code> where T doesn't support <code>&gt;</code>, you get a compile-time error. The template imposes a contract on T enforced at instantiation.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag how">HOW</span><h4>Three versions of max(), then one template</h4></div>
+      <div class="content"><p>See the duplication problem, then see it erased — both in the same file:</p></div>
+      <div class="code-card">
+        <div class="code-head"><span class="filename">step1_why_templates.cpp</span><button class="copy-btn">Copy</button></div>
+        <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+// WITHOUT templates — three identical functions, one per type
+int    maxInt   (int a,    int b)    { return a &gt; b ? a : b; }
+double maxDouble(double a, double b) { return a &gt; b ? a : b; }
+std::string maxStr(const std::string&amp; a, const std::string&amp; b) {
+    return a &gt; b ? a : b;
+}
+
+// WITH templates — one definition for all types that support >
+template&lt;typename T&gt;
+const T&amp; maxOf(const T&amp; a, const T&amp; b) { return a &gt; b ? a : b; }
+
+int main() {
+    // Old way: caller must know which name to use
+    std::cout &lt;&lt; maxInt(3, 7)              &lt;&lt; "\n"; // 7
+    std::cout &lt;&lt; maxDouble(3.14, 2.71)     &lt;&lt; "\n"; // 3.14
+    std::cout &lt;&lt; maxStr("zebra", "apple")  &lt;&lt; "\n"; // zebra
+
+    // New way: compiler deduces T from argument types
+    std::cout &lt;&lt; maxOf(3, 7)               &lt;&lt; "\n"; // int — 7
+    std::cout &lt;&lt; maxOf(3.14, 2.71)         &lt;&lt; "\n"; // double — 3.14
+    std::cout &lt;&lt; maxOf&lt;std::string&gt;("zebra", "apple") &lt;&lt; "\n"; // zebra
+    std::cout &lt;&lt; maxOf('a', 'z')           &lt;&lt; "\n"; // char — z
+}</code></pre>
+      </div>
+      <div class="output-box"><span class="lbl">Expected output</span>7
+3.14
+zebra
+7
+3.14
+zebra
+z</div>
+      <div class="quickguide">
+        <p class="qg-title">Run it and experiment</p>
+        <ol>
+          <li>Save as <code>step1_why_templates.cpp</code>, compile: <code>g++ -std=c++17 step1_why_templates.cpp -o step1</code></li>
+          <li>Run: <code>step1.exe</code> (Windows) or <code>./step1</code> (Linux/macOS)</li>
+          <li><strong>Experiment 1:</strong> Call <code>maxOf(1, 2.5)</code> — the compiler cannot deduce T because arguments are different types (int and double). Fix it with <code>maxOf&lt;double&gt;(1, 2.5)</code> to provide T explicitly.</li>
+          <li><strong>Experiment 2:</strong> Try calling <code>maxOf</code> with a struct that has no <code>operator&gt;</code> defined — read the compile error carefully. It tells you exactly which operator is missing and why the instantiation failed.</li>
+        </ol>
+      </div>
+      <div class="callout"><strong>Reference:</strong> <a href="https://en.cppreference.com/w/cpp/language/function_template" target="_blank" rel="noopener">cppreference: Function template</a> — template argument deduction, explicit specialization, and constraints.</div>
+    </div>
+
+    <div class="topic-nav">
+      <span></span>
+      <button class="btn btn-primary" onclick="document.querySelector('[data-tab=t2]').click()">Next: Function templates →</button>
+    </div>
+  </div>
+
+  <!-- TAB 2: Function templates -->
+  <div class="tabpanel" id="t2">
+    <p class="topic-intro">A function template is a pattern — the compiler stamps out one concrete function per unique set of type arguments seen across the program.</p>
+
+    <div class="block">
+      <div class="block-label"><span class="tag why">WHY</span><h4>Type safety without void*</h4></div>
+      <div class="content">
+        <p>Before templates, generic utilities in C used <code>void*</code> — you cast in and out. This worked but was type-unsafe: nothing prevented storing a <code>float*</code> value in a container intended for <code>int*</code>, and the bug appeared at runtime as a corrupted read, not at compile time as a type error.</p>
+        <p>Function templates give you the same write-once capability with complete type safety — the generated function knows exactly which type it's working with at every operation, and the compiler rejects misuse at compile time before the program ever runs.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag what">WHAT</span><h4>Syntax, deduction, and parameter passing</h4></div>
+      <div class="content">
+        <ul>
+          <li><strong>template&lt;typename T&gt;</strong> on the line immediately before the function — T is valid for that function only.</li>
+          <li><strong>const T&amp; as parameter type</strong> — pass by const reference to avoid copying large objects; T might be a heavy class like <code>std::vector</code>.</li>
+          <li><strong>Type deduction</strong> — the compiler infers T from the argument types. <code>swap(x, y)</code> where x and y are <code>int</code> deduces T=int automatically.</li>
+          <li><strong>Explicit template argument</strong> — <code>maxOf&lt;double&gt;(a, b)</code> forces T=double; use when deduction would be ambiguous or wrong.</li>
+          <li><strong>Non-type parameters</strong> — <code>template&lt;int N&gt;</code> allows compile-time integer constants. Used for fixed-size arrays and compile-time loop bounds.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag how">HOW</span><h4>Reusable swap and clamp for any type</h4></div>
+      <div class="code-card">
+        <div class="code-head"><span class="filename">step2_function_template.cpp</span><button class="copy-btn">Copy</button></div>
+        <pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+template&lt;typename T&gt;
+void swapValues(T&amp; first, T&amp; second) {
+    T temp = first;
+    first  = second;
+    second = temp;
+}
+
+template&lt;typename T&gt;
+const T&amp; clamp(const T&amp; value, const T&amp; lo, const T&amp; hi) {
+    if (value &lt; lo) return lo;
+    if (value &gt; hi) return hi;
+    return value;
+}
+
+int main() {
+    int x = 10, y = 20;
+    std::cout &lt;&lt; "Before: " &lt;&lt; x &lt;&lt; ", " &lt;&lt; y &lt;&lt; "\n";
+    swapValues(x, y);
+    std::cout &lt;&lt; "After:  " &lt;&lt; x &lt;&lt; ", " &lt;&lt; y &lt;&lt; "\n";
+
+    std::cout &lt;&lt; clamp(150, 0, 100) &lt;&lt; "\n"; // 100  (clamped to hi)
+    std::cout &lt;&lt; clamp(-5,  0, 100) &lt;&lt; "\n"; // 0    (clamped to lo)
+    std::cout &lt;&lt; clamp(50,  0, 100) &lt;&lt; "\n"; // 50   (unchanged)
+
+    std::string a = "hello", b = "world";
+    swapValues(a, b);
+    std::cout &lt;&lt; a &lt;&lt; " " &lt;&lt; b &lt;&lt; "\n";       // world hello
+}</code></pre>
+      </div>
+      <div class="output-box"><span class="lbl">Expected output</span>Before: 10, 20
+After:  20, 10
+100
+0
+50
+world hello</div>
+      <div class="quickguide">
+        <p class="qg-title">Run it and experiment</p>
+        <ol>
+          <li>Compile: <code>g++ -std=c++17 step2_function_template.cpp -o step2</code>, run.</li>
+          <li><strong>Experiment 1:</strong> Call <code>clamp(3.5f, 0.0f, 1.0f)</code> — works with float without any new code.</li>
+          <li><strong>Experiment 2:</strong> Call <code>swapValues(x, a)</code> (int and string) — the compiler error shows T cannot be deduced when arguments have different types. This is the type-safety guarantee working.</li>
+          <li><strong>Experiment 3:</strong> Note that <code>std::swap</code> and <code>std::clamp</code> (C++17) already exist in the standard library — compare their signatures to yours.</li>
+        </ol>
+      </div>
+      <div class="callout"><strong>Reference:</strong> <a href="https://en.cppreference.com/w/cpp/algorithm/clamp" target="_blank" rel="noopener">cppreference: std::clamp</a> — the standard library version of this template, available since C++17.</div>
+    </div>
+
+    <div class="topic-nav">
+      <button class="btn btn-ghost" onclick="document.querySelector('[data-tab=t1]').click()">← Why templates</button>
+      <button class="btn btn-primary" onclick="document.querySelector('[data-tab=t3]').click()">Next: Class templates →</button>
+    </div>
+  </div>
+
+  <!-- TAB 3: Class templates -->
+  <div class="tabpanel" id="t3">
+    <p class="topic-intro">A class template parameterises an entire class on one or more types — the same pattern the standard library uses for <code>std::vector</code>, <code>std::map</code>, and <code>std::unique_ptr</code>.</p>
+
+    <div class="block">
+      <div class="block-label"><span class="tag why">WHY</span><h4>Data structures shouldn't know what they store</h4></div>
+      <div class="content">
+        <p>A stack that works only for <code>int</code> forces you to write a separate stack for <code>double</code>, <code>string</code>, or any domain object. The logic — push, pop, peek, check-empty — is identical for all of them. Parameterising the element type with a template lets you write the logic once and instantiate it for any type that can be stored in a <code>std::vector</code>.</p>
+        <p>The same reasoning applies to every container in the standard library: <code>std::vector&lt;T&gt;</code>, <code>std::map&lt;K,V&gt;</code>, <code>std::queue&lt;T&gt;</code> are all class templates. Understanding how to write one lets you read and use the standard library fluently.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag what">WHAT</span><h4>Class template syntax and instantiation</h4></div>
+      <div class="content">
+        <ul>
+          <li><strong>template&lt;typename T&gt;</strong> immediately before the class definition parameterises the whole class on T.</li>
+          <li>Member functions defined <em>outside</em> the class body repeat the template header: <code>template&lt;typename T&gt; void Stack&lt;T&gt;::push(const T&amp; item)</code>.</li>
+          <li><strong>Distinct instantiations</strong> — <code>Stack&lt;int&gt;</code> and <code>Stack&lt;double&gt;</code> are two separate types. They don't share state or vtable entries.</li>
+          <li><strong>Multiple type parameters</strong> — <code>template&lt;typename K, typename V&gt;</code> for map-like types that key and value separately.</li>
+          <li>Since templates must be in headers, a common pattern is <code>Stack.h</code> containing both the class declaration and all member function definitions.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag how">HOW</span><h4>A generic Stack&lt;T&gt; with exception safety</h4></div>
+      <div class="code-card">
+        <div class="code-head"><span class="filename">step3_stack_template.cpp</span><button class="copy-btn">Copy</button></div>
+        <pre><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;stdexcept&gt;
+#include &lt;string&gt;
+
+template&lt;typename T&gt;
+class Stack {
+    std::vector&lt;T&gt; data_;
+public:
+    void push(const T&amp; item) { data_.push_back(item); }
+
+    T pop() {
+        if (empty())
+            throw std::underflow_error("Stack is empty");
+        T top = data_.back();
+        data_.pop_back();
+        return top;
+    }
+
+    const T&amp; peek() const {
+        if (empty())
+            throw std::underflow_error("Stack is empty");
+        return data_.back();
+    }
+
+    bool        empty() const { return data_.empty(); }
+    std::size_t size()  const { return data_.size(); }
+};
+
+int main() {
+    Stack&lt;int&gt; nums;
+    nums.push(10);
+    nums.push(20);
+    nums.push(30);
+
+    std::cout &lt;&lt; "Top: " &lt;&lt; nums.peek() &lt;&lt; "\n";
+    while (!nums.empty())
+        std::cout &lt;&lt; "Pop: " &lt;&lt; nums.pop() &lt;&lt; "\n";
+
+    Stack&lt;std::string&gt; words;
+    words.push("first");
+    words.push("second");
+    words.push("third");
+    std::cout &lt;&lt; "Size: " &lt;&lt; words.size() &lt;&lt; "  Top: " &lt;&lt; words.peek() &lt;&lt; "\n";
+
+    try {
+        while (true) words.pop();  // empties then throws
+    }
+    catch (const std::underflow_error&amp; e) {
+        std::cout &lt;&lt; "Caught: " &lt;&lt; e.what() &lt;&lt; "\n";
+    }
+}</code></pre>
+      </div>
+      <div class="output-box"><span class="lbl">Expected output</span>Top: 30
+Pop: 30
+Pop: 20
+Pop: 10
+Size: 3  Top: third
+Caught: Stack is empty</div>
+      <div class="quickguide">
+        <p class="qg-title">Run it and experiment</p>
+        <ol>
+          <li>Compile: <code>g++ -std=c++17 step3_stack_template.cpp -o step3</code>, run.</li>
+          <li><strong>Experiment 1:</strong> Create a <code>Stack&lt;double&gt;</code> and push some doubles — no changes to the Stack class needed.</li>
+          <li><strong>Experiment 2:</strong> Add a <code>contains(const T&amp; target) const</code> method that returns <code>bool</code> using a loop over <code>data_</code>. Notice T must support <code>==</code> — that's the implicit contract you're adding.</li>
+          <li><strong>Experiment 3:</strong> Add a second type parameter: <code>template&lt;typename T, std::size_t MaxSize&gt;</code> and throw an <code>overflow_error</code> in <code>push()</code> when <code>data_.size() &gt;= MaxSize</code>.</li>
+        </ol>
+      </div>
+      <div class="callout"><strong>Reference:</strong> <a href="https://en.cppreference.com/w/cpp/language/class_template" target="_blank" rel="noopener">cppreference: Class template</a> — full syntax for class templates including partial specialisation.</div>
+    </div>
+
+    <div class="topic-nav">
+      <button class="btn btn-ghost" onclick="document.querySelector('[data-tab=t2]').click()">← Function templates</button>
+      <button class="btn btn-primary" onclick="document.querySelector('[data-tab=t4]').click()">Next: STL as templates →</button>
+    </div>
+  </div>
+
+  <!-- TAB 4: STL as templates -->
+  <div class="tabpanel" id="t4">
+    <p class="topic-intro">Every container and algorithm in the C++ Standard Template Library is a template — understanding this makes the STL predictable rather than magical.</p>
+
+    <div class="block">
+      <div class="block-label"><span class="tag why">WHY</span><h4>The STL as applied template design</h4></div>
+      <div class="content">
+        <p>The entire Standard Template Library was designed around one insight: containers and algorithms should work with any type that satisfies a minimal contract. <code>std::vector&lt;T&gt;</code> requires T to be copyable or movable. <code>std::sort</code> requires iterators and an <code>operator&lt;</code>. <code>std::map&lt;K,V&gt;</code> requires K to support <code>operator&lt;</code>. The contracts are enforced at compile time through template instantiation — a type violation gives you a compile error, not a runtime crash.</p>
+        <p>Recognising that these are templates explains why you write <code>std::vector&lt;int&gt;</code> and not just <code>std::vector</code>, why <code>std::optional&lt;int&gt;</code> and <code>std::optional&lt;std::string&gt;</code> behave differently, and why the standard library can be extended — by writing a type that satisfies the right contracts.</p>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag what">WHAT</span><h4>Key standard templates to know</h4></div>
+      <div class="content">
+        <ul>
+          <li><strong>std::vector&lt;T&gt;</strong> — resizable array. O(1) amortised push_back, O(1) random access, O(n) insert at arbitrary position.</li>
+          <li><strong>std::map&lt;Key, Value&gt;</strong> — sorted associative container (red-black tree). O(log n) insert and lookup. Key must support <code>operator&lt;</code>.</li>
+          <li><strong>std::unordered_map&lt;Key, Value&gt;</strong> — hash table. O(1) average insert and lookup. Key must be hashable.</li>
+          <li><strong>std::optional&lt;T&gt;</strong> (C++17) — holds either a T or nothing (<code>std::nullopt</code>). Use instead of returning <code>-1</code> or <code>nullptr</code> as "not found".</li>
+          <li><strong>std::pair&lt;A, B&gt;</strong> and <strong>std::tuple&lt;Types...&gt;</strong> — bundle multiple values without a custom struct.</li>
+          <li><strong>std::unique_ptr&lt;T&gt;</strong> — RAII smart pointer. The sole owner of a heap-allocated T. Move-only; cannot be copied.</li>
+          <li><strong>std::sort, std::find_if, std::count_if</strong> — algorithm templates that work with any iterator range whose elements support the required operation.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label"><span class="tag how">HOW</span><h4>std::vector, std::map, and std::optional in one program</h4></div>
+      <div class="code-card">
+        <div class="code-head"><span class="filename">step4_stl_templates.cpp</span><button class="copy-btn">Copy</button></div>
+        <pre><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;map&gt;
+#include &lt;optional&gt;
+#include &lt;algorithm&gt;
+
+// Returns the first score above the threshold — or nothing
+std::optional&lt;int&gt; findFirstAbove(const std::vector&lt;int&gt;&amp; scores, int threshold) {
+    for (int s : scores)
+        if (s &gt; threshold) return s;
+    return std::nullopt;  // "nothing found"
+}
+
+int main() {
+    // vector&lt;T&gt; — sorted in place
+    std::vector&lt;int&gt; scores = {72, 85, 91, 60, 95, 78};
+    std::sort(scores.begin(), scores.end());
+    std::cout &lt;&lt; "Sorted: ";
+    for (int s : scores) std::cout &lt;&lt; s &lt;&lt; " ";
+    std::cout &lt;&lt; "\n";
+
+    // map&lt;K,V&gt; — sorted by key automatically
+    std::map&lt;std::string, int&gt; grades;
+    grades["Alice"] = 92;
+    grades["Bob"]   = 85;
+    grades["Carol"] = 91;
+    for (const auto&amp; [name, grade] : grades)
+        std::cout &lt;&lt; name &lt;&lt; ": " &lt;&lt; grade &lt;&lt; "\n";
+
+    // optional&lt;T&gt; — explicit "found or not"
+    auto found = findFirstAbove(scores, 90);
+    if (found)
+        std::cout &lt;&lt; "First above 90: " &lt;&lt; *found &lt;&lt; "\n";
+
+    auto notFound = findFirstAbove(scores, 100);
+    if (!notFound)
+        std::cout &lt;&lt; "None above 100\n";
+}</code></pre>
+      </div>
+      <div class="output-box"><span class="lbl">Expected output</span>Sorted: 60 72 78 85 91 95
+Alice: 92
+Bob: 85
+Carol: 91
+First above 90: 91
+None above 100</div>
+      <div class="quickguide">
+        <p class="qg-title">Run it and experiment</p>
+        <ol>
+          <li>Compile: <code>g++ -std=c++17 step4_stl_templates.cpp -o step4</code>, run.</li>
+          <li><strong>Experiment 1:</strong> Change <code>std::map</code> to <code>std::unordered_map</code> — the output order changes (hash maps aren't sorted), but the lookup is O(1) average instead of O(log n).</li>
+          <li><strong>Experiment 2:</strong> Replace <code>findFirstAbove</code> with <code>std::find_if</code> from <code>&lt;algorithm&gt;</code>: <code>auto it = std::find_if(scores.begin(), scores.end(), [threshold](int s){ return s &gt; threshold; });</code>. Compare the two approaches.</li>
+          <li><strong>Experiment 3:</strong> Use <code>std::count_if</code> to count how many scores are above 80 — one line, no loop.</li>
+        </ol>
+      </div>
+      <div class="callout"><strong>Reference:</strong> <a href="https://en.cppreference.com/w/cpp/container" target="_blank" rel="noopener">cppreference: Standard containers</a> — every standard container template with complexity guarantees and iterator categories.</div>
+    </div>
+
+    <div class="topic-nav" style="justify-content:flex-end;">
+      <button class="btn btn-primary" onclick="document.querySelector('[data-tab=t5]').click()">Story Mode: see it all connected →</button>
+    </div>
+  </div>
+
+  <!-- TAB 5: Story Mode -->
+  <div class="tabpanel" id="t5">
+    <span class="story-badge">🎬 Story Mode</span>
+    <h2 style="margin:0 0 12px;">The copy that drifted</h2>
+    <p class="story-lede">The data team at Nimbus Analytics built a sorting and search pipeline for integer metrics. Then marketing needed it for string labels. Then finance needed it for decimal values. Within a month, three nearly identical codebases existed. Then a bug was found and fixed in the integer version. One developer forgot to apply it to the string version. The decimal version never got the fix at all. They had three codebases to maintain and none of them matched. This module is how one function replaced all three.</p>
+
+    <p>When the finance team asked for a fourth variant — boolean flags this time — the lead engineer refused to copy the code again. Her argument: the algorithm is identical across all four versions. Only the type changes. That means the type should be the variable, not the code. A <strong>template</strong> is C++'s way of making that happen. You write the code once with a placeholder type <code>T</code>, and the compiler generates a concrete version for each type you actually use. One source. Many generated implementations. Every bug fix applies everywhere automatically.</p>
+
+    <p>The pipeline had a <code>findMax()</code> function that found the largest value in a dataset. As a <strong>function template</strong> — written with <code>template&lt;typename T&gt;</code> before the function — it works for <code>int</code>, <code>double</code>, and <code>string</code> without a single cast or branch. When the team writes <code>findMax(intData)</code>, the compiler sees the argument is <code>int</code> and generates a concrete <code>findMax(vector&lt;int&gt;)</code>. When they write <code>findMax(stringData)</code>, it generates the string version. Same source code. Correct implementation for each type. Zero runtime overhead — everything is decided at compile time.</p>
+
+    <p>The pipeline also needed a stack to hold pending items for processing. The push, pop, and peek logic is exactly the same regardless of what type is being stored. Written as a <strong>class template</strong> — <code>template&lt;typename T&gt; class Stack</code> — it works for integer event codes, string labels, or complex structs. You write the logic once. When you write <code>Stack&lt;int&gt;</code> the compiler generates a concrete integer stack; <code>Stack&lt;string&gt;</code> generates a string stack. Both are as efficient as if someone had written them by hand — because the compiler did.</p>
+
+    <p>After a sprint of building generic containers, a senior engineer opened the C++ standard library documentation and pointed at the screen. <code>std::vector&lt;T&gt;</code>. <code>std::map&lt;K, V&gt;</code>. <code>std::optional&lt;T&gt;</code>. <code>std::stack&lt;T&gt;</code>. All of them are templates, all already written and battle-tested, all zero overhead. The lesson is not that templates are hard to write — it is that understanding how templates work is what makes the standard library readable. You recognize the angle-bracket pattern, you know what <code>T</code> means, and suddenly the STL is not magic anymore. You have been using templates since your very first <code>vector&lt;int&gt;</code>. Now you know what the angle brackets actually mean.</p>
+
+    <blockquote class="story-pullquote">You have been using templates since your first <code>vector&lt;int&gt;</code>. Now you know what the angle brackets mean — and you can write your own.</blockquote>
+
+    <div class="callout" style="margin-top:24px;">
+      <p style="margin:0 0 8px;"><strong>What we just learned</strong></p>
+      <ul style="margin:0; padding-left:20px; line-height:1.9;">
+        <li><strong>Template</strong> — code where the type is a variable (<code>T</code>); the compiler generates a concrete version for each type you use it with</li>
+        <li><strong>Function template</strong> — <code>template&lt;typename T&gt;</code> before a function; the compiler deduces <code>T</code> from the argument types at the call site</li>
+        <li><strong>Class template</strong> — <code>template&lt;typename T&gt; class Stack</code>; instantiated with <code>Stack&lt;int&gt;</code> or <code>Stack&lt;string&gt;</code>; logic written once, type-specific classes generated by the compiler</li>
+        <li><strong>Template instantiation</strong> — when the compiler generates a real function or class from a template for a specific type; happens at compile time, not runtime</li>
+        <li><strong>STL</strong> — the standard library is a collection of template classes and functions; <code>vector&lt;T&gt;</code>, <code>map&lt;K,V&gt;</code>, <code>optional&lt;T&gt;</code> are all templates you can now read and extend</li>
+      </ul>
+    </div>
+
+    <div class="story-also">
+      <p class="story-also-title">Also seen in the wild</p>
+      <div class="story-also-grid">
+        <div class="story-also-item"><span class="story-also-domain">Finance</span>A risk calculator templated on market data type — equity, bond, derivative — avoids the same copy-drift problem the analytics team hit.</div>
+        <div class="story-also-item"><span class="story-also-domain">Embedded</span>Fixed-size circular buffers as <code>RingBuffer&lt;T, N&gt;</code> — templated on both type and capacity, both resolved at compile time with zero overhead.</div>
+        <div class="story-also-item"><span class="story-also-domain">Game engines</span>Component systems use templates to store and retrieve typed components: <code>getComponent&lt;Transform&gt;()</code> returns the right type without runtime casts.</div>
+        <div class="story-also-item"><span class="story-also-domain">Medical devices</span>Generic state machines templated on state and event enums — transition logic verified at compile time, hardware-safe with no dynamic dispatch.</div>
+      </div>
+    </div>
+
+    <div class="callout"><strong>Continue:</strong> the generic <code>InventoryStack&lt;T&gt;</code> in the complete program below is the same template idea from the analytics pipeline — stripped to what you can compile and run right now.</div>
+
+    <div class="topic-nav">
+      <button class="btn btn-ghost" onclick="document.querySelector('[data-tab=t4]').click()">← STL as templates</button>
+      <a class="btn btn-primary" href="module6.html">Continue to Module 6 →</a>
+    </div>
+  </div>
+
+  <section class="try-now" id="try-now">
+    <div class="try-now-header"><div><div class="section-kicker">Learn by doing</div><h2>Try now: build a generic inventory stack</h2><p>Build template intuition step by step, then combine everything into a typed, exception-safe container.</p></div><span class="try-badge">25 minutes</span></div>
+    <div class="build-ladder">
+      <div class="build-step"><div class="build-step-title"><span>Step 1</span><strong>One max() for all types</strong></div><p>The duplication problem, then the template fix — side by side.</p><div class="code-card"><div class="code-head"><span class="filename">step1_why_templates.cpp</span><button class="copy-btn">Copy</button></div><pre><code>#include &lt;iostream&gt;
+template&lt;typename T&gt;
+const T&amp; maxOf(const T&amp; a, const T&amp; b) { return a &gt; b ? a : b; }
+int main() {
+    std::cout &lt;&lt; maxOf(3, 7) &lt;&lt; "\n";      // int: 7
+    std::cout &lt;&lt; maxOf(3.14, 2.71) &lt;&lt; "\n"; // double: 3.14
+    std::cout &lt;&lt; maxOf('a', 'z') &lt;&lt; "\n";   // char: z
+}</code></pre></div><p class="run-line"><b>Run:</b> <code>g++ -std=c++17 step1_why_templates.cpp -o step1</code></p><p class="mini-output"><b>See:</b> 7, 3.14, z — same function, three different types</p></div>
+      <div class="build-step"><div class="build-step-title"><span>Step 2</span><strong>A swap template for any type</strong></div><p>Three-line function, works for int and string equally.</p><div class="code-card"><div class="code-head"><span class="filename">step2_swap.cpp</span><button class="copy-btn">Copy</button></div><pre><code>#include &lt;iostream&gt;
+#include &lt;string&gt;
+template&lt;typename T&gt;
+void swapValues(T&amp; a, T&amp; b) { T t = a; a = b; b = t; }
+int main() {
+    int x = 1, y = 2;
+    swapValues(x, y);
+    std::cout &lt;&lt; x &lt;&lt; " " &lt;&lt; y &lt;&lt; "\n"; // 2 1
+    std::string s = "hi", t = "bye";
+    swapValues(s, t);
+    std::cout &lt;&lt; s &lt;&lt; " " &lt;&lt; t &lt;&lt; "\n"; // bye hi
+}</code></pre></div><p class="run-line"><b>Run:</b> <code>g++ -std=c++17 step2_swap.cpp -o step2</code></p><p class="mini-output"><b>See:</b> 2 1, then bye hi</p></div>
+      <div class="build-step"><div class="build-step-title"><span>Step 3</span><strong>A Stack class template</strong></div><p>Push/pop works for int or string — no code change to the class.</p><div class="code-card"><div class="code-head"><span class="filename">step3_stack.cpp</span><button class="copy-btn">Copy</button></div><pre><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;stdexcept&gt;
+template&lt;typename T&gt;
+class Stack {
+    std::vector&lt;T&gt; d_;
+public:
+    void push(const T&amp; v) { d_.push_back(v); }
+    T pop() {
+        if (d_.empty()) throw std::underflow_error("empty");
+        T t = d_.back(); d_.pop_back(); return t;
+    }
+    bool empty() const { return d_.empty(); }
+};
+int main() {
+    Stack&lt;int&gt; s;
+    s.push(1); s.push(2);
+    while (!s.empty()) std::cout &lt;&lt; s.pop() &lt;&lt; "\n"; // 2, 1
+}</code></pre></div><p class="run-line"><b>Run:</b> <code>g++ -std=c++17 step3_stack.cpp -o step3</code></p><p class="mini-output"><b>See:</b> 2, then 1</p></div>
+    </div>
+    <div class="build-divider"><span>Now combine the pieces into the complete use case</span></div>
+    <div class="try-step"><span>01</span><div><strong>Generic inventory stack</strong><p>A typed, exception-safe container that works for tools (strings) and serial numbers (ints) from the same class definition.</p></div></div>
+    <div class="code-card"><div class="code-head"><span class="filename">program.cpp — complete use case</span><button class="copy-btn">Copy</button></div><pre><code>#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;stdexcept&gt;
+#include &lt;string&gt;
+#include &lt;iomanip&gt;
+
+template&lt;typename T&gt;
+class InventoryStack {
+    std::vector&lt;T&gt;  items_;
+    std::string      category_;
+public:
+    explicit InventoryStack(const std::string&amp; cat) : category_(cat) {}
+
+    void add(const T&amp; item) { items_.push_back(item); }
+
+    T takeLast() {
+        if (items_.empty())
+            throw std::underflow_error("No items in " + category_);
+        T item = items_.back();
+        items_.pop_back();
+        return item;
+    }
+
+    const T&amp;    peekLast()  const {
+        if (items_.empty()) throw std::underflow_error("Empty: " + category_);
+        return items_.back();
+    }
+
+    std::size_t count()    const { return items_.size(); }
+    const std::string&amp; category() const { return category_; }
+};
+
+template&lt;typename T&gt;
+void printStatus(const InventoryStack&lt;T&gt;&amp; stack) {
+    std::cout &lt;&lt; std::setw(12) &lt;&lt; stack.category()
+              &lt;&lt; " | items: " &lt;&lt; stack.count() &lt;&lt; "\n";
+}
+
+int main() {
+    InventoryStack&lt;std::string&gt; tools("Tools");
+    tools.add("Hammer");
+    tools.add("Wrench");
+    tools.add("Screwdriver");
+
+    InventoryStack&lt;int&gt; serials("SerialNums");
+    serials.add(10042);
+    serials.add(10043);
+
+    printStatus(tools);
+    printStatus(serials);
+
+    std::cout &lt;&lt; "\nDispensing:\n";
+    try {
+        while (tools.count() &gt; 0)
+            std::cout &lt;&lt; "  Took: " &lt;&lt; tools.takeLast() &lt;&lt; "\n";
+        tools.takeLast();   // triggers underflow_error
+    }
+    catch (const std::underflow_error&amp; e) {
+        std::cout &lt;&lt; "  Error: " &lt;&lt; e.what() &lt;&lt; "\n";
+    }
+}</code></pre></div>
+    <div class="output-box"><span class="lbl">Expected output</span>       Tools | items: 3
+  SerialNums | items: 2
+
+Dispensing:
+  Took: Screwdriver
+  Took: Wrench
+  Took: Hammer
+  Error: No items in Tools</div>
+    <div class="quickguide"><p class="qg-title">Run it in VS Code</p><ol><li>Create a folder <code>module5-try-now</code> and open it in VS Code.</li><li>Save the code above as <code>program.cpp</code>.</li><li>Compile: <code>g++ -std=c++17 program.cpp -o program</code></li><li>Run: <code>program.exe</code> on Windows or <code>./program</code> on Linux/macOS.</li><li>Try: add an <code>InventoryStack&lt;double&gt;</code> for prices — no changes to the class.</li></ol></div>
+    <div class="task-card"><div class="task-label">Homework / assessment</div><h3>Extend the inventory stack</h3><p>Add a <code>findItem(const T&amp; target) const</code> method that returns <code>bool</code> — <code>true</code> if the target is anywhere in the stack. Then add an <code>InventoryStack&lt;double&gt;</code> to <code>main()</code> with three price values and print the most recently added price.</p><p class="hint-title">Hints, not the answer</p><ul class="hint-list"><li>Linear search through <code>items_</code> using a range-based for loop — T must support <code>==</code>.</li><li>Mark the method <code>const</code> — it only reads, it doesn't modify.</li><li>The <code>InventoryStack&lt;double&gt;</code> requires no template changes — just a new variable with a different type argument.</li></ul></div>
+    <div class="submission-card"><strong>Submit for evaluation</strong><p>Send your finished <code>program.cpp</code> to the trainer's cohort email.</p><div><b>Subject:</b> <code>Module 5 Task - Your Name - program.cpp</code></div><div><b>Body:</b> <code>Your Name | Module 5 | compiler used | result you observed</code></div><p>Attach the exact file you compiled and describe what types you instantiated the template with.</p></div>
+  </section>
+
+  <details class="practice-drawer">
+    <summary>★ Practice &amp; Capstones <span class="practice-drawer-hint">— standalone challenges you can attempt any time</span></summary>
+    <div class="practice-drawer-body">
+      <p style="margin:10px 0 0; font-size:13.5px; color:var(--text-muted);">Each one is a separate, self-contained exercise — pick whichever matches what you've covered so far.</p>
+      <div class="practice-links">
+        <a class="practice-link" href="exercise.html"><span class="practice-link-tag">Capstone</span>RR Skillverse Course Tracker — a course tracker built from scratch</a>
+        <a class="practice-link" href="capstone-work1.html"><span class="practice-link-tag">Capstone-Work1</span>Smart Office Access System — inheritance &amp; overloading, from scratch</a>
+        <a class="practice-link" href="capstone-work2.html"><span class="practice-link-tag">Capstone-Work2</span>Nimbus Logistics Challenge — fix 3 TODOs (Modules 1-6)</a>
+        <a class="practice-link" href="capstone-work3.html"><span class="practice-link-tag">Capstone-Work3</span>Nimbus Fleet Command — fix 5 TODOs (Module 8)</a>
+      </div>
+    </div>
+  </details>
+</div>
+</main>
+</div>
+<footer>Module 5 of 11 · Enterprise C++ Training Programme · Personal notes by <strong>Raushan Ranjan</strong></footer>
+<script>
+function initSidebar(){const toggle=document.querySelector('.sidebar-toggle'),sidebar=document.querySelector('.sidebar-left');if(!toggle||!sidebar)return;const desktop=window.matchMedia('(min-width: 861px)');toggle.addEventListener('click',()=>{if(desktop.matches){const collapsed=document.body.classList.toggle('sidebar-collapsed');toggle.setAttribute('aria-expanded',String(!collapsed));}else sidebar.classList.toggle('open');});sidebar.querySelectorAll('a:not(.nav-day-toggle)').forEach(link=>link.addEventListener('click',()=>sidebar.classList.remove('open')));}
+function initNavGroups(){document.querySelectorAll('.nav-day').forEach(day=>{const toggle=day.querySelector(':scope > .nav-day-toggle'),body=day.querySelector(':scope > .nav-day-body');if(!toggle||!body)return;toggle.setAttribute('aria-expanded',String(day.dataset.open==='true'));toggle.addEventListener('click',event=>{event.preventDefault();const open=day.dataset.open==='true';day.dataset.open=String(!open);toggle.setAttribute('aria-expanded',String(!open));});});}
+function initNavModules(){document.querySelectorAll('.nav-module').forEach(module=>{const label=module.querySelector(':scope > .nav-module-label'),content=module.querySelector(':scope > .nav-topics, :scope > .nav-tabs');if(!label||!content)return;module.dataset.open=module.dataset.open||'true';label.setAttribute('role','button');label.setAttribute('tabindex','0');label.setAttribute('aria-expanded',String(module.dataset.open==='true'));const toggle=()=>{const open=module.dataset.open==='true';module.dataset.open=String(!open);label.setAttribute('aria-expanded',String(!open));};label.addEventListener('click',toggle);label.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle();}});});}
+function initTabs(){const bar=document.querySelector('.tabbar');if(!bar)return;const buttons=[...document.querySelectorAll('.tabbar button,.nav-tab')],panels=[...document.querySelectorAll('.tabpanel')];function activate(id,updateHash){buttons.forEach(b=>b.classList.toggle('active',b.dataset.tab===id));panels.forEach(p=>p.classList.toggle('active',p.id===id));if(updateHash)history.replaceState(null,'','#'+id);}buttons.forEach(b=>b.addEventListener('click',()=>activate(b.dataset.tab,true)));const requested=location.hash.slice(1);activate(buttons.some(b=>b.dataset.tab===requested)?requested:(buttons.find(b=>b.classList.contains('active'))||buttons[0]).dataset.tab,false);}
+function initCopyButtons(){document.querySelectorAll('.copy-btn').forEach(btn=>btn.addEventListener('click',async()=>{const code=btn.closest('.code-card').querySelector('code').innerText;try{await navigator.clipboard.writeText(code);}catch(e){const ta=document.createElement('textarea');ta.value=code;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();}btn.textContent='Copied';setTimeout(()=>btn.textContent='Copy',1200);}));}
+document.addEventListener('DOMContentLoaded',()=>{initSidebar();initNavGroups();initNavModules();initTabs();initCopyButtons();});
+</script>
+<script src="search.js"></script>
+</body>
+</html>

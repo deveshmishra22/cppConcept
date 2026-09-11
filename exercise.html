@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Capstone Exercise: RR Skillverse Course Tracker - Enterprise C++ Handbook</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-left">
+    <button class="sidebar-toggle" type="button" aria-label="Toggle course navigation" aria-expanded="true">☰</button>
+    <a href="index.html" class="brand"><span class="brand-mark">C++</span><span class="brand-text">Enterprise C++ Handbook<small>Personal notes by Raushan Ranjan</small></span></a>
+  </div>
+  <div class="topbar-center"><label class="search-bar"><span class="search-icon">⌕</span><input class="search-input" type="search" placeholder="Search the handbook" aria-label="Search the handbook"><kbd class="search-kbd">⌘ K</kbd></label></div>
+  <div class="topbar-right"><a href="index.html">All modules</a><a href="index.html#day2">Course map</a></div>
+</div>
+
+<div class="app-layout">
+<aside class="sidebar-left">
+  <div class="sidebar-content">
+    <div class="sidebar-section-title">Course map</div>
+    <nav class="nav-tree" aria-label="Course navigation">
+      <div class="nav-day" data-open="true">
+        <a class="nav-day-toggle" href="index.html#day1"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 1</span><span class="nav-day-subtitle">Foundations</span><span class="nav-day-chevron">›</span></a>
+        <div class="nav-day-body">
+          <div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module0.html">Foundation Enhancer</a></li><li class="nav-topic"><a href="module1.html">C++ Basics</a></li></ul></div>
+        </div>
+      </div>
+      <div class="nav-day" data-open="true">
+        <a class="nav-day-toggle" href="index.html#day2"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 2</span><span class="nav-day-subtitle">Polymorphism</span><span class="nav-day-chevron">›</span></a>
+        <div class="nav-day-body">
+          <div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module2.html">Inheritance &amp; Polymorphism</a></li><li class="nav-topic"><a href="module3.html">Compile-time Polymorphism</a></li></ul></div>
+        </div>
+      </div>
+      <div class="nav-day"><a class="nav-day-toggle" href="index.html#day3"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 3</span><span class="nav-day-subtitle">Robustness</span><span class="nav-day-chevron">›</span></a></div>
+      <div class="nav-day"><a class="nav-day-toggle" href="index.html#day4"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 4</span><span class="nav-day-subtitle">Modern C++</span><span class="nav-day-chevron">›</span></a></div>
+      <div class="nav-day"><a class="nav-day-toggle" href="index.html#day5"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 5</span><span class="nav-day-subtitle">Systems &amp; Internals</span><span class="nav-day-chevron">›</span></a><div class="nav-day-body"><div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module8.html">Systems Programming &amp; Advanced C++ Internals</a></li></ul></div></div></div>
+      <div class="nav-day"><a class="nav-day-toggle" href="index.html#day6"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 6</span><span class="nav-day-subtitle">Qt &amp; Capstone</span><span class="nav-day-chevron">›</span></a></div>
+    </nav>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section-title">Resources</div>
+    <ul class="sidebar-resources"><li><a href="repo-guide.html">▣ How to use the repository</a></li><li><a href="module-authoring-context.html">↗ Study flow guide</a></li><li><a href="https://github.com/raushan1107/Advanced-cpp-sample-codes" target="_blank" rel="noopener">↗ Source code</a></li><li><a href="exercise.html"><strong>★ Capstone: RR Skillverse Course Tracker</strong></a></li><li><a href="capstone-work1.html">★ Capstone-Work1: Smart Office Access System</a></li><li><a href="capstone-work2.html">★ Capstone-Work2: Nimbus Logistics Challenge</a></li><li><a href="capstone-work3.html">★ Capstone-Work3: Nimbus Fleet Command</a></li></ul>
+  </div>
+</aside>
+
+<main class="main-content">
+<div class="module-header">
+  <div class="breadcrumb"><a href="index.html">Practice</a> / Capstone Exercise</div>
+  <h1>Capstone Exercise: RR Skillverse Course Tracker</h1>
+  <p class="sub">You have already practiced classes, access control, constructors and destructors, static members, friend functions, inheritance, virtual dispatch, abstract classes, and overloading — one idea at a time, on their own small examples. This exercise is the first place all of it has to work together, on one program, for a use case that isn't a shape or a bank account.</p>
+  <div class="module-meta"><span><b>Brings together:</b> classes → inheritance → overloading</span><span><b>Case study:</b> RR Skillverse course tracker</span><span><b>Estimated time:</b> 45-60 minutes</span><span><b>Repo file:</b> <code>08-ClassesandObjects/rr_skillverse_course_tracker.cpp</code></span></div>
+</div>
+
+<div class="tabs-wrap">
+
+  <p class="topic-intro">Picture this: you have just joined the engineering team at <strong>RR Skillverse</strong> — a platform Raushan built on one idea: learning should be accessible, interesting, and available to everyone. Every learner is enrolled in a course, but not every course works the same way — a self-paced video course is "done" once you've watched enough of it, a live workshop is "done" once you've shown up to enough sessions. The platform needs to track every learner's progress in whichever format they chose, let a learner ask for a bit more time when life gets in the way, and hand out a certificate the moment someone actually finishes — automatically, correctly, for every course format, including ones that don't exist yet.</p>
+
+  <div class="story-also">
+    <p class="story-also-title">What this exercise pulls together</p>
+    <div class="story-also-grid">
+      <div class="story-also-item"><span class="story-also-domain">Classes &amp; objects</span>One <code>Course</code> type owns its own learner data and behavior, instead of that data and the logic that uses it living in separate places.</div>
+      <div class="story-also-item"><span class="story-also-domain">Constructors, destructors &amp; static members</span><a href="module1.html#t3">Constructors and destructors</a> log every enrollment and exit, while a <a href="module1.html#t4">static</a> counter keeps one platform-wide enrollment total in sync no matter how many courses exist. A <a href="module1.html#t5">friend function</a> issues certificates by reading a learner's progress directly.</div>
+      <div class="story-also-item"><span class="story-also-domain">Inheritance &amp; abstract classes</span>An <a href="module2.html#t3">abstract</a> <code>Course</code> base class with <a href="module2.html#t2">virtual functions</a> and a <a href="module2.html#t4">virtual destructor</a> lets every course format be tracked and cleaned up through one shared interface.</div>
+      <div class="story-also-item"><span class="story-also-domain">Function &amp; operator overloading</span><a href="module3.html#t1">Overloaded</a> <code>requestExtraTime()</code> functions and <a href="module3.html#t2">overloaded</a> <code>operator+</code>/<code>operator&lt;&lt;</code> give the tracker a natural, calculator-like API.</div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="block-label"><span class="tag why">WHY</span><h4>Why one base class for every course format</h4></div>
+    <div class="content">
+      <p>RR Skillverse offers a growing list of course formats — self-paced video today, live workshops too, more later. Enrollment tracking, cleanup, and certificate logic should not need a special case for every format that gets added. So every course is a <code>Course</code> first: one abstract base class defines what a course must be able to do (say whether it's complete, describe its own progress, estimate its weekly time commitment), and each concrete format decides for itself what "complete" actually means.</p>
+      <p>The base class also owns something no single course should own alone: a <strong>static</strong>, platform-wide count of active enrollments and certificates issued. Every constructor and destructor keeps that shared dashboard honest — the same discipline you already practiced with a shared account counter, just applied to a very different problem.</p>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="block-label"><span class="tag what">WHAT</span><h4>The complete sample program</h4></div>
+    <div class="content"><p>This program compiles and runs as-is. Read it top to bottom before touching anything — it is the pattern your homework will extend, not a blank page.</p></div>
+    <div class="code-card">
+      <div class="code-head"><span class="filename">rr_skillverse_course_tracker.cpp</span><button class="copy-btn">Copy</button></div>
+      <pre><code>// Capstone exercise sample -- combines everything from classes and access
+// control through inheritance, virtual dispatch, abstract classes, and
+// overloading in one program.
+//
+// Use case: RR Skillverse, a platform built to make learning accessible,
+// interesting, and available to everyone -- tracking a learner's progress
+// in a course, granting extra time when someone needs it, and issuing a
+// certificate the moment a course is actually finished.
+#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+// Every course format on RR Skillverse is a Course first (inheritance).
+class Course {
+protected:
+    string learnerName;
+    string courseTitle;
+    int daysExtended = 0;
+
+    // Static members: one shared, platform-wide dashboard for every course object.
+    static int totalEnrollments;
+    static int totalCertificatesIssued;
+
+public:
+    Course(const string&amp; learner, const string&amp; title)
+        : learnerName(learner), courseTitle(title) {
+        ++totalEnrollments;
+        cout &lt;&lt; "[enrolled] " &lt;&lt; learnerName &lt;&lt; " joined \"" &lt;&lt; courseTitle &lt;&lt; "\"\n";
+    }
+
+    // Virtual destructor: safe cleanup through a base pointer/reference.
+    virtual ~Course() {
+        --totalEnrollments;
+        cout &lt;&lt; "[exited] " &lt;&lt; learnerName &lt;&lt; " left \"" &lt;&lt; courseTitle &lt;&lt; "\"\n";
+    }
+
+    // Pure virtual functions: every concrete course must define its own contract (abstract class).
+    virtual bool isComplete() const = 0;
+    virtual string statusLine() const = 0;
+    virtual double weeklyHours() const = 0;
+
+    // Function overloading: two different ways to grant a learner extra time.
+    void requestExtraTime(int days) {
+        daysExtended += days;
+    }
+    void requestExtraTime(int days, const string&amp; reason) {
+        daysExtended += days;
+        cout &lt;&lt; "  " &lt;&lt; learnerName &lt;&lt; " granted " &lt;&lt; days &lt;&lt; " extra day(s): " &lt;&lt; reason &lt;&lt; "\n";
+    }
+
+    static int enrollmentCount() { return totalEnrollments; }
+    static int certificatesIssued() { return totalCertificatesIssued; }
+
+    // Friend function: certificate issuing needs direct access to protected learner/course data.
+    friend void issueCertificateIfComplete(const Course&amp; course);
+
+    friend ostream&amp; operator&lt;&lt;(ostream&amp; out, const Course&amp; course) {
+        out &lt;&lt; course.learnerName &lt;&lt; " -&gt; " &lt;&lt; course.courseTitle
+            &lt;&lt; " [" &lt;&lt; course.statusLine() &lt;&lt; "]";
+        return out;
+    }
+
+    // Operator overloading: combine two enrollments into one weekly study-hours estimate.
+    friend double operator+(const Course&amp; a, const Course&amp; b) {
+        return a.weeklyHours() + b.weeklyHours();
+    }
+};
+
+int Course::totalEnrollments = 0;
+int Course::totalCertificatesIssued = 0;
+
+void issueCertificateIfComplete(const Course&amp; course) {
+    if (course.isComplete()) {
+        ++Course::totalCertificatesIssued;
+        cout &lt;&lt; "  Certificate issued to " &lt;&lt; course.learnerName
+             &lt;&lt; " for \"" &lt;&lt; course.courseTitle &lt;&lt; "\"\n";
+    } else {
+        cout &lt;&lt; "  Not yet eligible for a certificate: " &lt;&lt; course.learnerName &lt;&lt; "\n";
+    }
+}
+
+class VideoCourse : public Course {
+    double percentWatched;
+public:
+    VideoCourse(const string&amp; learner, const string&amp; title, double percent)
+        : Course(learner, title), percentWatched(percent) {}
+    bool isComplete() const override { return percentWatched &gt;= 90.0; }
+    string statusLine() const override {
+        return "self-paced video, " + to_string((int)percentWatched) + "% watched";
+    }
+    double weeklyHours() const override { return 2.5; }
+};
+
+class LiveWorkshop : public Course {
+    int sessionsAttended;
+    int totalSessions;
+public:
+    LiveWorkshop(const string&amp; learner, const string&amp; title, int attended, int total)
+        : Course(learner, title), sessionsAttended(attended), totalSessions(total) {}
+    bool isComplete() const override { return sessionsAttended &gt;= totalSessions; }
+    string statusLine() const override {
+        return "live workshop, " + to_string(sessionsAttended) + "/" +
+               to_string(totalSessions) + " sessions attended";
+    }
+    double weeklyHours() const override { return totalSessions * 1.5; } // 1.5 hrs per session
+};
+
+int main() {
+    VideoCourse meera("Meera", "C++ Foundations", 92.0);
+    LiveWorkshop dev("Dev", "C++ Mentorship Circle", 3, 4);
+
+    cout &lt;&lt; meera &lt;&lt; "\n";
+    cout &lt;&lt; dev &lt;&lt; "\n";
+
+    dev.requestExtraTime(3, "exam week conflict"); // second overload
+
+    cout &lt;&lt; "Combined weekly study hours for Meera+Dev: " &lt;&lt; (meera + dev) &lt;&lt; "\n";
+
+    issueCertificateIfComplete(meera);
+    issueCertificateIfComplete(dev);
+
+    cout &lt;&lt; "Active enrollments: " &lt;&lt; Course::enrollmentCount() &lt;&lt; "\n";
+    cout &lt;&lt; "Certificates issued so far: " &lt;&lt; Course::certificatesIssued() &lt;&lt; "\n";
+}</code></pre>
+    </div>
+    <div class="output-box"><span class="lbl">Expected output</span>[enrolled] Meera joined "C++ Foundations"
+[enrolled] Dev joined "C++ Mentorship Circle"
+Meera -&gt; C++ Foundations [self-paced video, 92% watched]
+Dev -&gt; C++ Mentorship Circle [live workshop, 3/4 sessions attended]
+  Dev granted 3 extra day(s): exam week conflict
+Combined weekly study hours for Meera+Dev: 8.5
+  Certificate issued to Meera for "C++ Foundations"
+  Not yet eligible for a certificate: Dev
+Active enrollments: 2
+Certificates issued so far: 1
+[exited] Dev left "C++ Mentorship Circle"
+[exited] Meera left "C++ Foundations"</div>
+    <div class="quickguide">
+      <p class="qg-title">Run it in VS Code</p>
+      <ol>
+        <li>Create a folder named <code>capstone-exercise</code> and open it in VS Code.</li>
+        <li>Save the code above as <code>rr_skillverse_course_tracker.cpp</code> (it also lives in the repo at <code>08-ClassesandObjects/rr_skillverse_course_tracker.cpp</code>).</li>
+        <li>Compile with <code>g++ -std=c++17 rr_skillverse_course_tracker.cpp -o tracker</code>.</li>
+        <li>Run <code>tracker.exe</code> on Windows or <code>./tracker</code> on Linux/macOS.</li>
+        <li>Compare your terminal output line-by-line against the expected output above before you change anything.</li>
+      </ol>
+    </div>
+    <div class="callout"><strong>Before you extend it:</strong> find the line that decides whether Meera gets a certificate, and explain out loud why Dev does not get one even after the extra days are granted. If that's clear, you understand exactly what <code>isComplete()</code> is for — and you are ready for the task below.</div>
+  </div>
+
+  <div class="block">
+    <div class="block-label"><span class="tag how">HOW</span><h4>Your task</h4></div>
+    <div class="task-card">
+      <div class="task-label">Homework / assessment</div>
+      <h3>Add a ReadingGroup course, then a third way to request extra time</h3>
+      <p>RR Skillverse just launched its first peer-led format — a small reading group that works through a fixed list of articles together, with no video and no live sessions. It needs its own definition of "complete," but it should show up correctly everywhere a <code>Course</code> already works: the <code>&lt;&lt;</code> printout, the <code>+</code> combined study-hours total, and the certificate check.</p>
+      <ol>
+        <li>Add a class <code>ReadingGroup</code> that inherits from <code>Course</code> and stores how many articles a learner has read and how many the group has in total.</li>
+        <li>Implement <code>isComplete()</code>, <code>statusLine()</code>, and <code>weeklyHours()</code> so they describe a reading group instead of a video or a workshop.</li>
+        <li>Create one <code>ReadingGroup</code> in <code>main()</code>, print it, include it in a combined weekly-hours total with another course, and pass it to <code>issueCertificateIfComplete()</code>.</li>
+        <li>Add a <em>third</em> overload of <code>requestExtraTime()</code> that takes no arguments at all and grants a fixed, default number of days — print a confirmation message from inside it.</li>
+        <li>Re-run the program and confirm <code>Course::enrollmentCount()</code> reports 3 active enrollments instead of 2.</li>
+      </ol>
+      <p class="hint-title">Hints, not the answer</p>
+      <ul class="hint-list">
+        <li>Your <code>ReadingGroup</code> constructor only needs to pass the learner name and title up to <code>Course</code>'s constructor — articles-read and total-articles are extra members that your overrides read when they do their own work, the same way <code>LiveWorkshop</code> already reads its own session counts.</li>
+        <li>You should not need to touch <code>operator+</code>, <code>operator&lt;&lt;</code>, or <code>issueCertificateIfComplete()</code> at all. If a correctly written <code>ReadingGroup</code> doesn't automatically work with all three, something about your override is wrong — check that every pure virtual function is actually implemented with a matching signature.</li>
+        <li>A zero-argument <code>requestExtraTime()</code> is already unambiguous next to the other two overloads purely by how many arguments are passed — the compiler never has to guess which one you meant.</li>
+        <li>Decide what "complete" honestly means for a reading group before you write <code>isComplete()</code> — keep the comparison as direct as <code>VideoCourse</code> and <code>LiveWorkshop</code> already are.</li>
+      </ul>
+    </div>
+
+    <div class="submission-card">
+      <strong>Submit for evaluation</strong>
+      <p>Send your finished <code>rr_skillverse_course_tracker.cpp</code> to the trainer's cohort email.</p>
+      <div><b>Subject:</b> <code>Capstone Task - Your Name - rr_skillverse_course_tracker.cpp</code></div>
+      <div><b>Body:</b> <code>Your Name | Capstone exercise | compiler used | result you observed</code></div>
+      <p>Attach the exact file you compiled, and mention how many default days you chose for the zero-argument overload and why.</p>
+    </div>
+  </div>
+
+  <div class="topic-nav">
+    <a class="btn btn-ghost" href="module3.html">← Back to overloading examples</a>
+    <a class="btn btn-primary" href="index.html#day2">Back to course map →</a>
+  </div>
+
+</div>
+</main>
+</div>
+<footer>Capstone Exercise · Enterprise C++ Training Programme · Personal notes by <strong>Raushan Ranjan</strong></footer>
+<script>
+function initSidebar(){const toggle=document.querySelector('.sidebar-toggle'),sidebar=document.querySelector('.sidebar-left');if(!toggle||!sidebar)return;const desktop=window.matchMedia('(min-width: 861px)');toggle.addEventListener('click',()=>{if(desktop.matches){const collapsed=document.body.classList.toggle('sidebar-collapsed');toggle.setAttribute('aria-expanded',String(!collapsed));}else sidebar.classList.toggle('open');});sidebar.querySelectorAll('a:not(.nav-day-toggle)').forEach(link=>link.addEventListener('click',()=>sidebar.classList.remove('open')));}
+function initNavGroups(){document.querySelectorAll('.nav-day').forEach(day=>{const toggle=day.querySelector(':scope > .nav-day-toggle'),body=day.querySelector(':scope > .nav-day-body');if(!toggle||!body)return;toggle.setAttribute('aria-expanded',String(day.dataset.open==='true'));toggle.addEventListener('click',event=>{event.preventDefault();const open=day.dataset.open==='true';day.dataset.open=String(!open);toggle.setAttribute('aria-expanded',String(!open));});});}
+function initNavModules(){document.querySelectorAll('.nav-module').forEach(module=>{const label=module.querySelector(':scope > .nav-module-label'),content=module.querySelector(':scope > .nav-topics, :scope > .nav-tabs');if(!label||!content)return;module.dataset.open=module.dataset.open||'true';label.setAttribute('role','button');label.setAttribute('tabindex','0');label.setAttribute('aria-expanded',String(module.dataset.open==='true'));const toggle=()=>{const open=module.dataset.open==='true';module.dataset.open=String(!open);label.setAttribute('aria-expanded',String(!open));};label.addEventListener('click',toggle);label.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle();}});});}
+function initCopyButtons(){document.querySelectorAll('.copy-btn').forEach(btn=>btn.addEventListener('click',async()=>{const code=btn.closest('.code-card').querySelector('code').innerText;try{await navigator.clipboard.writeText(code);}catch(e){const ta=document.createElement('textarea');ta.value=code;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();}btn.textContent='Copied';setTimeout(()=>btn.textContent='Copy',1200);}));}
+document.addEventListener('DOMContentLoaded',()=>{initSidebar();initNavGroups();initNavModules();initCopyButtons();});
+</script>
+<script src="search.js"></script>
+</body>
+</html>

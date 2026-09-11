@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Capstone-Work1: Smart Office Access System - Enterprise C++ Handbook</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-left">
+    <button class="sidebar-toggle" type="button" aria-label="Toggle course navigation" aria-expanded="true">☰</button>
+    <a href="index.html" class="brand"><span class="brand-mark">C++</span><span class="brand-text">Enterprise C++ Handbook<small>Personal notes by Raushan Ranjan</small></span></a>
+  </div>
+  <div class="topbar-center"><label class="search-bar"><span class="search-icon">⌕</span><input class="search-input" type="search" placeholder="Search the handbook" aria-label="Search the handbook"><kbd class="search-kbd">⌘ K</kbd></label></div>
+  <div class="topbar-right"><a href="index.html">All modules</a><a href="index.html#day2">Course map</a></div>
+</div>
+
+<div class="app-layout">
+<aside class="sidebar-left">
+  <div class="sidebar-content">
+    <div class="sidebar-section-title">Course map</div>
+    <nav class="nav-tree" aria-label="Course navigation">
+      <div class="nav-day" data-open="true">
+        <a class="nav-day-toggle" href="index.html#day1"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 1</span><span class="nav-day-subtitle">Foundations</span><span class="nav-day-chevron">›</span></a>
+        <div class="nav-day-body">
+          <div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module0.html">Foundation Enhancer</a></li><li class="nav-topic"><a href="module1.html">C++ Basics</a></li></ul></div>
+        </div>
+      </div>
+      <div class="nav-day" data-open="true">
+        <a class="nav-day-toggle" href="index.html#day2"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 2</span><span class="nav-day-subtitle">Polymorphism</span><span class="nav-day-chevron">›</span></a>
+        <div class="nav-day-body">
+          <div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module2.html">Inheritance &amp; Polymorphism</a></li><li class="nav-topic"><a href="module3.html">Compile-time Polymorphism</a></li></ul></div>
+        </div>
+      </div>
+      <div class="nav-day"><a class="nav-day-toggle" href="index.html#day3"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 3</span><span class="nav-day-subtitle">Robustness</span><span class="nav-day-chevron">›</span></a></div>
+      <div class="nav-day"><a class="nav-day-toggle" href="index.html#day4"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 4</span><span class="nav-day-subtitle">Modern C++</span><span class="nav-day-chevron">›</span></a></div>
+      <div class="nav-day"><a class="nav-day-toggle" href="index.html#day5"><span class="nav-day-icon">◐</span><span class="nav-day-label">Day 5</span><span class="nav-day-subtitle">Systems &amp; Internals</span><span class="nav-day-chevron">›</span></a><div class="nav-day-body"><div class="nav-module"><div class="nav-module-label">Available now</div><ul class="nav-topics"><li class="nav-topic"><a href="module8.html">Systems Programming &amp; Advanced C++ Internals</a></li></ul></div></div></div>
+      <div class="nav-day"><a class="nav-day-toggle" href="index.html#day6"><span class="nav-day-icon">○</span><span class="nav-day-label">Day 6</span><span class="nav-day-subtitle">Qt &amp; Capstone</span><span class="nav-day-chevron">›</span></a></div>
+    </nav>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section-title">Resources</div>
+    <ul class="sidebar-resources"><li><a href="repo-guide.html">▣ How to use the repository</a></li><li><a href="module-authoring-context.html">↗ Study flow guide</a></li><li><a href="https://github.com/raushan1107/Advanced-cpp-sample-codes" target="_blank" rel="noopener">↗ Source code</a></li><li><a href="exercise.html">★ Capstone: RR Skillverse Course Tracker</a></li><li><a href="capstone-work1.html"><strong>★ Capstone-Work1: Smart Office Access System</strong></a></li><li><a href="capstone-work2.html">★ Capstone-Work2: Nimbus Logistics Challenge</a></li><li><a href="capstone-work3.html">★ Capstone-Work3: Nimbus Fleet Command</a></li></ul>
+  </div>
+</aside>
+
+<main class="main-content">
+<div class="module-header">
+  <div class="breadcrumb"><a href="index.html">Practice</a> / Capstone-Work1</div>
+  <h1>Capstone-Work1: Smart Office Access System</h1>
+  <p class="sub">You already made classes, inheritance, virtual dispatch and overloading work together once, in the RR Skillverse course tracker. This exercise asks you to do it again, from scratch, on a use case that looks nothing like a course tracker — a building badge system where an employee, a contractor and a visitor can all be standing at the same door, and each one needs a different answer.</p>
+  <div class="module-meta"><span><b>Brings together:</b> classes → inheritance → overloading</span><span><b>Case study:</b> Smart Office Access System</span><span><b>Estimated time:</b> 40-50 minutes</span><span><b>Repo file:</b> <code>08-ClassesandObjects/smart_office_access_system.cpp</code></span></div>
+</div>
+
+<div class="tabs-wrap">
+
+  <p class="topic-intro">Picture this: you're building the badge system for a smart office building. Every morning it has to decide, instantly, whether to let someone through the turnstile — an employee with standing access, a contractor whose engagement might have quietly expired, or a visitor who is still waiting on someone at the front desk to approve them. The building can't afford three unrelated access checks bolted together with duplicate reporting logic; it needs one gate that asks every person the same question and trusts each role to answer it correctly on its own terms.</p>
+
+  <div class="story-also">
+    <p class="story-also-title">What this exercise pulls together</p>
+    <div class="story-also-grid">
+      <div class="story-also-item"><span class="story-also-domain">Classes &amp; objects</span>One <code>Person</code> type owns the badge data every role shares, instead of <code>Employee</code>, <code>Contractor</code> and <code>Visitor</code> each duplicating name/ID handling on their own.</div>
+      <div class="story-also-item"><span class="story-also-domain">Inheritance &amp; abstract classes</span>An <a href="module2.html#t3">abstract</a> <code>Person</code> base class with a <a href="module2.html#t4">virtual destructor</a> lets every role be checked and cleaned up through one shared interface.</div>
+      <div class="story-also-item"><span class="story-also-domain">Virtual functions &amp; runtime polymorphism</span><code>processAccess()</code> takes a single <code>const Person&amp;</code>; <a href="module2.html#t2">virtual dispatch</a> decides at runtime which role's <code>canAccess()</code> actually runs.</div>
+      <div class="story-also-item"><span class="story-also-domain">Function &amp; operator overloading</span><a href="module3.html#t1">Overloaded</a> <code>calculateCharge()</code> functions and an <a href="module3.html#t2">overloaded</a> <code>operator==</code> give the badge system a natural, calculator-like API.</div>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="block-label"><span class="tag why">WHY</span><h4>Why one base class for three different access rules</h4></div>
+    <div class="content">
+      <p>An employee always gets in. A contractor only gets in while their contract is active. A visitor only gets in once someone has approved them. Handling each of those as an unrelated function invites duplicate reporting code that quietly drifts apart the moment one rule changes. So every role is a <code>Person</code> first: one abstract base class defines what anyone badging in must be able to do — say whether they're allowed in, describe their own status — and leaves the actual rule to whichever role is being asked.</p>
+      <p>The base class also owns the one thing every role has to agree on: what counts as <em>the same person</em>. <code>operator==</code> compares only the badge ID, on purpose — deciding that once, in the base class, means an <code>Employee</code>, a <code>Contractor</code> and a <code>Visitor</code> can all be compared to each other without writing that comparison three times.</p>
+    </div>
+  </div>
+
+  <div class="block">
+    <div class="block-label"><span class="tag what">WHAT</span><h4>The complete sample program</h4></div>
+    <div class="content"><p>This program compiles and runs as-is. Read it top to bottom before touching anything — it is the pattern your homework will extend, not a blank page.</p></div>
+    <div class="code-card">
+      <div class="code-head"><span class="filename">smart_office_access_system.cpp</span><button class="copy-btn">Copy</button></div>
+      <pre><code>// Capstone exercise sample -- combines inheritance, abstract classes, virtual
+// dispatch, function overloading and operator overloading in one program.
+//
+// Use case: a smart office building that has to grant or deny badge access to
+// employees, contractors and visitors -- each under a different rule -- without
+// giving each type its own reporting logic.
+#include &lt;iostream&gt;
+#include &lt;string&gt;
+using namespace std;
+
+// Every person who badges in is a Person first (inheritance).
+class Person {
+protected:
+    string name;
+    int id;
+
+public:
+    Person(const string&amp; n, int i) : name(n), id(i) {}
+    virtual ~Person() = default;
+
+    // Pure virtual functions: every concrete role must define its own rule (abstract class).
+    virtual bool canAccess() const = 0;
+    virtual string statusLine() const = 0;
+
+    virtual void display() const {
+        cout &lt;&lt; name &lt;&lt; " | ID: " &lt;&lt; id &lt;&lt; " | " &lt;&lt; statusLine();
+    }
+
+    // Operator overloading: two people share a badge record if their IDs match,
+    // regardless of which derived type either one is.
+    friend bool operator==(const Person&amp; a, const Person&amp; b) {
+        return a.id == b.id;
+    }
+};
+
+// One function, every role: virtual dispatch decides the rest at runtime.
+void processAccess(const Person&amp; person) {
+    person.display();
+    cout &lt;&lt; " -&gt; " &lt;&lt; (person.canAccess() ? "GRANTED" : "DENIED") &lt;&lt; "\n";
+}
+
+class Employee : public Person {
+public:
+    Employee(const string&amp; n, int i) : Person(n, i) {}
+    bool canAccess() const override { return true; }
+    string statusLine() const override { return "Employee"; }
+};
+
+class Contractor : public Person {
+    bool contractActive;
+public:
+    Contractor(const string&amp; n, int i, bool active)
+        : Person(n, i), contractActive(active) {}
+    bool canAccess() const override { return contractActive; }
+    string statusLine() const override {
+        return contractActive ? "Contractor (active)" : "Contractor (expired)";
+    }
+};
+
+class Visitor : public Person {
+    bool approved;
+public:
+    Visitor(const string&amp; n, int i, bool appr)
+        : Person(n, i), approved(appr) {}
+    bool canAccess() const override { return approved; }
+    string statusLine() const override {
+        return approved ? "Visitor (approved)" : "Visitor (not approved)";
+    }
+};
+
+// Function overloading: two ways to price a desk booking.
+double calculateCharge(int wholeHours) {
+    return wholeHours * 50.0;
+}
+double calculateCharge(double hours, double ratePerHour) {
+    return hours * ratePerHour;
+}
+
+int main() {
+    Employee rahul("Rahul", 101);
+    Contractor priya("Priya", 202, true);
+    Contractor amit("Amit", 203, false);
+    Visitor sarah("Sarah", 301, true);
+    Visitor john("John", 302, false);
+
+    cout &lt;&lt; "SMART OFFICE ACCESS REPORT\n---\n";
+    processAccess(rahul);
+    processAccess(priya);
+    processAccess(amit);
+    processAccess(sarah);
+    processAccess(john);
+
+    cout &lt;&lt; "\nDesk booking, 4 whole hours: Rs " &lt;&lt; calculateCharge(4) &lt;&lt; "\n";
+    cout &lt;&lt; "Desk booking, 2.5 hours @ Rs 60/hr: Rs " &lt;&lt; calculateCharge(2.5, 60.0) &lt;&lt; "\n";
+
+    Visitor sarahAgain("Sarah Verma", 301, true);
+    cout &lt;&lt; "\nSame badge ID? sarah == sarahAgain -&gt; " &lt;&lt; (sarah == sarahAgain ? "true" : "false") &lt;&lt; "\n";
+    cout &lt;&lt; "Same badge ID? priya == amit -&gt; " &lt;&lt; (priya == amit ? "true" : "false") &lt;&lt; "\n";
+}</code></pre>
+    </div>
+    <div class="output-box"><span class="lbl">Expected output</span>SMART OFFICE ACCESS REPORT
+---
+Rahul | ID: 101 | Employee -&gt; GRANTED
+Priya | ID: 202 | Contractor (active) -&gt; GRANTED
+Amit | ID: 203 | Contractor (expired) -&gt; DENIED
+Sarah | ID: 301 | Visitor (approved) -&gt; GRANTED
+John | ID: 302 | Visitor (not approved) -&gt; DENIED
+
+Desk booking, 4 whole hours: Rs 200
+Desk booking, 2.5 hours @ Rs 60/hr: Rs 150
+
+Same badge ID? sarah == sarahAgain -&gt; true
+Same badge ID? priya == amit -&gt; false</div>
+    <div class="quickguide">
+      <p class="qg-title">Run it in VS Code</p>
+      <ol>
+        <li>Create a folder named <code>capstone-work1</code> and open it in VS Code.</li>
+        <li>Save the code above as <code>smart_office_access_system.cpp</code> (it also lives in the repo at <code>08-ClassesandObjects/smart_office_access_system.cpp</code>).</li>
+        <li>Compile with <code>g++ -std=c++17 smart_office_access_system.cpp -o office</code>.</li>
+        <li>Run <code>office.exe</code> on Windows or <code>./office</code> on Linux/macOS.</li>
+        <li>Compare your terminal output line-by-line against the expected output above before you change anything.</li>
+      </ol>
+    </div>
+    <div class="callout"><strong>Before you extend it:</strong> find the line that decides Amit is denied even though he's a <code>Contractor</code> exactly like Priya, and explain out loud why <code>sarah == sarahAgain</code> is <code>true</code> even though their names differ. If that's clear, you understand exactly what <code>canAccess()</code> and <code>operator==</code> are each responsible for — and you are ready for the task below.</div>
+  </div>
+
+  <div class="block">
+    <div class="block-label"><span class="tag how">HOW</span><h4>Your task</h4></div>
+    <div class="task-card">
+      <div class="task-label">Homework / assessment</div>
+      <h3>Add an Intern role, then a third way to price a booking</h3>
+      <p>The building just started an internship program. An intern only gets through the door once <em>two</em> separate conditions are both true: their mentor has approved them, and they've completed building induction. Like every other role, it needs its own definition of "allowed in," but it should show up correctly everywhere a <code>Person</code> already works — <code>processAccess()</code> and <code>operator==</code> included.</p>
+      <ol>
+        <li>Add a class <code>Intern</code> that inherits from <code>Person</code> and stores whether a mentor has approved them and whether induction is complete.</li>
+        <li>Implement <code>canAccess()</code> so it returns <code>true</code> only when <em>both</em> conditions hold, and implement <code>statusLine()</code> to describe the intern's current state.</li>
+        <li>Create one <code>Intern</code> in <code>main()</code> and pass them to <code>processAccess()</code> without changing that function at all.</li>
+        <li>Add a <em>third</em> overload of <code>calculateCharge()</code> that takes no arguments and returns a fixed, default day-pass rate — print a confirmation message from inside it.</li>
+        <li>Re-run the program and confirm that an intern with mentor approval but incomplete induction is still reported as <code>DENIED</code>.</li>
+      </ol>
+      <p class="hint-title">Hints, not the answer</p>
+      <ul class="hint-list">
+        <li>Your <code>Intern</code> constructor only needs to pass the name and ID up to <code>Person</code>'s constructor — mentor approval and induction status are extra members that your own overrides read, the same way <code>Contractor</code> already reads <code>contractActive</code>.</li>
+        <li>You should not need to touch <code>processAccess()</code> or <code>operator==</code> at all. If a correctly written <code>Intern</code> doesn't automatically work with both, something about your override is wrong — check that every pure virtual function is implemented with a matching signature.</li>
+        <li>A zero-argument <code>calculateCharge()</code> is already unambiguous next to the other two overloads purely by how many arguments are passed — the compiler never has to guess which one you meant.</li>
+        <li>Before writing <code>canAccess()</code>, decide honestly: should mentor approval alone ever be enough? Keep the comparison as direct as <code>Contractor</code>'s already is.</li>
+      </ul>
+    </div>
+
+    <div class="submission-card">
+      <strong>Submit for evaluation</strong>
+      <p>Send your finished <code>smart_office_access_system.cpp</code> to the trainer's cohort email.</p>
+      <div><b>Subject:</b> <code>Capstone Task - Your Name - smart_office_access_system.cpp</code></div>
+      <div><b>Body:</b> <code>Your Name | Capstone-Work1 | compiler used | result you observed</code></div>
+      <p>Attach the exact file you compiled, and mention the default day-pass rate you chose for the zero-argument overload and why.</p>
+    </div>
+  </div>
+
+  <div class="topic-nav">
+    <a class="btn btn-ghost" href="module3.html">← Back to overloading examples</a>
+    <a class="btn btn-primary" href="index.html#day2">Back to course map →</a>
+  </div>
+
+</div>
+</main>
+</div>
+<footer>Capstone-Work1 · Enterprise C++ Training Programme · Personal notes by <strong>Raushan Ranjan</strong></footer>
+<script>
+function initSidebar(){const toggle=document.querySelector('.sidebar-toggle'),sidebar=document.querySelector('.sidebar-left');if(!toggle||!sidebar)return;const desktop=window.matchMedia('(min-width: 861px)');toggle.addEventListener('click',()=>{if(desktop.matches){const collapsed=document.body.classList.toggle('sidebar-collapsed');toggle.setAttribute('aria-expanded',String(!collapsed));}else sidebar.classList.toggle('open');});sidebar.querySelectorAll('a:not(.nav-day-toggle)').forEach(link=>link.addEventListener('click',()=>sidebar.classList.remove('open')));}
+function initNavGroups(){document.querySelectorAll('.nav-day').forEach(day=>{const toggle=day.querySelector(':scope > .nav-day-toggle'),body=day.querySelector(':scope > .nav-day-body');if(!toggle||!body)return;toggle.setAttribute('aria-expanded',String(day.dataset.open==='true'));toggle.addEventListener('click',event=>{event.preventDefault();const open=day.dataset.open==='true';day.dataset.open=String(!open);toggle.setAttribute('aria-expanded',String(!open));});});}
+function initNavModules(){document.querySelectorAll('.nav-module').forEach(module=>{const label=module.querySelector(':scope > .nav-module-label'),content=module.querySelector(':scope > .nav-topics, :scope > .nav-tabs');if(!label||!content)return;module.dataset.open=module.dataset.open||'true';label.setAttribute('role','button');label.setAttribute('tabindex','0');label.setAttribute('aria-expanded',String(module.dataset.open==='true'));const toggle=()=>{const open=module.dataset.open==='true';module.dataset.open=String(!open);label.setAttribute('aria-expanded',String(!open));};label.addEventListener('click',toggle);label.addEventListener('keydown',event=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();toggle();}});});}
+function initCopyButtons(){document.querySelectorAll('.copy-btn').forEach(btn=>btn.addEventListener('click',async()=>{const code=btn.closest('.code-card').querySelector('code').innerText;try{await navigator.clipboard.writeText(code);}catch(e){const ta=document.createElement('textarea');ta.value=code;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();}btn.textContent='Copied';setTimeout(()=>btn.textContent='Copy',1200);}));}
+document.addEventListener('DOMContentLoaded',()=>{initSidebar();initNavGroups();initNavModules();initCopyButtons();});
+</script>
+<script src="search.js"></script>
+</body>
+</html>

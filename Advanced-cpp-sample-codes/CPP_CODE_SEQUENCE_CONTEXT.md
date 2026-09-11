@@ -1,4 +1,10 @@
 # Enterprise C++ Sample Code Sequence
+
+> **Filename convention:** each C++ sample is now prefixed with its teaching
+> order, for example `1_Program1.cpp` and `2_namespaceprog1.cpp`. The concept
+> names below retain their original basenames for readability; compile the
+> corresponding prefixed file.
+
 ## One-Time Setup
 
 Open the repository in VS Code:
@@ -233,13 +239,23 @@ g++ -std=c++17 thread1.cpp -pthread -o thread_demo
 .\thread_demo.exe
 ```
 
+### 16. Move semantics
+
+Recap lvalue vs rvalue, `T&&`, `std::move`, and why returning a large object
+by value no longer implies a deep copy.
+
+Open 16-MoveSemantics\1_movesemantics1.cpp. This is the Module 8 (Day 5) path
+for the "Move semantics" topic tab.
+
 ### 18. Networking and 19. Server/client
 
 Recap processes, sockets, client/server roles, blocking versus non-blocking work,
 and why concurrency appears in network programs.
 
-Open 18-Multi-threaded-nw for local concurrency and socket examples. Then open
-19-Server-Client in this order:
+Open 18-Multi-threaded-nw for local concurrency and socket examples —
+3_server.cpp loops on accept() and spawns a detached std::thread per
+connection, paired with 4_client.cpp. Then open 19-Server-Client in this
+order:
 
 1. simple_echo_server.cpp
 2. simple_server.cpp
@@ -250,6 +266,12 @@ Open 18-Multi-threaded-nw for local concurrency and socket examples. Then open
 
 Run a server and client in separate terminals. Several examples are Windows
 specific; explain the platform dependency before attempting to port them.
+This is the Module 8 (Day 5) path for the "Networking" topic tab —
+19-Server-Client/2_server.cpp + 3_client.cpp for the single-exchange demo,
+18-Multi-threaded-nw/3_server.cpp + 4_client.cpp for the "handle more than
+one client" extension (fixed 2026-09-11: 4_client.cpp had a duplicate
+`string message` redeclaration that failed to compile — removed the dead
+commented-out interactive loop it was left over from).
 
 ### 20. Pipes and 21-22. Linking
 
@@ -257,22 +279,57 @@ Open 20-File-descriptor-pipe-stream for pipes and file descriptors.
 
 Then open 21-StaticvsDynamicLinking and 22-LinkingMulModule to explain how
 multiple source files and libraries become one application. Build from source
-instead of trusting committed exe, o, a, or dll files.
+instead of trusting committed exe, o, a, or dll files. 22-LinkingMulModule
+splits header/src/main into separate folders — build it with
+`g++ -std=c++17 -Iheader main/1_main.cpp src/1_rrmathlib.cpp -o main` (the
+`-Iheader` flag is required since rrmathlib.h no longer sits next to the
+.cpp files).
+
+These are the Module 8 (Day 5) path for the "Pipes & FDs" and "Linking" topic
+tabs — verified buildable three ways (combined source, static `.a` via `ar`,
+and dynamic `.dll` via `-shared` + `--out-implib`) on this repo's MinGW/g++
+toolchain. (Fixed 2026-09-11: 20-File-descriptor-pipe-stream/1_prog1.cpp
+wrote a hardcoded byte count 1 longer than its message, spilling one stray
+byte into example.txt — now uses strlen() instead of a hardcoded literal.)
 
 ### 23-25. Extensions and exercises
 
-Use 23-ReadingsystemInfo as a systems extension. Use 24-Exercises after
-Modules 0-3 for learner practice. Finish with 25-demo only after the class
-understands separate compilation and linking.
+Use 23-ReadingsystemInfo as a systems extension — the Module 8 (Day 5) path
+for the "Reading system info" topic tab. Use 24-Exercises after Modules 0-3
+for learner practice, and again for the Module 8 capstone: 24-Exercises/
+4_nimbus_fleet_command_challenge.cpp + 4_relay_server.cpp (Capstone-Work3 —
+five TODO features spanning every Module 8 topic, plus a static-linking
+restructure constraint). Finish with 25-demo only after the class understands
+separate compilation and linking.
+
+### 27. RTTI (typeid, dynamic_cast)
+
+Open 27-RTTI in this order:
+
+1. 1_typeid_basics.cpp — typeid on non-polymorphic vs polymorphic types.
+2. 2_dynamic_cast.cpp — safe downcasting, pointer form (nullptr on failure)
+   and reference form (throws std::bad_cast on failure).
+3. 3_rtti_usecase.cpp — a realistic use case: a heterogeneous
+   `vector<unique_ptr<DiagnosticEvent>>` queue where a small dynamic_cast
+   chain decides per-type alert thresholds without adding a virtual method
+   every subtype would have to implement.
+4. 4_progressive_rtti_walkthrough.cpp — one file, one STEP at a time, no
+   complexity beyond what each step introduces; use this as the read-along
+   for a first pass through the topic before the other three files.
+
+This is the Module 8 (Day 5) "Additional Topics" lesson — added because the
+Enterprise curriculum otherwise never covers typeid/dynamic_cast/RTTI/
+polymorphic type identification.
 
 ## Curriculum Gaps
 
-The sample repository does not currently contain dedicated folders for:
+The sample repository does not currently contain a dedicated folder for:
 
-- 05-Templates: planned function/class templates and Stack<T> examples.
-- 09-Qt-QML: planned Qt widgets, QML, signals/slots, and Qt networking.
+- 09-Qt-QML: planned Qt widgets, QML, signals/slots, and Qt networking
+  (Day 6, Module 9 — moved from its original Day 5 slot).
 
-Do not present those examples as available until the folders and code exist.
+Do not present that example as available until the folder and code exist.
+(The earlier-noted 05-Templates gap is resolved — see 26-Templates.)
 
 ## Teaching Rhythm
 
